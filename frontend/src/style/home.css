@@ -102,8 +102,14 @@
   justify-content: start;
 }
 
+.hero-discount-box {
+  background-color: var(--color-section-high);
+  border-radius: 2rem;
+}
+
 .hero-discount-box .info {
   gap: 0.75rem;
+  padding: 1.5rem;
 }
 
 /* discount code */
@@ -113,6 +119,9 @@
   justify-content: center;
   align-items: center;
   gap: 0.5rem;
+  background-color: #212121;
+  align-self: flex-start;
+  border-radius: 1rem;
 }
 .hero-discount-box .info .discount-code .code {
   color: #ffffff;
