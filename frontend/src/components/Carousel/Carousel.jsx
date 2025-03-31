@@ -43,6 +43,10 @@ export default function Carousel() {
 
   return (
     <div className="carousel">
+      {/* title */}
+      <h2 className="h2">I più venduti</h2>
+
+      {/* slides */}
       <div onTouchStart={handleTouchStart} onTouchMove={handleTouchMove} onTouchEnd={handleTouchEnd}>
         <div className="carousel-slide-container" style={{ transform: `translateX(-${currentIndex * 100}%)` }}>
           <CarouselSlide />
@@ -50,13 +54,20 @@ export default function Carousel() {
         </div>
       </div>
 
-      {/* <button onClick={prevSlide}>Prev</button> */}
-      {/* <div className="slider-dots-box">
-        {Array.from({ length: slideCount }).map((_, index) => (
-          <div className="dot" key={index} onClick={() => goToSlide(index)}></div>
-        ))}
-      </div> */}
-      {/* <button onClick={nextSlide}>Next</button> */}
+      {/* actions */}
+      <div className="carousel-actions-box">
+        <button className="carousel-arrow" onClick={prevSlide}>
+          {'<'}
+        </button>
+        <div className="carousel-dots-box">
+          {Array.from({ length: slideCount }).map((_, index) => (
+            <div className="dot" key={index} onClick={() => goToSlide(index)}></div>
+          ))}
+        </div>
+        <button className="carousel-arrow" onClick={nextSlide}>
+          {'>'}
+        </button>
+      </div>
     </div>
   );
 }

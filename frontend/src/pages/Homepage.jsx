@@ -14,6 +14,9 @@ export default function HomePage() {
               <p className="code">Sconto-10</p>
             </div>
           </div>
+          <figure className="hero-coupon-img">
+            <img src="graphics/hero-coupon.png" alt="" />
+          </figure>
         </div>
       </section>
       {/* i più venduti */}

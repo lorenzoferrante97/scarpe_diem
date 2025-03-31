@@ -105,6 +105,8 @@
 .hero-discount-box {
   background-color: var(--color-section-high);
   border-radius: 2rem;
+  overflow: hidden;
+  aspect-ratio: 1/1;
 }
 
 .hero-discount-box .info {
@@ -130,6 +132,13 @@
   font-weight: 600;
 }
 
+.hero-coupon-img {
+  width: 120%;
+  position: relative;
+  top: -40px;
+  left: -20px;
+}
+
 /* CAROUSEL --------------------------------------- */
 
 .carousel-section {
@@ -143,6 +152,10 @@
   width: 100%;
   overflow: hidden;
   position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem;
 }
 
 .carousel-slide-container {
@@ -153,7 +166,6 @@
 
 .carousel-slide {
   flex: 0 0 100%;
-  width: 100%;
 }
 
 .carousel-card-container {
@@ -163,4 +175,43 @@
 
 .carousel-card {
   max-width: 80%;
+}
+
+/* carousel actions box */
+
+.carousel-actions-box {
+  width: 80%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* carousel dots */
+
+.carousel-dots-box {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.carousel-dots-box .dot {
+  width: 0.75rem;
+  aspect-ratio: 1/1;
+  border-radius: 900px;
+  background-color: rgba(33, 33, 33, 28%);
+}
+
+/* carousel arrows (mobile) */
+.carousel-arrow {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.5rem;
+  background-color: #212121;
+  border-radius: 0.5rem;
+  color: #ffffff;
+}
+
+/* smartphone landscape / mini tablet */
+@media (min-width: 576px) {
 }
