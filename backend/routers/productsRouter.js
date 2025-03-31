@@ -8,9 +8,9 @@ import productController from '../controllers/productController.js';
 router.get('/', productController.index);
 
 // route -> show
-router.get('/:id', productController.show);
+router.get('/:slug', productController.show);
 
-// route -> store
-router.post('/', productController.store);
+// Nuova rotta per filtrare per categoria
+router.get('/category/:category', productController.category);
 
 export default router;
