@@ -129,3 +129,36 @@
   font-style: normal;
   font-weight: 600;
 }
+
+/* CAROUSEL --------------------------------------- */
+
+.carousel-section {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.carousel {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.carousel-slide-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  transition: transform 0.3s ease-in-out;
+}
+
+.carousel-slide {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 1rem;
+}
+
+.carousel-card-container {
+  width: 100%;
+}

@@ -1,4 +1,5 @@
 import HeroCarousel from '../components/HeroCarousel/HeroCarousel';
+import Carousel from '../components/Carousel/Carousel';
 
 export default function HomePage() {
   return (
@@ -16,7 +17,9 @@ export default function HomePage() {
         </div>
       </section>
       {/* i più venduti */}
-      <section id="home-mostselled"></section>
+      <section id="home-mostselled" className="carousel-section">
+        <Carousel />
+      </section>
     </main>
   );
 }
