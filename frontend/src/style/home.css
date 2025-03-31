@@ -147,18 +147,20 @@
 
 .carousel-slide-container {
   display: flex;
-  justify-content: center;
-  align-items: center;
   width: 100%;
   transition: transform 0.3s ease-in-out;
 }
 
 .carousel-slide {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-gap: 1rem;
+  flex: 0 0 100%;
+  width: 100%;
 }
 
 .carousel-card-container {
-  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.carousel-card {
+  max-width: 80%;
 }

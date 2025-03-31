@@ -51,11 +51,11 @@ export default function Carousel() {
       </div>
 
       {/* <button onClick={prevSlide}>Prev</button> */}
-      <div className="slider-dots-box">
+      {/* <div className="slider-dots-box">
         {Array.from({ length: slideCount }).map((_, index) => (
           <div className="dot" key={index} onClick={() => goToSlide(index)}></div>
         ))}
-      </div>
+      </div> */}
       {/* <button onClick={nextSlide}>Next</button> */}
     </div>
   );
