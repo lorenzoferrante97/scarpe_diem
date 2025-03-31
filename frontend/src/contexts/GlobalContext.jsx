@@ -1,13 +1,17 @@
-import { createContext, useState, useContext } from "react";
+import { createContext, useState, useContext } from 'react';
 
 const GlobalContext = createContext();
 
 const GlobalProvider = ({ children }) => {
-  const value = {};
+  const [activeDotIndex, setActiveDotIndex] = useState(0);
 
-  return (
-    <GlobalContext.Provider value={value}>{children}</GlobalContext.Provider>
-  );
+  const updateActiveDotIndex = (index) => {
+    setActiveDotIndex(index);
+  };
+
+  const value = { activeDotIndex, updateActiveDotIndex };
+
+  return <GlobalContext.Provider value={value}>{children}</GlobalContext.Provider>;
 };
 
 const useGlobalContext = () => useContext(GlobalContext);

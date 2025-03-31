@@ -89,11 +89,6 @@
   background-color: rgba(33, 33, 33, 28%);
 }
 
-/* hero slider active dot */
-.dot-active {
-  background-color: var(--color-text);
-}
-
 /* HERO DISCOUNT SECTION */
 .hero-discount-box,
 .hero-discount-box .info {
@@ -213,6 +208,10 @@
   color: #ffffff;
 }
 
+.dot.active {
+  background-color: var(--color-text);
+}
+
 /* smartphone landscape / mini tablet ----------------------------- */
 @media (min-width: 576px) {
   .hero-slider {
@@ -238,6 +237,10 @@
     left: 200px;
     top: -100px;
   }
+  .carousel-section {
+    max-width: 60%;
+    margin: 0 auto;
+  }
 }
 
 /* tablet portrait ---------------------------------------------- */
@@ -253,6 +256,16 @@
   .hero-coupon-img {
     top: -180px;
     left: 280px;
+  }
+  .carousel-section {
+    max-width: 100%;
+  }
+  .carousel-slide-container {
+    max-width: 80%;
+    margin: 0 auto;
+  }
+  .carousel-slide {
+    flex: 0 0 50%;
   }
 }
 
@@ -287,6 +300,6 @@
     width: 440px;
   }
   .carousel-slide {
-    flex: 0 0 50%;
+    flex: 0 0 33.333%;
   }
 }
