@@ -1,7 +1,9 @@
 export default function Home() {
   return (
     <main>
-      <h1>Home</h1>
+      <section id="hero-section" className="hero">
+        <div id="hero-carousel" className="hero-slider"></div>
+      </section>
     </main>
   );
 }

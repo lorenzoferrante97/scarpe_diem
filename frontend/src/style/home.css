@@ -1,0 +1,81 @@
+/* HERO -------------------------------------------------------------- */
+
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 20px;
+}
+
+/* HERO SLIDER -------------------- */
+
+/* hero slider */
+.hero-slider {
+  width: 100%;
+  border-radius: 2rem;
+  background-color: var(--color-section-high);
+}
+
+/* hero slider content + info */
+.hero-slider .content,
+.hero-slider .content .info {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.hero-slider .content {
+  gap: 0.75rem;
+}
+
+.hero-slider .content .info {
+  gap: 0px;
+}
+
+/* hero slider dots box */
+.slider-dots-box {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+/* hero slider dot */
+.slider-dots-box .dot {
+  width: 0.75rem;
+  aspect-ratio: 1/1;
+  background-color: rgba(33, 33, 33, 28%);
+}
+
+/* hero slider active dot */
+.slider-dots-box .dot .active {
+  background-color: var(--color-text);
+}
+
+/* HERO DISCOUNT SECTION */
+.hero-discount-box,
+.hero-discount-box .info {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: start;
+}
+
+.hero-discount-box .info {
+  gap: 0.75rem;
+}
+
+/* discount code */
+.hero-discount-box .info .discount-code {
+  display: inline-flex;
+  padding: 0.75rem;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+}
+.hero-discount-box .info .discount-code .code {
+  color: #ffffff;
+  font-size: 1.75rem;
+  font-style: normal;
+  font-weight: 600;
+}
