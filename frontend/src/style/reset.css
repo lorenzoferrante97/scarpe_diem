@@ -1,0 +1,148 @@
+/* Reset CSS Classico */
+
+/* Rimuove margini, padding e bordi predefiniti */
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+
+/* Imposta il box-sizing su border-box per tutti gli elementi */
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
+/* Imposta il font-size di base e la famiglia di font */
+html {
+  font-size: 16px; /* Puoi modificare questo valore */
+  font-family: sans-serif; /* Puoi modificare questa famiglia di font */
+}
+
+/* Rimuove gli stili predefiniti per liste ordinate e non ordinate */
+ol,
+ul {
+  list-style: none;
+}
+
+/* Rimuove gli stili predefiniti per le tabelle */
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* Rimuove gli stili predefiniti per i bordi delle immagini */
+img {
+  border: 0;
+  max-width: 100%; /* Le immagini non superano la larghezza del contenitore */
+  height: auto;
+}
+
+/* Rimuove la sottolineatura predefinita dei link */
+a {
+  text-decoration: none;
+}
+
+/* Imposta il colore del testo predefinito */
+body {
+  color: #333; /* Puoi modificare questo colore */
+  line-height: 1.5; /* Puoi modificare questa altezza di riga */
+}
+
+/* Imposta lo stile del testo predefinito per i tag di intestazione */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: bold;
+}
+
+button {
+  border: none;
+}

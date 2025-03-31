@@ -1,0 +1,295 @@
+@import url('https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&display=swap');
+
+:root {
+  /* colore di sfondo per elementi più importanti con cui interagisce l'utente */
+  /* ESEMPI: */
+  /* pulsante acquista ora */
+  --color-accent-bg: #cc4631;
+  /* colore dei testi e icone sopra il color-accent-bg */
+  --color-accent-on-bg: #ffffff;
+
+  /* colore di sfondo secondario per elementi in evidenza */
+  /* ESEMPI: */
+  /* active nella navbar */
+  --color-sec-bg: #fed6ce;
+  /* colore dei testi e icone sopra il color-sec-bg */
+  --color-sec-on-bg: #a92e1b;
+
+  /* ERROR */
+
+  /* colore di sfondo per messaggi di errore */
+  --color-error-bg: #ffd3e3;
+  /* colore di testo e icone per messaggi di errore */
+  --color-error-on-bg: #a5266f;
+
+  /* SUCCESS */
+
+  /* colore di sfondo per messaggi di successo */
+  --color-success-bg: #caff5e;
+  /* colore di testo e icone per messaggi di successo */
+  --color-success-on-bg: #476400;
+
+  /* BACKGROUNDS */
+
+  /* sfondo delle pagine */
+  --color-bg: #fcfcfc;
+  /* sfondo delle sezioni con un colore di sfondo */
+  --color-section: rgba(244, 244, 244, 56%);
+  /* sfondo delle sezioni dentro altre sezioni */
+  --color-section-high: #f4f4f4;
+  /* sfondo delle card */
+  --color-card: #ffffff;
+
+  /* TEXTS */
+
+  /* colore testi importanti - es: h1, h2 ... */
+  --color-text: #212121;
+  /* colore testi lunghi o meno importanti - es: descrizione prodotto, <p> ... */
+  --color-text-body: #676767;
+
+  /* STILI FONT */
+  --font: Figtree;
+}
+
+/* HTML ------------------------------------------------------ */
+html,
+body {
+  font-family: var(--font);
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 140%;
+  background-color: var(--color-bg);
+}
+
+/* STILI TESTI ------------------------------------------------ */
+
+/* testi normali */
+p,
+span {
+  color: var(--color-text-body);
+  font-size: 1rem;
+  line-height: 140%;
+}
+
+/* testo grande */
+.text-big {
+  color: var(--color-text);
+  font-size: 1.5rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+h1,
+h2,
+h3 {
+  font-weight: 700;
+  line-height: 125%;
+}
+
+h4,
+h5,
+h6 {
+  font-weight: 600;
+  line-height: 125%;
+}
+
+/* H1 (nome product nella pagina product) */
+.h1 {
+  color: var(--color-text);
+  font-size: 3rem;
+  font-style: normal;
+  font-weight: 700;
+  text-transform: capitalize;
+}
+
+/* H2 (I più venduti, correlati ... ) */
+.h2 {
+  color: var(--color-text);
+  font-size: 2rem;
+  font-style: normal;
+  font-weight: 700;
+}
+
+/* FIGURE & IMG ---------------------------------------------------- */
+
+figure {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* BADGE (es. nella paginaa product per la category) -------------------- */
+.badge {
+  display: flex;
+  padding: 0.5rem 0.75rem;
+  justify-content: center;
+  align-items: center;
+  border-radius: 0.5rem;
+  background: var(--color-sec-bg);
+}
+
+.badge-text {
+  color: var(--color-sec-on-bg);
+  text-align: center;
+  font-weight: 600;
+}
+
+/* BUTTONS ------------------------------------------------------ */
+
+button {
+  display: inline-flex;
+  padding: 16px 28px;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+
+/* button d'accento */
+.btn-accent {
+  border-radius: 900px;
+  background: var(--color-accent-bg);
+  color: var(--color-accent-on-bg);
+  text-align: center;
+  font-family: var(--font);
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 600;
+}
+
+/* button secondario */
+.btn-sec {
+  border-radius: 900px;
+  border: 1px solid #212121;
+  color: #212121;
+  text-align: center;
+  font-family: var(--font);
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 600;
+}
+
+/* hover su buttons (spostare su desktop breakpoint) */
+.btn-accent:hover,
+.btn-sec:hover {
+  color: #fff;
+  background: none;
+  background-color: #212121;
+}
+
+/* MAIN --------------------------------------------------------- */
+main {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+/* HIGH SECTION ---------------- */
+.section-high {
+  display: flex;
+  width: 100%;
+  padding: 2.5rem;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: start;
+  gap: 28px;
+}
+
+/* CARD --------------------------------------------------------- */
+
+.card {
+  display: flex;
+  padding: 16px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: stretch;
+  gap: 16px;
+}
+
+/* CARD INFO BOX (div che contiene card-price e card-title) */
+
+.card-info-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: stretch;
+  gap: 8px;
+}
+
+/* CARD ACTIONS BOX (div che contiene i button per aggiungere al carrello e alla wishlist) */
+
+.card-actions-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* CARD PRICE */
+
+.card-price {
+  color: var(--color-accent-bg);
+  font-family: var(--font);
+  font-size: 1.5rem;
+  font-style: normal;
+  font-weight: 800;
+}
+
+/* CARD TITLE */
+
+.card-title {
+  color: var(--color-text);
+  font-family: var(--font);
+  font-size: 1.5rem;
+  font-style: normal;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+/* CARD IMAGE */
+
+.card-image {
+  max-width: 280px;
+  aspect-ratio: 1/1;
+  border-radius: 1rem;
+}
+
+/* CARD ACTION CART + WISHLIST (btn solo icona -> add to cart e wishlist) */
+
+.card-action-cart,
+.card-action-wishlist {
+  display: flex;
+  width: 48px;
+  aspect-ratio: 1/1;
+  justify-content: center;
+  align-items: center;
+  border-radius: 900px;
+}
+.card-action-cart-icon,
+.card-action-wishlist-icon {
+  width: 24px;
+  aspect-ratio: 1/1;
+  flex-shrink: 0;
+}
+.card-action-cart {
+  background: var(--color-accent-bg);
+}
+.card-action-wishlist {
+  border: 1px solid var(--color-text);
+}
+.card-action-cart-icon {
+  color: var(--color-accent-on-bg);
+}
+.card-action-wishlist-icon {
+  color: var(--color-text);
+}
