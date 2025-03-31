@@ -55,8 +55,11 @@ function category(req, res) {
         }
 
         res.json(response);
+
     });
 }
+
+
 
 // Nuova funzione -> bestsellers (prodotti più venduti)
 function bestsellers(req, res) {
@@ -94,13 +97,6 @@ function newarrivals(req, res) {
     });
 }
 
-
-
-
-
-
-
-
 // function -> store
 function store(req, res) {
     const { order_date,
@@ -115,6 +111,7 @@ function store(req, res) {
 
 
     const sql = 'INSERT INTO orders (order_date, coupon_id, address_shipping, address_payment, phone_number, mail, total, name, surname) VALUES (?,?,?,?,?,?,?,?,?)';
+
 
     connection.query(sql, [
         order_date,
@@ -256,3 +253,4 @@ export default {
     bestsellers,
     search
 };
+
