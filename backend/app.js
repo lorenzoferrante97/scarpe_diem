@@ -13,19 +13,19 @@ import errorsHandler from './middlewares/errors/errorsHandler.js';
 
 app.use(cors({ origin: 'http://localhost:5173' }));
 
-app.get('/', (req, res) => {
-  res.send('Server root');
-});
 
 // body parser
 app.use(express.json());
+app.use(express.static('public'));
+app.use(handleImgPath);
 
+app.get('/', (req, res) => {
+  res.send('Server root');
+});
 // use router
 app.use('/products', productsRouter);
 
 // middlewares
-app.use(express.static('public'));
-app.use(handleImgPath);
 app.use(errorNotFound);
 app.use(errorsHandler);
 
