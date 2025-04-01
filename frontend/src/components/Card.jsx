@@ -1,5 +1,4 @@
 export default function Card({ content }) {
-  console.log('content', content);
   const { Prodotto, Immagine, Prezzo } = content;
 
   return (
