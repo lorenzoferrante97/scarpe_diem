@@ -1,4 +1,6 @@
 import { createContext, useState, useContext } from 'react';
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
 
 const GlobalContext = createContext();
 
@@ -58,6 +60,17 @@ const GlobalProvider = ({ children }) => {
         console.error(error);
       });
   };
+
+  // chiamata show per product page
+  // const [product, setProduct] = useState(null);
+
+  // const fetchProduct = (slug) => {
+  //   console.log('slug in fetch: ', slug);
+  //   // axios
+  //   //   .get(`http://localhost:3000/products/${slug}`)
+  //   //   .then((res) => setProduct(res.data))
+  //   //   .catch((error) => console.error('errore nel recupero del prodotto', error));
+  // };
 
   const value = { activeDotIndex, mostSelled, categoryProducts, updateActiveDotIndex, fetchMostSelled, fetchCategoryProducts };
 

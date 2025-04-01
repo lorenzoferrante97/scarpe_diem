@@ -1,11 +1,10 @@
 import Card from '../Card';
 
-export default function CarouselSlide({ key, object }) {
-  console.log('object', object);
+export default function CarouselSlide({ object }) {
   return (
     <>
       {/* slide */}
-      <div className="carousel-slide" key={key}>
+      <div className="carousel-slide">
         {/* cards */}
         <div className="carousel-card-container">
           <Card content={object} />
