@@ -9,7 +9,57 @@ const GlobalProvider = ({ children }) => {
     setActiveDotIndex(index);
   };
 
-  const value = { activeDotIndex, updateActiveDotIndex };
+  // LOGICA HOME -------------------------------------------------
+
+  // most selled products
+  const [mostSelled, setMostSelled] = useState(null);
+
+  const fetchMostSelled = () => {
+    fetch('http://localhost:3000/products/bestsellers')
+      .then((response) => response.json())
+      .then((data) => setMostSelled(data.results))
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
+  // category products
+  const [categoryProducts, setCategoryProducts] = useState(null);
+
+  const fetchCategoryProducts = () => {
+    fetch('http://localhost:3000/category/running')
+      .then((response) => response.json())
+      .then((data) => setCategoryProducts(data.results))
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
+  // most selled product
+  const [mostSelledProduct, setMostSelledProduct] = useState(null);
+
+  const fetchMostSelledProduct = () => {
+    fetch('http://localhost:3000/products/bestseller')
+      .then((response) => response.json())
+      .then((data) => setMostSelledProduct(data.results[0]))
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
+  // most recent product
+  const [mostRecentProduct, setMostRecentProduct] = useState(null);
+
+  const fetchMostRecentProduct = () => {
+    fetch('http://localhost:3000/products/newarrival')
+      .then((response) => response.json())
+      .then((data) => setMostSelledProduct(data.results[0]))
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
+  const value = { activeDotIndex, mostSelled, updateActiveDotIndex, fetchMostSelled };
 
   return <GlobalContext.Provider value={value}>{children}</GlobalContext.Provider>;
 };

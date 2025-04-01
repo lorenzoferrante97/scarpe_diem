@@ -1,13 +1,16 @@
-export default function Card() {
+export default function Card({ content }) {
+  console.log('content', content);
+  const { Prodotto, Immagine, Prezzo } = content;
+
   return (
     <>
       <div className="card carousel-card">
         <figure className="card-image">
-          <img src="https://images.unsplash.com/photo-1605034313761-73ea4a0cfbf3?q=80&w=2680&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="" />
+          <img src={Immagine} alt={Prodotto} />
         </figure>
         <div className="card-info-box">
-          <h3 className="card-title">Card Title</h3>
-          <span className="card-price">Card Price</span>
+          <h3 className="card-title">{Prodotto}</h3>
+          <span className="card-price">{Prezzo}</span>
         </div>
         <div className="card-actions-box">
           <button className="card-action-cart">
