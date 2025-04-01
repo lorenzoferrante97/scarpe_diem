@@ -3,6 +3,7 @@ import { createContext, useState, useContext } from 'react';
 const GlobalContext = createContext();
 
 const GlobalProvider = ({ children }) => {
+  // LOGICA HOME -------------------------------------------------
   const [activeDotIndex, setActiveDotIndex] = useState(0);
 
   const updateActiveDotIndex = (index) => {
