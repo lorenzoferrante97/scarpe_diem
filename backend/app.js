@@ -1,5 +1,6 @@
 import express from 'express';
 import cors from 'cors';
+import handleImgPath from './middlewares/handleImgPath.js';
 const app = express();
 const port = 3000;
 
@@ -24,6 +25,7 @@ app.use('/products', productsRouter);
 
 // middlewares
 app.use(express.static('public'));
+app.use(handleImgPath);
 app.use(errorNotFound);
 app.use(errorsHandler);
 
