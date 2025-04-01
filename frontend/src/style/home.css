@@ -212,6 +212,10 @@
   background-color: var(--color-text);
 }
 
+.carousel-slider-container {
+  max-width: 100%;
+}
+
 /* smartphone landscape / mini tablet ----------------------------- */
 @media (min-width: 576px) {
   .hero-slider {
@@ -289,6 +293,10 @@
     position: relative;
     top: -60px;
     left: 20px;
+  }
+  .carousel-slide-container {
+    max-width: 80%;
+    margin: 0 auto;
   }
 }
 

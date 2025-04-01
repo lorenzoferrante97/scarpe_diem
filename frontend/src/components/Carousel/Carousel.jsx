@@ -106,7 +106,7 @@ export default function Carousel() {
       <h2 className="h2">I più venduti</h2>
 
       {/* slides */}
-      <div style={{ maxWidth: '100%' }} onTouchStart={handleTouchStart} onTouchMove={handleTouchMove} onTouchEnd={handleTouchEnd}>
+      <div className="carousel-slider-container" onTouchStart={handleTouchStart} onTouchMove={handleTouchMove} onTouchEnd={handleTouchEnd}>
         <div className="carousel-slide-container" style={{ transform: `translateX(-${currentIndex * 100}%)` }}>
           <CarouselSlide />
           <CarouselSlide />
