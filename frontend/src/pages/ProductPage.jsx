@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import axios from 'axios';
-import { useGlobalContext } from '../contexts/GlobalContext';
+// import axios from 'axios';
+// import { useGlobalContext } from '../contexts/GlobalContext';
 
 export default function ProductPage() {
   const [product, setProduct] = useState(null);

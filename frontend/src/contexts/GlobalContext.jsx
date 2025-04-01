@@ -1,6 +1,6 @@
 import { createContext, useState, useContext } from 'react';
-import { useParams } from 'react-router-dom';
-import axios from 'axios';
+// import { useParams } from 'react-router-dom';
+// import axios from 'axios';
 
 const GlobalContext = createContext();
 
