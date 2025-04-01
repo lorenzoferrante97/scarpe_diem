@@ -5,10 +5,11 @@ import { useEffect } from 'react';
 
 export default function HomePage() {
   // global context values
-  const { mostSelled, fetchMostSelled } = useGlobalContext();
+  const { mostSelled, categoryProducts, fetchMostSelled, fetchCategoryProducts } = useGlobalContext();
 
   useEffect(() => {
     fetchMostSelled();
+    fetchCategoryProducts();
   }, []);
 
   return (
@@ -30,7 +31,12 @@ export default function HomePage() {
       </section>
       {/* i più venduti */}
       <section id="home-mostselled" className="carousel-section">
-        {mostSelled ? <Carousel array={mostSelled} /> : <p>Most Selled non caricati</p>}
+        {mostSelled ? <Carousel array={mostSelled} topic="bestsellers" /> : <p>Most Selled non caricati</p>}
+        {/* <Carousel array={mostSelled} /> */}
+      </section>
+      {/* categoria */}
+      <section id="home-category" className="carousel-section">
+        {categoryProducts ? <Carousel array={categoryProducts} topic="casual" /> : <p>Categoria non caricata</p>}
         {/* <Carousel array={mostSelled} /> */}
       </section>
     </main>

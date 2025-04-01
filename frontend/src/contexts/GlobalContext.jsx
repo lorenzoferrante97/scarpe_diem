@@ -17,7 +17,7 @@ const GlobalProvider = ({ children }) => {
   const fetchMostSelled = () => {
     fetch('http://localhost:3000/products/bestsellers')
       .then((response) => response.json())
-      .then((data) => setMostSelled(data.results))
+      .then((data) => setMostSelled(data))
       .catch((error) => {
         console.error(error);
       });
@@ -27,9 +27,9 @@ const GlobalProvider = ({ children }) => {
   const [categoryProducts, setCategoryProducts] = useState(null);
 
   const fetchCategoryProducts = () => {
-    fetch('http://localhost:3000/category/running')
+    fetch('http://localhost:3000/products/category?name_category=casual') // /category?category=running
       .then((response) => response.json())
-      .then((data) => setCategoryProducts(data.results))
+      .then((data) => setCategoryProducts(data))
       .catch((error) => {
         console.error(error);
       });
@@ -59,7 +59,7 @@ const GlobalProvider = ({ children }) => {
       });
   };
 
-  const value = { activeDotIndex, mostSelled, updateActiveDotIndex, fetchMostSelled };
+  const value = { activeDotIndex, mostSelled, categoryProducts, updateActiveDotIndex, fetchMostSelled, fetchCategoryProducts };
 
   return <GlobalContext.Provider value={value}>{children}</GlobalContext.Provider>;
 };
