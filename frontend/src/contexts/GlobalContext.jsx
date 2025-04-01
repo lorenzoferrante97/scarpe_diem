@@ -59,7 +59,7 @@ const GlobalProvider = ({ children }) => {
       });
   };
 
-  const value = { activeDotIndex, updateActiveDotIndex };
+  const value = { activeDotIndex, mostSelled, updateActiveDotIndex, fetchMostSelled };
 
   return <GlobalContext.Provider value={value}>{children}</GlobalContext.Provider>;
 };

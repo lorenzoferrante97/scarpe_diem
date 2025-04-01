@@ -2,7 +2,8 @@ import CarouselSlide from './CarouselSlide';
 import React, { useState, useEffect, useRef } from 'react';
 import { useGlobalContext } from '../../contexts/GlobalContext';
 
-export default function Carousel() {
+export default function Carousel({ array }) {
+  console.log('array most selled: ', array);
   const { activeDotIndex, updateActiveDotIndex } = useGlobalContext();
 
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -108,12 +109,11 @@ export default function Carousel() {
       {/* slides */}
       <div className="carousel-slider-container" onTouchStart={handleTouchStart} onTouchMove={handleTouchMove} onTouchEnd={handleTouchEnd}>
         <div className="carousel-slide-container" style={{ transform: `translateX(-${currentIndex * 100}%)` }}>
-          <CarouselSlide />
-          <CarouselSlide />
-          <CarouselSlide />
-          <CarouselSlide />
-          <CarouselSlide />
-          <CarouselSlide />
+          {array?.map((product) => {
+            console.log('product', product);
+            const { id } = product.id;
+            return <CarouselSlide key={id} object={product} />;
+          })}
         </div>
       </div>
 

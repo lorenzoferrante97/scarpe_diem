@@ -1,7 +1,16 @@
 import HeroCarousel from '../components/HeroCarousel/HeroCarousel';
 import Carousel from '../components/Carousel/Carousel';
+import { useGlobalContext } from '../contexts/GlobalContext';
+import { useEffect } from 'react';
 
 export default function HomePage() {
+  // global context values
+  const { mostSelled, fetchMostSelled } = useGlobalContext();
+
+  useEffect(() => {
+    fetchMostSelled();
+  }, []);
+
   return (
     <main>
       <section id="hero-section" className="hero">
@@ -21,7 +30,7 @@ export default function HomePage() {
       </section>
       {/* i più venduti */}
       <section id="home-mostselled" className="carousel-section">
-        <Carousel />
+        <Carousel array={mostSelled} />
       </section>
     </main>
   );
