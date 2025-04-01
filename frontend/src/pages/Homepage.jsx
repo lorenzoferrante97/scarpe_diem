@@ -30,7 +30,8 @@ export default function HomePage() {
       </section>
       {/* i più venduti */}
       <section id="home-mostselled" className="carousel-section">
-        <Carousel array={mostSelled} />
+        {mostSelled ? <Carousel array={mostSelled} /> : <p>Most Selled non caricati</p>}
+        {/* <Carousel array={mostSelled} /> */}
       </section>
     </main>
   );
