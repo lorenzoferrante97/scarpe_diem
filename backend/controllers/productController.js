@@ -227,11 +227,13 @@ function related(req, res) {
 
 //funzione search
 function search(req, res) {
-    const searchMethod = req.query.name ? `%${req.query.name}%` : '%';;
+    // const searchMethod = req.query.name ? `%${req.query.name}%` : '%';;
+    const searchMethod=`%${req.query.name || req.query.name_category || req.query.name_brand}%`
 
-    const sql = 'SELECT p.*, c.name_category, b.name_brand FROM products p JOIN categories c ON c.id = p.category_id JOIN brands b ON b.id = p.brand_id WHERE p.name LIKE ?';
 
-    connection.query(sql, [searchMethod], (err, results) => {
+    const sql = 'SELECT p.*, c.name_category, b.name_brand FROM products p JOIN categories c ON c.id = p.category_id JOIN brands b ON b.id = p.brand_id WHERE p.name LIKE ? OR c.name_category LIKE ? OR b.name_brand LIKE ?';
+
+    connection.query(sql, [searchMethod, searchMethod,searchMethod], (err, results) => {
         if (err) return res.status(500).json({
             error: "Errore Server SEARCH"
         })
