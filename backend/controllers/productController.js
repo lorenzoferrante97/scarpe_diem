@@ -99,8 +99,9 @@ function category(req, res) {
 
 // Nuova funzione -> bestsellers (prodotti più venduti)
 function bestsellers(req, res) {
-  const sql =
-    "SELECT p.name AS Prodotto, p.image AS Immagine, p.price AS Prezzo, SUM(po.product_quantity) AS Totale_Vendite FROM product_order po JOIN products p ON po.product_id = p.id GROUP BY p.id, p.name, p.image, p.price ORDER BY Totale_Vendite DESC;";
+
+  const sql = 'SELECT p.name AS Prodotto, p.image AS Immagine, p.price AS Prezzo, p.slug AS slug, SUM(po.product_quantity) AS Totale_Vendite FROM product_order po JOIN products p ON po.product_id = p.id GROUP BY p.id, p.name, p.image, p.price ORDER BY Totale_Vendite DESC;';
+
 
   connection.query(sql, (err, response) => {
     if (err) {

@@ -1,9 +1,11 @@
+import { Link } from 'react-router-dom';
+
 export default function Card({ content }) {
-  const { Prodotto, Immagine, Prezzo } = content;
+  const { Prodotto, Immagine, Prezzo, slug } = content;
 
   return (
     <>
-      <div className="card carousel-card">
+      <Link to={`/product/${slug}`} className="card carousel-card">
         <figure className="card-image">
           <img src={Immagine} alt={Prodotto} />
         </figure>
@@ -19,7 +21,7 @@ export default function Card({ content }) {
             <span style={{ color: '#000000' }}>B</span>
           </button>
         </div>
-      </div>
+      </Link>
     </>
   );
 }
