@@ -18,6 +18,11 @@ router.get('/bestsellers', productController.bestsellers);
 // Nuova rotta per filtrare per newarrivals
 router.get('/newarrivals', productController.newarrivals);
 
+// Nuova rotta per filtrare per bestseller
+router.get('/bestseller', productController.bestseller);
+
+// Nuova rotta per filtrare per newarrival
+router.get('/newarrival', productController.newarrival);
 
 //Rotta Search
 router.get('/search', productController.search);

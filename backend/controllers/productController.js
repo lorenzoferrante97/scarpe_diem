@@ -42,7 +42,7 @@ const show = (req, res) => {
 // Nuova funzione -> category (prodotti per categoria)
 function category(req, res) {
     const { category } = req.params; // Prendi il parametro category dall'URL
-    const sql = 'SELECT * FROM products JOIN categories ON categories.id = products.category_id WHERE name_category = ? LIMIT 1';
+    const sql = 'SELECT * FROM products JOIN categories ON categories.id = products.category_id WHERE name_category = ? LIMIT 6';
 
     connection.query(sql, [category], (err, response) => {
         if (err) {
@@ -63,7 +63,7 @@ function category(req, res) {
 
 // Nuova funzione -> bestsellers (prodotti più venduti)
 function bestsellers(req, res) {
-    const sql = 'SELECT po.name_product AS Prodotto, SUM(po.product_quantity) AS Totale_Vendite FROM product_order po GROUP BY po.name_product ORDER BY Totale_Vendite DESC;';
+    const sql = 'SELECT p.name AS Prodotto, p.image AS Immagine, p.price AS Prezzo, SUM(po.product_quantity) AS Totale_Vendite FROM product_order po JOIN products p ON po.product_id = p.id GROUP BY p.id, p.name, p.image, p.price ORDER BY Totale_Vendite DESC;';
 
     connection.query(sql, (err, response) => {
         if (err) {
@@ -79,11 +79,59 @@ function bestsellers(req, res) {
     });
 }
 
+// Nuova funzione -> bestseller (prodotto più venduto)
+function bestseller(req, res) {
+    const sql = 'SELECT p.name AS Prodotto, p.image AS Immagine, p.price AS Prezzo, SUM(po.product_quantity) AS Totale_Vendite FROM product_order po JOIN products p ON po.product_id = p.id GROUP BY p.id, p.name, p.image, p.price ORDER BY Totale_Vendite DESC LIMIT 1;';
+
+    connection.query(sql, (err, response) => {
+        if (err) {
+            console.error("Database error:", err);
+            return res.status(500).json({ error: "Database error" });
+        }
+
+        if (response.length === 0) {
+            return res.status(404).json({ error: "Bestseller not found" });
+        }
+
+        res.json(response);
+    });
+}
+
 // Nuova funzione -> newarrivals (ultimi arrivi)
 function newarrivals(req, res) {
-    const sql = "SELECT * FROM products WHERE insert_date BETWEEN '2024-02-01' AND '2024-03-01' ORDER BY insert_date DESC;";
+    /*const now = new Date();
+    const formattedDateNow = now.toISOString().split("T")[0];
+    const twoMounthAgo = new Date(now); 
+    twoMounthAgo.setMonth(now.getMonth() - 2);
+    const formattedDate = twoMounthAgo.toISOString().split("T")[0];
+    console.log(formattedDate);
+    console.log(formattedDateNow);
 
-    connection.query(sql, [newarrivals], (err, response) => {
+    Costanti per dinamicizzare la data
+
+    */
+
+    const sql = `SELECT * FROM products WHERE insert_date BETWEEN '2024-01-01' AND '2024-04-01' ORDER BY insert_date DESC;`;
+
+    connection.query(sql, (err, response) => {
+        if (err) {
+            console.error("Database error:", err);
+            return res.status(500).json({ error: "Database error" });
+        }
+
+        if (response.length === 0) {
+            return res.status(404).json({ error: "Newarrivals not found" });
+        }
+
+        res.json(response);
+    });
+}
+
+// Nuova funzione -> newarrival (ultimo arrivo)
+function newarrival(req, res) {
+    const sql = "SELECT * FROM products WHERE insert_date BETWEEN '2024-01-01' AND '2024-04-01' ORDER BY insert_date DESC LIMIT 1;";
+
+    connection.query(sql, (err, response) => {
         if (err) {
             console.error("Database error:", err);
             return res.status(500).json({ error: "Database error" });
@@ -250,7 +298,9 @@ export default {
     update,
     related,
     newarrivals,
+    newarrival,
     bestsellers,
+    bestseller,
     search
 };
 
