@@ -26,6 +26,7 @@ router.get('/newarrival', productController.newarrival);
 router.get('/search', productController.search);
 
 //Rotta correlati
+// router.get('/related', productController.related);
 router.get('/related', productController.related);
 
 // Nuova rotta per filtrare per categoria
