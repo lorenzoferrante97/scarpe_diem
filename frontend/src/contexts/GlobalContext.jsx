@@ -41,7 +41,7 @@ const GlobalProvider = ({ children }) => {
   const fetchMostSelledProduct = () => {
     fetch('http://localhost:3000/products/bestseller')
       .then((response) => response.json())
-      .then((data) => setMostSelledProduct(data.results[0]))
+      .then((data) => setMostSelledProduct(data[0]))
       .catch((error) => {
         console.error(error);
       });
