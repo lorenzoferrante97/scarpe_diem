@@ -381,20 +381,6 @@ function related(req, res) {
   });
 }
 
-//        //! integrazione immagine
-//     const totalRes = response.map((i) => {
-//   console.log("req img path: ", req.imagePath);
-//       return {
-//         ...i,
-//         image: req.imagePath + i.image,
-//       };
-//     });
-
-//       res.json(totalRes);
-
-//     //  !  DA GUARDARE
-//   });
-// }
 
 //funzione search
 function search(req, res) {
@@ -432,7 +418,7 @@ function search(req, res) {
 }
 
 function getCoupon(req, res) {
-  const sql = 
+  const sql =
     "SELECT * FROM coupons WHERE code = 'SCONTO10' AND '2024-03-15' BETWEEN start_date AND end_date;";
 
   connection.query(sql, (err, response) => {
@@ -451,7 +437,164 @@ function getCoupon(req, res) {
 }
 
 
+function checkout(req, res) {
+  let dati = req.body;
+  let totale = 0;
+  let couponId = dati.coupon_id ? dati.coupon_id : null;
 
+  // Valida i dati in ingresso
+  if (!dati.nome || !dati.cognome || !dati.email || !dati.telefono || 
+      !dati.indirizzo_spedizione || !dati.indirizzo_pagamento || 
+      !dati.carrello || dati.carrello.length === 0) {
+    return res.status(400).json({ error: "Dati ordine incompleti" });
+  }
+
+  // Calcolo il totale
+  for (let i = 0; i < dati.carrello.length; i++) {
+    totale += dati.carrello[i].prezzo * dati.carrello[i].quantita;
+  }
+
+  // Inizio la transazione per garantire la consistenza dei dati
+  connection.beginTransaction(err => {
+    if (err) return res.status(500).json({ error: "Errore nell'avvio della transazione" });
+    
+    // Gestione coupon
+    if (couponId) {
+      let sqlCoupon = "SELECT discount FROM coupons WHERE id = ?";
+      connection.query(sqlCoupon, [couponId], (err, results) => {
+        if (err) {
+          return connection.rollback(() => {
+            res.status(500).json({ error: "Errore nella verifica del coupon" });
+          });
+        }
+        
+        if (results.length > 0) {
+          let sconto = results[0].discount;
+          totale = totale - (totale * sconto) / 100;
+        }
+        inserisciOrdine();
+      });
+    } else {
+      inserisciOrdine();
+    }
+  });
+
+  function inserisciOrdine() {
+    let sqlOrdine =
+      "INSERT INTO orders (order_date, coupon_id, address_shipping, address_payment, phone_number, mail, total, name, surname) VALUES (CURDATE(), ?, ?, ?, ?, ?, ?, ?, ?)";
+
+    let valoriOrdine = [
+      couponId,
+      dati.indirizzo_spedizione,
+      dati.indirizzo_pagamento,
+      dati.telefono,
+      dati.email,
+      totale,
+      dati.nome,
+      dati.cognome,
+    ];
+
+    connection.query(sqlOrdine, valoriOrdine, (err, risultato) => {
+      if (err) {
+        return connection.rollback(() => {
+          res.status(500).json({ error: "Errore nell'inserimento dell'ordine" });
+        });
+      }
+      
+      let orderId = risultato.insertId;
+      inserisciProdottiOrdine(orderId);
+    });
+  }
+  
+  function inserisciProdottiOrdine(orderId) {
+    const prodottiValori = [];
+    
+    // Prepara tutti i valori per insert multiplo
+    for (let i = 0; i < dati.carrello.length; i++) {
+      let prodotto = dati.carrello[i];
+      prodottiValori.push([
+        prodotto.id,
+        `Prodotto ${prodotto.id}`, // Idealmente recuperare il nome dal database
+        prodotto.prezzo,
+        prodotto.quantita,
+        orderId
+      ]);
+    }
+    
+    // Inserisci tutti i prodotti in un'unica query
+    const sqlProdotti = "INSERT INTO product_order (product_id, name_product, price, product_quantity, order_id) VALUES ?";
+    
+    connection.query(sqlProdotti, [prodottiValori], (err) => {
+      if (err) {
+        return connection.rollback(() => {
+          res.status(500).json({ error: "Errore nell'inserimento dei prodotti dell'ordine" });
+        });
+      }
+      
+      aggiornaQuantita(orderId);
+    });
+  }
+
+  function aggiornaQuantita(orderId) {
+    let errori = false;
+    let queryCompletate = 0;
+
+    for (let i = 0; i < dati.carrello.length; i++) {
+      let prodotto = dati.carrello[i];
+      
+      // Prima verifica la disponibilità
+      let sqlVerifica = "SELECT quantity FROM product_size WHERE product_id = ? AND size_id = ?";
+      
+      connection.query(sqlVerifica, [prodotto.id, prodotto.size_id], (err, results) => {
+        if (err || results.length === 0) {
+          errori = true;
+          return completaQuery();
+        }
+        
+        const disponibile = results[0].quantity;
+        if (disponibile < prodotto.quantita) {
+          errori = true;
+          return completaQuery();
+        }
+        
+        // Se disponibile, aggiorna la quantità
+        let sqlUpdate = "UPDATE product_size SET quantity = quantity - ? WHERE product_id = ? AND size_id = ?";
+        
+        connection.query(sqlUpdate, [prodotto.quantita, prodotto.id, prodotto.size_id], (err) => {
+          if (err) errori = true;
+          completaQuery();
+        });
+      });
+    }
+    
+    function completaQuery() {
+      queryCompletate++;
+      
+      if (queryCompletate === dati.carrello.length) {
+        if (errori) {
+          return connection.rollback(() => {
+            res.status(500).json({ error: "Errore nell'aggiornamento delle quantità o prodotto non disponibile" });
+          });
+        }
+        
+        // Tutto ok, conferma la transazione
+        connection.commit(err => {
+          if (err) {
+            return connection.rollback(() => {
+              res.status(500).json({ error: "Errore nel completamento dell'ordine" });
+            });
+          }
+          
+          res.status(200).json({ 
+            message: "Ordine completato con successo", 
+            order_id: orderId, 
+            totale: totale 
+          });
+        });
+      }
+    }
+  }
+}
 export default {
   index,
   show,
@@ -466,5 +609,6 @@ export default {
   bestsellers,
   bestseller,
   search,
-  getCoupon
+  getCoupon,
+  checkout,
 };
