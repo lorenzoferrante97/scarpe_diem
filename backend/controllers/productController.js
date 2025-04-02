@@ -426,7 +426,7 @@ function search(req, res) {
         };
       });
 
-      res.json(totalRes[0]);
+      res.json(totalRes);
     }
   );
 }
