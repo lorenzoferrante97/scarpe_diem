@@ -49,17 +49,15 @@ const GlobalProvider = ({ children }) => {
   //     });
   // };
   const fetchMostSelledProduct = () => {
-  fetch('http://localhost:3000/products/bestseller')
-    .then((response) => response.json())
-    .then((data) => {
-      console.log("Dati ricevuti:", data); 
-      setMostSelledProduct(data); 
-      
-    })
-    .catch((error) => {
-      console.error("Errore nel recupero del prodotto più venduto:", error);
-    });
-};
+    fetch('http://localhost:3000/products/bestseller')
+      .then((response) => response.json())
+      .then((data) => {
+        setMostSelledProduct(data);
+      })
+      .catch((error) => {
+        console.error('Errore nel recupero del prodotto più venduto:', error);
+      });
+  };
 
   // most recent product
   const [mostRecentProduct, setMostRecentProduct] = useState(null);
@@ -73,16 +71,58 @@ const GlobalProvider = ({ children }) => {
       });
   };
 
-  // chiamata show per product page
-  // const [product, setProduct] = useState(null);
+  // CARRELLO ------------------------------------------
 
-  // const fetchProduct = (slug) => {
-  //   console.log('slug in fetch: ', slug);
-  //   // axios
-  //   //   .get(`http://localhost:3000/products/${slug}`)
-  //   //   .then((res) => setProduct(res.data))
-  //   //   .catch((error) => console.error('errore nel recupero del prodotto', error));
-  // };
+  const [cart, setCart] = useState([]);
+
+  const setCartToLocal = () => {
+    const savedCart = JSON.parse(localStorage.getItem('cart'));
+    if (savedCart) {
+      setCart(savedCart);
+    }
+  };
+
+  const addToCart = (product) => {
+    setCart((prevCart) => {
+      const newCart = [...prevCart, product];
+      localStorage.setItem('cart', JSON.stringify(newCart));
+      return newCart;
+    });
+
+    localStorage.setItem('cart', JSON.stringify([...cart, product]));
+  };
+
+  const cleanCart = () => {
+    setCart([]);
+    localStorage.removeItem('cart');
+  };
+
+  // WISHLIST -------------------------------------
+
+  const [wishlist, setWishlist] = useState([]);
+
+  const setWishlistToLocal = () => {
+    const savedWishlist = JSON.parse(localStorage.getItem('wishlist'));
+    if (savedWishlist) {
+      setCart(savedWishlist);
+    }
+  };
+
+  const addToWishlist = (product) => {
+    setWishlist((prevWish) => {
+      const newWishlist = [...prevWish, product];
+      localStorage.setItem('wishlist', JSON.stringify(newWishlist));
+      return newWishlist;
+    });
+
+    localStorage.setItem('wishlist', JSON.stringify([...wishlist, product]));
+  };
+
+  const cleanWishlist = () => {
+    setWishlist([]);
+    localStorage.removeItem('wishlist');
+  };
+
   const value = {
     activeDotIndex,
     mostSelled,
@@ -93,8 +133,15 @@ const GlobalProvider = ({ children }) => {
     fetchCategoryProducts,
     fetchMostSelledProduct,
     mostRecentProduct,
-    fetchMostRecentProduct
-  }
+    fetchMostRecentProduct,
+    cart,
+    addToCart,
+    setCartToLocal,
+    cleanCart,
+    setWishlistToLocal,
+    addToWishlist,
+    cleanWishlist,
+  };
   return <GlobalContext.Provider value={value}>{children}</GlobalContext.Provider>;
 };
 
