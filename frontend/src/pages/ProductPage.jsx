@@ -3,9 +3,11 @@ import { useParams } from 'react-router-dom';
 import { useGlobalContext } from '../contexts/GlobalContext';
 
 export default function ProductPage() {
-  const { cart, addToCart, setCartToLocal } = useGlobalContext();
+  const { cart, addToCart, setCartToLocal, productHandleMultiInput, formData } = useGlobalContext();
 
   const [product, setProduct] = useState(null);
+
+  console.log(formData);
 
   const { slug } = useParams();
 
@@ -18,6 +20,9 @@ export default function ProductPage() {
     fetch(`http://localhost:3000/products/${slug}`)
       .then((response) => response.json())
       .then((data) => {
+        // product?.sizes.split(',').map(Number);
+        // product?.quantities.split(',').map(Number);
+
         setProduct(data);
       })
       // .then((console.log(product)))
@@ -28,7 +33,8 @@ export default function ProductPage() {
   };
   // console.log(product)
 
-  console.log('cart: ', cart);
+  // const { size, quantity } = formData;
+  const [maxQuantity, setMaxQuantity] = useState(0);
 
   return (
     <main>
@@ -54,14 +60,30 @@ export default function ProductPage() {
             </label>
 
             {/* seleziona taglia */}
-            <select>
+            <select
+              name="size"
+              onChange={(e) => {
+                // find con formdata.size
+                const maxQ = product?.sizes.find((sizeObj) => formData.size == sizeObj.size_number);
+                console.log(maxQ);
+                setMaxQuantity(maxQ);
+                productHandleMultiInput(e);
+              }}
+            >
               <option value="">Seleziona taglia</option>
               {/* map di array taglie con altri option */}
+              {product?.sizes.map((size) => {
+                return (
+                  <option key={size.size_id} value={size.size_number}>
+                    {size.size_number}
+                  </option>
+                );
+              })}
             </select>
 
             {/* seleziona quantità */}
             <label htmlFor="quantity">Quantità</label>
-            <input type="number" name="quantity" min="1" />
+            <input type="number" name="quantity" min="1" max={maxQuantity} value={formData.quantity} onChange={(e) => productHandleMultiInput(e)} />
 
             {/* <select id="size">
               <option>Seleziona una taglia</option>

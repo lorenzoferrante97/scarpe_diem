@@ -123,6 +123,23 @@ const GlobalProvider = ({ children }) => {
     localStorage.removeItem('wishlist');
   };
 
+  // SIZES & QUANTITY PRODUCT PAGE
+  // const [selectedSize, setSelectedSize] = useState(0);
+  // const [selectedQuantity, setSelectedQuantity] = useState(0);
+
+  const [formData, setFormData] = useState({ size: 0, quantity: 0 });
+
+  const productHandleMultiInput = (e, product) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+
+    // const arraySizes = product?.sizes.split(',').map(Number);
+    // const arrayQuantities = product?.quantities.split(',').map(Number);
+    // for (let y = 0; y < arraySizes.length; y++) {
+    //   arraySizes[y] == formData.size ? setMaxQuantity(arrayQuantities[y]) : null;
+    // }
+  };
+
   const value = {
     activeDotIndex,
     mostSelled,
@@ -141,6 +158,8 @@ const GlobalProvider = ({ children }) => {
     setWishlistToLocal,
     addToWishlist,
     cleanWishlist,
+    productHandleMultiInput,
+    formData,
   };
   return <GlobalContext.Provider value={value}>{children}</GlobalContext.Provider>;
 };
