@@ -40,14 +40,26 @@ const GlobalProvider = ({ children }) => {
   // most selled product
   const [mostSelledProduct, setMostSelledProduct] = useState(null);
 
+  // const fetchMostSelledProduct = () => {
+  //   fetch('http://localhost:3000/products/bestseller')
+  //     .then((response) => response.json())
+  //     .then((data) => setMostSelledProduct(data[0]))
+  //     .catch((error) => {
+  //       console.error(error);
+  //     });
+  // };
   const fetchMostSelledProduct = () => {
-    fetch('http://localhost:3000/products/bestseller')
-      .then((response) => response.json())
-      .then((data) => setMostSelledProduct(data[0]))
-      .catch((error) => {
-        console.error(error);
-      });
-  };
+  fetch('http://localhost:3000/products/bestseller')
+    .then((response) => response.json())
+    .then((data) => {
+      console.log("Dati ricevuti:", data); 
+      setMostSelledProduct(data); 
+      
+    })
+    .catch((error) => {
+      console.error("Errore nel recupero del prodotto più venduto:", error);
+    });
+};
 
   // most recent product
   const [mostRecentProduct, setMostRecentProduct] = useState(null);
@@ -55,7 +67,7 @@ const GlobalProvider = ({ children }) => {
   const fetchMostRecentProduct = () => {
     fetch('http://localhost:3000/products/newarrival')
       .then((response) => response.json())
-      .then((data) => setMostSelledProduct(data.results[0]))
+      .then((data) => setMostRecentProduct(data))
       .catch((error) => {
         console.error(error);
       });
@@ -71,9 +83,18 @@ const GlobalProvider = ({ children }) => {
   //   //   .then((res) => setProduct(res.data))
   //   //   .catch((error) => console.error('errore nel recupero del prodotto', error));
   // };
-
-  const value = { activeDotIndex, mostSelled, categoryProducts, updateActiveDotIndex, fetchMostSelled, fetchCategoryProducts };
-
+  const value = {
+    activeDotIndex,
+    mostSelled,
+    categoryProducts,
+    mostSelledProduct,
+    updateActiveDotIndex,
+    fetchMostSelled,
+    fetchCategoryProducts,
+    fetchMostSelledProduct,
+    mostRecentProduct,
+    fetchMostRecentProduct
+  }
   return <GlobalContext.Provider value={value}>{children}</GlobalContext.Provider>;
 };
 
