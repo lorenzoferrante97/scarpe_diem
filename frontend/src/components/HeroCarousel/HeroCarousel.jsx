@@ -1,5 +1,6 @@
 import HeroCarouselSlide from './HeroCarouselSlide';
 import React, { useState, useEffect, useRef } from 'react';
+import { useGlobalContext } from "../../contexts/GlobalContext";
 
 export default function HeroCarousel({ autoSlideInterval }) {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -7,6 +8,21 @@ export default function HeroCarousel({ autoSlideInterval }) {
   const timerRef = useRef(null);
   const touchStartX = useRef(null);
   const touchMoveX = useRef(null);
+
+  // Access context in the parent component
+  const { mostSelledProduct, fetchMostSelledProduct, fetchMostRecentProduct, mostRecentProduct } = useGlobalContext();
+
+  // Fetch data when the component mounts
+  useEffect(() => {
+    fetchMostSelledProduct();
+    fetchMostRecentProduct();
+  }, []);
+
+  // Optional: Log the data for debugging
+  useEffect(() => {
+    console.log("mostSelledProduct:", mostSelledProduct);
+    console.log("mostRecentProduct:", mostRecentProduct);
+  }, [mostSelledProduct, mostRecentProduct]);
 
   const nextSlide = () => {
     setCurrentIndex((prevIndex) => (prevIndex + 1) % slideCount);
@@ -52,18 +68,18 @@ export default function HeroCarousel({ autoSlideInterval }) {
     <div className="hero-slider">
       <div className="slider-container" onTouchStart={handleTouchStart} onTouchMove={handleTouchMove} onTouchEnd={handleTouchEnd}>
         <div className="slide-container" style={{ transform: `translateX(-${currentIndex * 100}%)` }}>
-          <HeroCarouselSlide />
-          <HeroCarouselSlide />
+          {/* Pass mostSelledProduct with type "mostSelled" */}
+          <HeroCarouselSlide oggetto={mostSelledProduct} type="mostSelled" />
+          {/* Pass mostRecentProduct with type "mostRecent" */}
+          <HeroCarouselSlide oggetto={mostRecentProduct} type="mostRecent" />
         </div>
       </div>
 
-      {/* <button onClick={prevSlide}>Prev</button> */}
       <div className="slider-dots-box">
         {Array.from({ length: slideCount }).map((_, index) => (
           <div className="dot" key={index} onClick={() => goToSlide(index)}></div>
         ))}
       </div>
-      {/* <button onClick={nextSlide}>Next</button> */}
     </div>
   );
 }

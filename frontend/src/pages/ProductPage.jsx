@@ -24,16 +24,19 @@ export default function ProductPage() {
       .then((data) => {
         setProduct(data);
       })
+      // .then((console.log(product)))
       .catch((error) => {
         console.error(error);
       });
+    // console.log(product)
   };
+    // console.log(product)
 
   return (
     <main>
       {/* Sezione prodotto */}
       <section className="product-section">
-        <figure className="product-image">{/* <img src={product.image} alt={product.name} /> */}</figure>
+        <figure className="product-image"><img src={product?.image} alt={product?.name} /></figure>
 
         <div className="product-info">
           <div className="product-details">

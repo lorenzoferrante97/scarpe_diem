@@ -16,7 +16,7 @@ function index(req, res) {
 
     //! integrazione immagine
     const totalRes = response.map((i) => {
-    //   console.log("req img path: ", req.imagePath);
+      //   console.log("req img path: ", req.imagePath);
       return {
         ...i,
         image: req.imagePath + i.image,
@@ -44,12 +44,11 @@ const show = (req, res) => {
     }
 
     // const product = results[0];
-      // res.json(product);
-      
+    // res.json(product);
 
-        //! integrazione immagine
+    //! integrazione immagine
     const totalRes = results.map((i) => {
-    //   console.log("req img path: ", req.imagePath);
+      //   console.log("req img path: ", req.imagePath);
       return {
         ...i,
         image: req.imagePath + i.image,
@@ -65,7 +64,7 @@ function category(req, res) {
   //   const { category } = req.query.params; // Prendi il parametro category dall'URL
   const category = req.query.name_category;
   const sql =
-    "SELECT p.name AS Prodotto, p.image AS Immagine, p.price AS Prezzo, name_category AS Categoria FROM products AS p JOIN categories ON categories.id = p.category_id WHERE name_category = ? LIMIT 6";
+    "SELECT p.name AS Prodotto, p.image AS Immagine, p.price AS Prezzo, name_category AS Categoria, p.slug AS slug FROM products AS p JOIN categories ON categories.id = p.category_id WHERE name_category = ? LIMIT 6";
 
   connection.query(sql, [category], (err, response) => {
     if (err) {
@@ -79,14 +78,11 @@ function category(req, res) {
         .json({ error: "No products found in this category" });
     }
 
-      
-      // res.json(response);
-      
+    // res.json(response);
 
-      
     //! integrazione immagine
     const totalRes = response.map((i) => {
-    //   console.log("req img path: ", req.imagePath);
+      //   console.log("req img path: ", req.imagePath);
       return {
         ...i,
         Immagine: req.imagePath + i.Immagine,
@@ -99,9 +95,8 @@ function category(req, res) {
 
 // Nuova funzione -> bestsellers (prodotti più venduti)
 function bestsellers(req, res) {
-
-  const sql = 'SELECT p.name AS Prodotto, p.image AS Immagine, p.price AS Prezzo, p.slug AS slug, SUM(po.product_quantity) AS Totale_Vendite FROM product_order po JOIN products p ON po.product_id = p.id GROUP BY p.id, p.name, p.image, p.price ORDER BY Totale_Vendite DESC;';
-
+  const sql =
+    "SELECT p.name AS Prodotto, p.image AS Immagine, p.price AS Prezzo, p.slug AS slug, SUM(po.product_quantity) AS Totale_Vendite FROM product_order po JOIN products p ON po.product_id = p.id GROUP BY p.id, p.name, p.image, p.price ORDER BY Totale_Vendite DESC;";
 
   connection.query(sql, (err, response) => {
     if (err) {
@@ -114,7 +109,7 @@ function bestsellers(req, res) {
     }
 
     const totalRes = response.map((i) => {
-    //   console.log("req img path: ", req.imagePath);
+      //   console.log("req img path: ", req.imagePath);
       return {
         ...i,
         Immagine: req.imagePath + i.Immagine,
@@ -128,7 +123,7 @@ function bestsellers(req, res) {
 // Nuova funzione -> bestseller (prodotto più venduto)
 function bestseller(req, res) {
   const sql =
-    "SELECT p.name AS Prodotto, p.image AS Immagine, p.price AS Prezzo, SUM(po.product_quantity) AS Totale_Vendite FROM product_order po JOIN products p ON po.product_id = p.id GROUP BY p.id, p.name, p.image, p.price ORDER BY Totale_Vendite DESC LIMIT 1;";
+    "SELECT p.slug, p.name AS Prodotto, p.image AS Immagine, p.price AS Prezzo, SUM(po.product_quantity) AS Totale_Vendite FROM product_order po JOIN products p ON po.product_id = p.id GROUP BY p.id, p.name, p.image, p.price ORDER BY Totale_Vendite DESC LIMIT 1;";
 
   connection.query(sql, (err, response) => {
     if (err) {
@@ -140,11 +135,11 @@ function bestseller(req, res) {
       return res.status(404).json({ error: "Bestseller not found" });
     }
 
-      // res.json(response);
-      
+    // res.json(response);
+
     //! integrazione immagine
     const totalRes = response.map((i) => {
-    //   console.log("req img path: ", req.imagePath);
+      //   console.log("req img path: ", req.imagePath);
       return {
         ...i,
         Immagine: req.imagePath + i.Immagine,
@@ -152,7 +147,6 @@ function bestseller(req, res) {
     });
 
     res.json(totalRes[0]);
-      
   });
 }
 
@@ -180,15 +174,13 @@ function newarrivals(req, res) {
 
     if (response.length === 0) {
       return res.status(404).json({ error: "Newarrivals not found" });
-      }
-      
+    }
 
+    // res.json(response);
 
-      // res.json(response);
-      
- //! integrazione immagine
+    //! integrazione immagine
     const totalRes = response.map((i) => {
-    //   console.log("req img path: ", req.imagePath);
+      //   console.log("req img path: ", req.imagePath);
       return {
         ...i,
         image: req.imagePath + i.image,
@@ -196,16 +188,13 @@ function newarrivals(req, res) {
     });
 
     res.json(totalRes);
-
-
-      
   });
 }
 
 // Nuova funzione -> newarrival (ultimo arrivo)
 function newarrival(req, res) {
   const sql =
-    "SELECT * FROM products WHERE insert_date BETWEEN '2024-01-01' AND '2024-04-01' ORDER BY insert_date DESC LIMIT 1;";
+    "SELECT p.slug, p.name AS Prodotto, p.image AS Immagine, p.price AS Prezzo FROM products as p WHERE p.insert_date BETWEEN '2024-01-01' AND '2024-04-01' ORDER BY insert_date DESC LIMIT 1;";
 
   connection.query(sql, (err, response) => {
     if (err) {
@@ -217,15 +206,14 @@ function newarrival(req, res) {
       return res.status(404).json({ error: "Newarrivals not found" });
     }
 
-      // res.json(response);
-      
+    // res.json(response);
 
-       //! integrazione immagine
+    //! integrazione immagine
     const totalRes = response.map((i) => {
-    //   console.log("req img path: ", req.imagePath);
+      //   console.log("req img path: ", req.imagePath);
       return {
         ...i,
-        image: req.imagePath + i.image,
+        Immagine: req.imagePath + i.Immagine,
       };
     });
 
@@ -354,11 +342,10 @@ function indexOrders(req, res) {
 //       return res.status(404).json({ error: "Related not found" });
 //     }
 //       // res.json(response);
-      
 
 function related(req, res) {
-// ! paramrto dinamico 
-  const categoryId = req.query.categoryId; 
+  // ! paramrto dinamico
+  const categoryId = req.query.categoryId;
 
   if (!categoryId) {
     return res.status(400).json({ error: "categoryId mancante" });
@@ -394,12 +381,9 @@ function related(req, res) {
   });
 }
 
-
-
-
 //        //! integrazione immagine
 //     const totalRes = response.map((i) => {
-    //   console.log("req img path: ", req.imagePath);
+//   console.log("req img path: ", req.imagePath);
 //       return {
 //         ...i,
 //         image: req.imagePath + i.image,
@@ -407,9 +391,8 @@ function related(req, res) {
 //     });
 
 //       res.json(totalRes);
-      
 
-//     //  !  DA GUARDARE 
+//     //  !  DA GUARDARE
 //   });
 // }
 
@@ -432,22 +415,18 @@ function search(req, res) {
           error: "Errore Server SEARCH",
         });
 
+      // res.json(results);
 
+      //! integrazione immagine
+      const totalRes = results.map((i) => {
+        //   console.log("req img path: ", req.imagePath);
+        return {
+          ...i,
+          image: req.imagePath + i.image,
+        };
+      });
 
-
-        // res.json(results);
-        
-            //! integrazione immagine
-    const totalRes = results.map((i) => {
-    //   console.log("req img path: ", req.imagePath);
-      return {
-        ...i,
-        image: req.imagePath + i.image,
-      };
-    });
-
-    res.json(totalRes[0]);
-
+      res.json(totalRes[0]);
     }
   );
 }
