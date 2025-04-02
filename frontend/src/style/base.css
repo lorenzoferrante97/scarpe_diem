@@ -302,13 +302,30 @@ main {
 
 .buttons-container {
   display: flex;
+  flex-direction: column;
   justify-content: start;
   align-items: center;
+}
+
+.buttons-container button {
+  width: 100%;
 }
 
 @media (min-width: 1280px) {
   main {
     gap: 160px;
     overflow: visible;
+  }
+}
+
+@media (min-width: 576px) {
+  .buttons-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    align-items: center;
+  }
+  .buttons-container button {
+    width: fit-content;
   }
 }
