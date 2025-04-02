@@ -31,7 +31,7 @@ function index(req, res) {
 const show = (req, res) => {
   const { slug } = req.params;
 
-  const sql = "SELECT * FROM products WHERE slug = ?";
+  const sql = "SELECT p.*, GROUP_CONCAT(s.size ORDER BY s.size) AS sizes, GROUP_CONCAT(ps.quantity ORDER BY s.size) AS quantities FROM products p JOIN product_size ps ON p.id = ps.product_id JOIN sizes s ON ps.size_id = s.id WHERE p.slug = ? GROUP BY p.id;";
 
   connection.query(sql, [slug], (err, results) => {
     if (err) {
