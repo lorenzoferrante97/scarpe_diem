@@ -1,0 +1,63 @@
+.cart-header {
+  width: 80%;
+  margin: 0 auto;
+}
+
+/* section lista prodotti nel carrello */
+.cart-products-list {
+  display: grid;
+  grid-template-columns: 1fr;
+  width: 80%;
+  margin: 0 auto;
+  gap: 2rem;
+}
+
+/* CART CARD -------- */
+
+.cart-card {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: start;
+  gap: 1rem;
+}
+
+/* cart card img */
+.cart-card-img {
+  width: 80px;
+}
+
+/* CART ACTIONS ---------- */
+.cart-actions {
+  width: 92%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* TABLET MINI -------------------------------------------------- */
+@media (min-width: 576px) {
+  .cart-actions {
+    width: fit-content;
+    flex-direction: row;
+  }
+}
+
+/* TABLET -------------------------------------------------- */
+@media (min-width: 768px) {
+  .cart-products-list {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* LAPTOP -------------------------------------------------- */
+@media (min-width: 992px) {
+}
+
+/* DESKTOP -------------------------------------------------- */
+@media (min-width: 1280px) {
+  .cart-products-list {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}

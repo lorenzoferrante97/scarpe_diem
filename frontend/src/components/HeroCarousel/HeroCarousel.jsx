@@ -1,6 +1,6 @@
 import HeroCarouselSlide from './HeroCarouselSlide';
 import React, { useState, useEffect, useRef } from 'react';
-import { useGlobalContext } from "../../contexts/GlobalContext";
+import { useGlobalContext } from '../../contexts/GlobalContext';
 
 export default function HeroCarousel({ autoSlideInterval }) {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -19,10 +19,7 @@ export default function HeroCarousel({ autoSlideInterval }) {
   }, []);
 
   // Optional: Log the data for debugging
-  useEffect(() => {
-    console.log("mostSelledProduct:", mostSelledProduct);
-    console.log("mostRecentProduct:", mostRecentProduct);
-  }, [mostSelledProduct, mostRecentProduct]);
+  useEffect(() => {}, [mostSelledProduct, mostRecentProduct]);
 
   const nextSlide = () => {
     setCurrentIndex((prevIndex) => (prevIndex + 1) % slideCount);
