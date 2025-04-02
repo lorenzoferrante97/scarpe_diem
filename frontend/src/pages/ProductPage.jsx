@@ -1,27 +1,28 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-// import axios from 'axios';
-// import { useGlobalContext } from '../contexts/GlobalContext';
+import { useGlobalContext } from '../contexts/GlobalContext';
 
 export default function ProductPage() {
+  const { cart, addToCart, setCartToLocal, productHandleMultiInput, formData } = useGlobalContext();
+
   const [product, setProduct] = useState(null);
+
+  console.log(formData);
 
   const { slug } = useParams();
 
   useEffect(() => {
-    // axios
-    //   .get(`http://localhost:3000/products/${slug}`)
-    //   .then((res) => setProduct(res)) //setProduct(res.data))
-    //   .then((res) => console.log(res))
-    //   .catch((error) => console.error('errore nel recupero del prodotto', error));
-
     fetchProduct(slug);
+    setCartToLocal();
   }, []);
 
   const fetchProduct = (slug) => {
     fetch(`http://localhost:3000/products/${slug}`)
       .then((response) => response.json())
       .then((data) => {
+        // product?.sizes.split(',').map(Number);
+        // product?.quantities.split(',').map(Number);
+
         setProduct(data);
       })
       // .then((console.log(product)))
@@ -30,13 +31,18 @@ export default function ProductPage() {
       });
     // console.log(product)
   };
-    // console.log(product)
+  // console.log(product)
+
+  // const { size, quantity } = formData;
+  const [maxQuantity, setMaxQuantity] = useState(0);
 
   return (
     <main>
       {/* Sezione prodotto */}
       <section className="product-section">
-        <figure className="product-image"><img src={product?.image} alt={product?.name} /></figure>
+        <figure className="product-image">
+          <img src={product?.image} alt={product?.name} />
+        </figure>
 
         <div className="product-info">
           <div className="product-details">
@@ -53,7 +59,31 @@ export default function ProductPage() {
               Taglia
             </label>
 
-            {/* questa parte non è corretta come logica perchè la size va cercata nella tabella "product_size" */}
+            {/* seleziona taglia */}
+            <select
+              name="size"
+              onChange={(e) => {
+                // find con formdata.size
+                const maxQ = product?.sizes.find((sizeObj) => formData.size == sizeObj.size_number);
+                console.log(maxQ);
+                setMaxQuantity(maxQ);
+                productHandleMultiInput(e);
+              }}
+            >
+              <option value="">Seleziona taglia</option>
+              {/* map di array taglie con altri option */}
+              {product?.sizes.map((size) => {
+                return (
+                  <option key={size.size_id} value={size.size_number}>
+                    {size.size_number}
+                  </option>
+                );
+              })}
+            </select>
+
+            {/* seleziona quantità */}
+            <label htmlFor="quantity">Quantità</label>
+            <input type="number" name="quantity" min="1" max={maxQuantity} value={formData.quantity} onChange={(e) => productHandleMultiInput(e)} />
 
             {/* <select id="size">
               <option>Seleziona una taglia</option>
@@ -64,7 +94,9 @@ export default function ProductPage() {
 
             {/* mancano le icone */}
             <div className="card-actions-box buttons-container">
-              <button className="btn-accent">Aggiungi al carrello</button>
+              <button className="btn-accent" onClick={() => addToCart(product)}>
+                Aggiungi al carrello
+              </button>
               <button className="btn-sec">Salva nella wishlist</button>
             </div>
           </div>
