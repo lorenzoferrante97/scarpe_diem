@@ -101,7 +101,6 @@ h6 {
   font-size: 3rem;
   font-style: normal;
   font-weight: 700;
-  text-transform: capitalize;
 }
 
 /* H2 (I più venduti, correlati ... ) */
@@ -193,6 +192,8 @@ main {
   display: flex;
   flex-direction: column;
   align-items: stretch;
+  gap: 80px;
+  overflow: hidden;
 }
 
 /* HIGH SECTION ---------------- */
@@ -233,7 +234,8 @@ main {
 /* CARD ACTIONS BOX (div che contiene i button per aggiungere al carrello e alla wishlist) */
 
 .card-actions-box {
-  display: flex;
+  /* display: flex; */
+  display: none;
   justify-content: space-between;
   align-items: center;
 }
@@ -296,4 +298,11 @@ main {
 }
 .card-action-wishlist-icon {
   color: var(--color-text);
+}
+
+@media (min-width: 1280px) {
+  main {
+    gap: 160px;
+    overflow: visible;
+  }
 }
