@@ -333,6 +333,7 @@ header {
   border-radius: 900px;
   font-size: 1.25rem;
   font-weight: 500;
+  color: var(--color-text);
 }
 
 .nav-item.active {

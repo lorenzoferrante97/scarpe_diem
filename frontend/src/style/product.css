@@ -62,10 +62,18 @@
 
 /* smartphone landscape / mini tablet */
 @media (min-width: 576px) {
+  .product-image {
+    width: 80%;
+    margin: 0 auto;
+    aspect-ratio: 1/1;
+  }
 }
 
 /* tablet portrait */
 @media (min-width: 768px) {
+  .product-image {
+    width: 60%;
+  }
 }
 
 /* tablet landscape / laptop */
