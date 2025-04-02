@@ -11,7 +11,7 @@ export default function Card({ content }) {
         </figure>
         <div className="card-info-box">
           <h3 className="card-title">{Prodotto}</h3>
-          <span className="card-price">{Prezzo}</span>
+          <span className="card-price">&euro;{Prezzo}</span>
         </div>
         <div className="card-actions-box">
           <button className="card-action-cart">
