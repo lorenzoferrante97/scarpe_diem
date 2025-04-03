@@ -1,20 +1,42 @@
-import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import { useGlobalContext } from '../contexts/GlobalContext';
+import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import { useGlobalContext } from "../contexts/GlobalContext";
+import Carousel from "./../components/Carousel/Carousel";
 
 export default function ProductPage() {
-  const { cart, addToCart, setCartToLocal, productHandleMultiInput, formData } = useGlobalContext();
+  const { cart, addToCart, setCartToLocal, productHandleMultiInput, formData } =
+    useGlobalContext();
 
   const [product, setProduct] = useState(null);
+  const [related, setRelated] = useState(null);
 
-  console.log(formData);
+  // console.log(formData);
 
   const { slug } = useParams();
 
   useEffect(() => {
     fetchProduct(slug);
     setCartToLocal();
-  }, []);
+  }, [slug]);
+
+  //  controllo se il prodotto è stato caricato
+  // se è stato caricato allora faccio la ricerca
+  useEffect(() => {
+    if (product) {
+      handleRelated();
+    }
+  }, [product]);
+
+  const handleRelated = () => {
+    fetch(
+      `http://localhost:3000/products/related?categoryId=${product?.category_id}&slug=${slug}`
+    )
+      .then((response) => response.json())
+      .then((data) => setRelated(data))
+      .catch((error) => {
+        console.error(error);
+      });
+  };
 
   const fetchProduct = (slug) => {
     fetch(`http://localhost:3000/products/${slug}`)
@@ -25,16 +47,15 @@ export default function ProductPage() {
 
         setProduct(data);
       })
-      // .then((console.log(product)))
       .catch((error) => {
         console.error(error);
       });
-    // console.log(product)
   };
-  // console.log(product)
 
   // const { size, quantity } = formData;
   const [maxQuantity, setMaxQuantity] = useState(0);
+
+  // console.log(`quali sono`,related);
 
   return (
     <main>
@@ -87,7 +108,14 @@ export default function ProductPage() {
 
             {/* seleziona quantità */}
             <label htmlFor="quantity">Quantità</label>
-            <input type="number" name="quantity" min="1" max={maxQuantity} value={formData.quantity} onChange={(e) => productHandleMultiInput(e, product, maxQuantity)} />
+            <input
+              type="number"
+              name="quantity"
+              min="1"
+              max={maxQuantity}
+              value={formData.quantity}
+              onChange={(e) => productHandleMultiInput(e, product, maxQuantity)}
+            />
 
             {/* <select id="size">
               <option>Seleziona una taglia</option>
@@ -106,6 +134,18 @@ export default function ProductPage() {
           </div>
         </div>
       </section>
+
+      {/* Sezione prodotti correlati */}
+
+      {related && (
+        <section id="home-category" className="carousel-section">
+          {Array.isArray(related) && related.length > 0 ? (
+            <Carousel array={related} topic="related" />
+          ) : (
+            <p>Prodotti correlati non disponibili</p>
+          )}
+        </section>
+      )}
     </main>
   );
 }
