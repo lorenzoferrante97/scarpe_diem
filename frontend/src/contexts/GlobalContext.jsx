@@ -89,8 +89,9 @@ const GlobalProvider = ({ children }) => {
       const newCart = [...prevCart, {
         ...product,
         selectedSize: formData.size,
-        selectedQuantity: formData.quantity
+        selectedQuantity: formData.quantity,
       }];
+
       localStorage.setItem('cart', JSON.stringify(newCart));
       return newCart;
     });
@@ -120,7 +121,6 @@ const GlobalProvider = ({ children }) => {
       localStorage.setItem('wishlist', JSON.stringify(newWishlist));
       return newWishlist;
     });
-
     localStorage.setItem('wishlist', JSON.stringify([...wishlist, product]));
   };
 

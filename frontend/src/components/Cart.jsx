@@ -20,7 +20,10 @@ export default function Cart() {
         {/* elenco card carrello */}
         <section className="cart-products-list">
           {cart?.map((product, i) => {
-            const { name, image, price, selectedSize, selectedQuantity } = product;
+            const { name, image, price, selectedSize, selectedQuantity, totalPrice } = product;
+            console.log(totalPrice)
+
+            const total = price * selectedQuantity;
 
             return (
               <div key={i} className="cart-card">
@@ -45,6 +48,10 @@ export default function Cart() {
                     <span>Prezzo:</span>
                     <span>€{price}</span>
                   </div>
+                  <div>
+                    <span>Totale:</span>
+                    <span>€{total}</span>
+                  </div>
                 </div>
               </div>
             );
@@ -54,7 +61,9 @@ export default function Cart() {
           <Link to={'/checkout'} className="btn btn-accent">
             Procedi al Checkout
           </Link>
-          <button onClick={() => cleanCart()}>Svuota Carrello</button>
+          <button className="btn-sec" onClick={() => cleanCart()}>
+            Svuota Carrello
+          </button>
         </section>
       </main>
     </>
