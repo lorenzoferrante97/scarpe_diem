@@ -278,12 +278,24 @@
 
 /* HEADER --------------------------- */
 
+.header-btn-container {
+  display: flex;
+}
+
 .header-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 48px;
   aspect-ratio: 1/1;
   padding: 0px;
   border-radius: 900px;
   background-color: transparent;
+}
+
+.header-btn.active {
+  background-color: var(--color-sec-bg);
+  color: var(--color-sec-on-bg);
 }
 
 .header-container {
@@ -300,8 +312,9 @@ header {
   margin: 0 auto;
   min-height: 8vh;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
   gap: 1rem;
   padding-inline: 1rem;
   padding-block: 0.5rem;
@@ -309,6 +322,26 @@ header {
   border-radius: 0.75rem;
   background-color: #ffffff;
   border: 1px solid rgba(33, 33, 33, 8%);
+}
+
+header .logo-box {
+  order: 1;
+  width: 100%;
+  text-align: center;
+}
+
+header .menu-box {
+  order: 2;
+  width: 44%;
+  display: flex;
+}
+
+header .icons-box {
+  order: 3;
+  width: 44%;
+  display: flex;
+  justify-content: end;
+  padding-inline: 0.5rem;
 }
 
 .coupon-box {
@@ -342,12 +375,6 @@ header {
   font-size: 1.25rem;
   font-weight: 500;
   color: var(--color-text);
-}
-
-.nav-item.active {
-  background-color: var(--color-sec-bg);
-  color: var(--color-sec-on-bg);
-  font-weight: 600;
 }
 
 /* smartphone landscape / mini tablet ----------------------------- */
