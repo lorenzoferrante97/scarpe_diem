@@ -55,3 +55,21 @@
   grid-template-columns: 1fr;
   gap: 1rem;
 }
+
+/* smartphone landscape / mini tablet ----------------------------- */
+@media (min-width: 576px) {
+  .search-results-list {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* smartphone landscape / mini tablet ----------------------------- */
+@media (min-width: 768px) {
+}
+
+/* smartphone landscape / mini tablet ----------------------------- */
+@media (min-width: 992px) {
+  .search-results-list {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
