@@ -1,0 +1,14 @@
+.notfound-section {
+  display: flex;
+  flex-direction: column;
+  width: 92%;
+  margin: 0 auto;
+  height: 52vh;
+  justify-content: center;
+  align-items: center;
+}
+
+.notfound-number {
+  font-size: 5rem;
+  color: var(--color-accent-bg);
+}
