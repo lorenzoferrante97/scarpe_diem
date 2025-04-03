@@ -84,22 +84,29 @@ const GlobalProvider = ({ children }) => {
     }
   };
 
-  const addToCart = (product) => {
-    setCart((prevCart) => {
-      const newCart = [...prevCart, {
+const addToCart = (product, size_id, quantity) => {
+  setCart((prevCart) => {
+    const newCart = [
+      ...prevCart,
+      {
         ...product,
-        selectedSize: formData.size,
-        selectedQuantity: formData.quantity,
-      }];
 
-      localStorage.setItem('cart', JSON.stringify(newCart));
-      return newCart;
-    });
+        size_id: size_id, // Usa sempre questa variabile per consistenza
+        selectedQuantity: quantity, // La quantità selezionata
+        selectedSize: formData.size,
+      },
+    ];
+    localStorage.setItem("cart", JSON.stringify(newCart));
+    return newCart;
+  });
+};  
+    
 
     localStorage.setItem('cart', JSON.stringify([...cart, product]));
   };
 
   const cleanCart = () => {
+
     setCart([]);
     localStorage.removeItem('cart');
   };

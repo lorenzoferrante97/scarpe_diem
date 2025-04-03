@@ -53,7 +53,17 @@ export default function ProductPage() {
   const [maxQuantity, setMaxQuantity] = useState(0);
 
   // console.log(`quali sono`,related);
-  console.log(localStorage);
+
+
+
+const [selectedSizeId, setSelectedSizeId] = useState(null);
+console.log("Prodotto aggiunto al carrello:", {
+  product,
+  size_id: selectedSizeId,
+  quantity: formData.quantity,
+});
+
+
   return (
     <main>
       {/* Sezione prodotto */}
@@ -79,28 +89,28 @@ export default function ProductPage() {
 
             {/* seleziona taglia */}
             <select
-              name="size"
-              className="product-input"
-              onChange={(e) => {
-                // find con formdata.size
-                const selectedSizeNumber = e.target.value;
-                const selectedSize = product?.sizes.find((sizeObj) => sizeObj.size_number == selectedSizeNumber);
-                if (selectedSize) {
-                  setMaxQuantity(selectedSize.quantity);
-                }
-                productHandleMultiInput(e, product, maxQuantity);
-              }}
-            >
-              <option value="">Seleziona taglia</option>
-              {/* map di array taglie con altri option */}
-              {product?.sizes.map((size) => {
-                return (
-                  <option key={size.size_id} value={size.size_number}>
-                    {size.size_number}
-                  </option>
-                );
-              })}
-            </select>
+
+  name="size"
+  onChange={(e) => {
+    const selectedSizeNumber = e.target.value;
+    const selectedSize = product?.sizes.find(
+      (sizeObj) => sizeObj.size_number == selectedSizeNumber
+    );
+    if (selectedSize) {
+      setMaxQuantity(selectedSize.quantity); // Imposta la quantità massima disponibile
+      setSelectedSizeId(selectedSize.size_id); // Salva il size_id selezionato
+    }
+    productHandleMultiInput(e, product, maxQuantity);
+  }}
+>
+  <option value="">Seleziona taglia</option>
+  {product?.sizes.map((size) => (
+    <option key={size.size_id} value={size.size_number}>
+      {size.size_number}
+    </option>
+  ))}
+</select>;
+
 
             <div className="product-quantity-box">
               <label htmlFor="quantity" className="text-big">
@@ -126,8 +136,10 @@ export default function ProductPage() {
             </select> */}
 
             {/* mancano le icone */}
-            <div className="product-actions-box">
-              <button className="btn-accent" onClick={() => addToCart(product)}>
+
+            <div className="card-actions-box buttons-container">
+              <button className="btn-accent" onClick={() => addToCart(product, selectedSizeId, formData.quantity)}>
+
                 Aggiungi al carrello
               </button>
               <button className="btn-sec">Salva nella wishlist</button>
