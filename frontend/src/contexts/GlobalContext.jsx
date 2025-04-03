@@ -91,7 +91,7 @@ const GlobalProvider = ({ children }) => {
 
           size_id: size_id, // Usa sempre questa variabile per consistenza
           selectedQuantity: quantity, // La quantità selezionata
-          selectedSize: formData.size,
+          // selectedSize: formData.size,
         },
       ];
       localStorage.setItem('cart', JSON.stringify(newCart));
