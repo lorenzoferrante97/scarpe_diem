@@ -10,18 +10,24 @@ export default function Header() {
         <p>Coupon SCONTO-10</p>
       </div>
       <header>
-        <div>
-          <span className="logo">ScarpeDiem</span>
-        </div>
-        <div>
+        <div className="menu-box">
           <nav>
             <NavLink to={'/'} className="nav-item">
               Home
             </NavLink>
+          </nav>
+        </div>
+        <div className="logo-box">
+          <Link to={'/'} className="logo">
+            ScarpeDiem
+          </Link>
+        </div>
+        <div className="icons-box">
+          <nav>
             {/* cart + wishlist */}
-            <div>
+            <div className="header-btn-container">
               <NavLink to={'/cart'} className="header-btn">
-                <Basket size={24} color="#212121" weight="duotone" />
+                <Basket size={24} color={location.pathname === '/cart' ? '#a92e1b' : '#212121'} weight="duotone" />
               </NavLink>
               <button className="header-btn">
                 <Heart size={24} color="#212121" weight="duotone" />
