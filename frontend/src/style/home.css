@@ -376,6 +376,10 @@ header .icons-box {
   font-weight: 500;
   color: var(--color-text);
 }
+.nav-item.active {
+  color: var(--color-sec-on-bg);
+  background-color: var(--color-sec-bg);
+}
 
 /* smartphone landscape / mini tablet ----------------------------- */
 @media (min-width: 576px) {
