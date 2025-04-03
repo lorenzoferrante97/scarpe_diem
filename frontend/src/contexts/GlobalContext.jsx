@@ -129,9 +129,15 @@ const GlobalProvider = ({ children }) => {
 
   const [formData, setFormData] = useState({ size: 0, quantity: 0 });
 
-  const productHandleMultiInput = (e, product) => {
+  const productHandleMultiInput = (e, product, maxQuantity) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    // setFormData({ ...formData, [name]: value });
+    if (name === "quantity") {
+      const newData = Math.min(value, maxQuantity);
+      setFormData({ ...formData, [name]: newData });
+    } else {
+      setFormData({ ...formData, [name]: value })
+    }
 
     // const arraySizes = product?.sizes.split(',').map(Number);
     // const arrayQuantities = product?.quantities.split(',').map(Number);
