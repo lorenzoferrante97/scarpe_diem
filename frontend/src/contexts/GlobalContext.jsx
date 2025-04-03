@@ -75,8 +75,6 @@ const GlobalProvider = ({ children }) => {
 
   const [cart, setCart] = useState([]);
 
-
-
   const setCartToLocal = () => {
     const savedCart = JSON.parse(localStorage.getItem('cart'));
     if (savedCart) {
@@ -84,29 +82,26 @@ const GlobalProvider = ({ children }) => {
     }
   };
 
-const addToCart = (product, size_id, quantity) => {
-  setCart((prevCart) => {
-    const newCart = [
-      ...prevCart,
-      {
-        ...product,
+  const addToCart = (product, size_id, quantity) => {
+    setCart((prevCart) => {
+      const newCart = [
+        ...prevCart,
+        {
+          ...product,
 
-        size_id: size_id, // Usa sempre questa variabile per consistenza
-        selectedQuantity: quantity, // La quantità selezionata
-        selectedSize: formData.size,
-      },
-    ];
-    localStorage.setItem("cart", JSON.stringify(newCart));
-    return newCart;
-  });
-};  
-    
+          size_id: size_id, // Usa sempre questa variabile per consistenza
+          selectedQuantity: quantity, // La quantità selezionata
+          selectedSize: formData.size,
+        },
+      ];
+      localStorage.setItem('cart', JSON.stringify(newCart));
+      return newCart;
+    });
 
     localStorage.setItem('cart', JSON.stringify([...cart, product]));
   };
 
   const cleanCart = () => {
-
     setCart([]);
     localStorage.removeItem('cart');
   };
@@ -145,11 +140,11 @@ const addToCart = (product, size_id, quantity) => {
   const productHandleMultiInput = (e, product, maxQuantity) => {
     const { name, value } = e.target;
     // setFormData({ ...formData, [name]: value });
-    if (name === "quantity") {
+    if (name === 'quantity') {
       const newData = Math.min(value, maxQuantity);
       setFormData({ ...formData, [name]: newData });
     } else {
-      setFormData({ ...formData, [name]: value })
+      setFormData({ ...formData, [name]: value });
     }
 
     // const arraySizes = product?.sizes.split(',').map(Number);
@@ -159,17 +154,14 @@ const addToCart = (product, size_id, quantity) => {
     // }
   };
 
-
   // serchBar -------------------------------------
 
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState([]);
 
   const handleSearch = (event) => {
     event.preventDefault();
-    fetch(
-      `http://localhost:3000/products/search?name=${searchTerm}&name_category=${searchTerm}&name_brand=${searchTerm}`
-    )
+    fetch(`http://localhost:3000/products/search?name=${searchTerm}&name_category=${searchTerm}&name_brand=${searchTerm}`)
       .then((response) => response.json())
       .then((data) => setSearchResults(data))
       .catch((error) => {
@@ -198,7 +190,7 @@ const addToCart = (product, size_id, quantity) => {
     formData,
     setSearchTerm,
     searchResults,
-    handleSearch
+    handleSearch,
   };
   return <GlobalContext.Provider value={value}>{children}</GlobalContext.Provider>;
 };
