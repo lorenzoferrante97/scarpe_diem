@@ -56,7 +56,7 @@ export default function ProductPage() {
   const [maxQuantity, setMaxQuantity] = useState(0);
 
   // console.log(`quali sono`,related);
-
+  console.log(localStorage)
   return (
     <main>
       {/* Sezione prodotto */}
