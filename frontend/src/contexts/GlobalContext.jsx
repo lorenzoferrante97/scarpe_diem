@@ -140,6 +140,23 @@ const GlobalProvider = ({ children }) => {
     // }
   };
 
+
+  // serchBar -------------------------------------
+
+   const [searchTerm, setSearchTerm] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+
+  const handleSearch = (event) => {
+    event.preventDefault(); 
+    fetch(
+      `http://localhost:3000/products/search?name=${searchTerm}&name_category=${searchTerm}&name_brand=${searchTerm}`
+    )
+      .then((response) => response.json())
+      .then((data) => setSearchResults(data))
+      .catch((error) => {
+        console.error(error);
+      });
+  };
   const value = {
     activeDotIndex,
     mostSelled,
@@ -160,6 +177,9 @@ const GlobalProvider = ({ children }) => {
     cleanWishlist,
     productHandleMultiInput,
     formData,
+    setSearchTerm,
+    searchResults,
+    handleSearch
   };
   return <GlobalContext.Provider value={value}>{children}</GlobalContext.Provider>;
 };
