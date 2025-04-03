@@ -75,6 +75,8 @@ const GlobalProvider = ({ children }) => {
 
   const [cart, setCart] = useState([]);
 
+
+
   const setCartToLocal = () => {
     const savedCart = JSON.parse(localStorage.getItem('cart'));
     if (savedCart) {
@@ -84,7 +86,11 @@ const GlobalProvider = ({ children }) => {
 
   const addToCart = (product) => {
     setCart((prevCart) => {
-      const newCart = [...prevCart, product];
+      const newCart = [...prevCart, {
+        ...product,
+        selectedSize: formData.size,
+        selectedQuantity: formData.quantity
+      }];
       localStorage.setItem('cart', JSON.stringify(newCart));
       return newCart;
     });
@@ -149,11 +155,11 @@ const GlobalProvider = ({ children }) => {
 
   // serchBar -------------------------------------
 
-   const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState([]);
 
   const handleSearch = (event) => {
-    event.preventDefault(); 
+    event.preventDefault();
     fetch(
       `http://localhost:3000/products/search?name=${searchTerm}&name_category=${searchTerm}&name_brand=${searchTerm}`
     )
