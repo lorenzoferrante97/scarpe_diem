@@ -5,7 +5,7 @@ import Footer from '../components/Footer';
 export default function DefaultLayout() {
   return (
     <>
-      <section>
+      <section className="wrapper">
         <Header />
         <Outlet />
         <Footer />

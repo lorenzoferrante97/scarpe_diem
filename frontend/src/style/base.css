@@ -192,16 +192,25 @@ button {
   background-color: #212121;
 }
 
+/* WRAPPER */
+
+.wrapper {
+  min-height: 100vh;
+  position: relative;
+}
+
 /* MAIN --------------------------------------------------------- */
 main {
   width: 100%;
   max-width: 1280px;
+  min-height: 52vh;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
   align-items: stretch;
   gap: 80px;
   overflow: hidden;
+  padding-bottom: 48px;
 }
 
 /* HIGH SECTION ---------------- */
@@ -334,6 +343,10 @@ main {
     align-items: center;
   }
   .buttons-container button {
+    width: fit-content;
+  }
+
+  button {
     width: fit-content;
   }
 }

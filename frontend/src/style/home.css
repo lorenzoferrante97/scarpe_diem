@@ -305,12 +305,12 @@
   align-items: stretch;
   gap: 0.5rem;
   margin-top: 1rem;
+  min-height: 24vh;
 }
 
 header {
   width: 92%;
   margin: 0 auto;
-  min-height: 8vh;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -383,6 +383,10 @@ header .icons-box {
 
 /* smartphone landscape / mini tablet ----------------------------- */
 @media (min-width: 576px) {
+  .header-container {
+    min-height: 16vh;
+  }
+
   header {
     flex-direction: row;
     justify-content: space-between;
@@ -430,6 +434,25 @@ header .icons-box {
 
 /* tablet portrait ---------------------------------------------- */
 @media (min-width: 768px) {
+  .header-container {
+    min-height: 12vh;
+  }
+
+  header .menu-box {
+    order: 1;
+    width: 20%;
+  }
+
+  header .logo-box {
+    order: 2;
+    width: 52%;
+  }
+
+  header .icons-box {
+    order: 3;
+    width: 20%;
+  }
+
   .hero-img {
     width: 720px;
     position: relative;
@@ -487,6 +510,12 @@ header .icons-box {
 
 /* tablet landscape / laptop -------------------------------------- */
 @media (min-width: 992px) {
+  .header-container {
+    position: sticky;
+    top: 1rem;
+    z-index: 10;
+  }
+
   header {
     max-width: 96%;
   }
@@ -559,6 +588,10 @@ header .icons-box {
 
 /* desktop -------------------------------------------- */
 @media (min-width: 1280px) {
+  .header-container {
+    min-height: 16vh;
+  }
+
   .hero-bg {
     gap: 0px;
     height: 52vh;
