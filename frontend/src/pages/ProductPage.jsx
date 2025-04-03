@@ -64,10 +64,14 @@ export default function ProductPage() {
               name="size"
               onChange={(e) => {
                 // find con formdata.size
-                const maxQ = product?.sizes.find((sizeObj) => formData.size == sizeObj.size_number);
-                console.log(maxQ);
-                setMaxQuantity(maxQ);
-                productHandleMultiInput(e);
+                const selectedSizeNumber = e.target.value;
+                const selectedSize = product?.sizes.find(
+                  (sizeObj) => sizeObj.size_number == selectedSizeNumber
+                );
+                if (selectedSize) {
+                  setMaxQuantity(selectedSize.quantity);
+                }
+                productHandleMultiInput(e, product, maxQuantity);
               }}
             >
               <option value="">Seleziona taglia</option>
@@ -83,7 +87,7 @@ export default function ProductPage() {
 
             {/* seleziona quantità */}
             <label htmlFor="quantity">Quantità</label>
-            <input type="number" name="quantity" min="1" max={maxQuantity} value={formData.quantity} onChange={(e) => productHandleMultiInput(e)} />
+            <input type="number" name="quantity" min="1" max={maxQuantity} value={formData.quantity} onChange={(e) => productHandleMultiInput(e, product, maxQuantity)} />
 
             {/* <select id="size">
               <option>Seleziona una taglia</option>
