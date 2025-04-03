@@ -90,14 +90,23 @@ const addToCart = (product, size_id, quantity) => {
       ...prevCart,
       {
         ...product,
+
         size_id: size_id, // Usa sempre questa variabile per consistenza
         selectedQuantity: quantity, // La quantità selezionata
+        selectedSize: formData.size,
       },
     ];
     localStorage.setItem("cart", JSON.stringify(newCart));
     return newCart;
   });
-};  const cleanCart = () => {
+};  
+    
+
+    localStorage.setItem('cart', JSON.stringify([...cart, product]));
+  };
+
+  const cleanCart = () => {
+
     setCart([]);
     localStorage.removeItem('cart');
   };
@@ -119,7 +128,6 @@ const addToCart = (product, size_id, quantity) => {
       localStorage.setItem('wishlist', JSON.stringify(newWishlist));
       return newWishlist;
     });
-
     localStorage.setItem('wishlist', JSON.stringify([...wishlist, product]));
   };
 

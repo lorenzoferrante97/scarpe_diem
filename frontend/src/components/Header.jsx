@@ -30,10 +30,10 @@ export default function Header() {
                 <Basket size={24} color={location.pathname === '/cart' ? '#a92e1b' : '#212121'} weight="duotone" />
               </NavLink>
               <button className="header-btn">
-                <Heart size={24} color="#212121" weight="duotone" />
+                <Heart size={24} color={location.pathname === '/wishlist' ? '#a92e1b' : '#212121'} weight="duotone" />
               </button>
               <NavLink to={'/search'} className="header-btn">
-                <MagnifyingGlass size={24} color="#212121" weight="duotone" />
+                <MagnifyingGlass size={24} color={location.pathname === '/search' ? '#a92e1b' : '#212121'} weight="duotone" />
               </NavLink>
             </div>
           </nav>

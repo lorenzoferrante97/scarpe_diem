@@ -1,11 +1,10 @@
-import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
-import { useGlobalContext } from "../contexts/GlobalContext";
-import Carousel from "./../components/Carousel/Carousel";
+import { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import { useGlobalContext } from '../contexts/GlobalContext';
+import Carousel from './../components/Carousel/Carousel';
 
 export default function ProductPage() {
-  const { cart, addToCart, setCartToLocal, productHandleMultiInput, formData } =
-    useGlobalContext();
+  const { cart, addToCart, setCartToLocal, productHandleMultiInput, formData } = useGlobalContext();
 
   const [product, setProduct] = useState(null);
   const [related, setRelated] = useState(null);
@@ -28,9 +27,7 @@ export default function ProductPage() {
   }, [product]);
 
   const handleRelated = () => {
-    fetch(
-      `http://localhost:3000/products/related?categoryId=${product?.category_id}&slug=${slug}`
-    )
+    fetch(`http://localhost:3000/products/related?categoryId=${product?.category_id}&slug=${slug}`)
       .then((response) => response.json())
       .then((data) => setRelated(data))
       .catch((error) => {
@@ -56,7 +53,7 @@ export default function ProductPage() {
   const [maxQuantity, setMaxQuantity] = useState(0);
 
   // console.log(`quali sono`,related);
-  console.log(localStorage)
+
 
 
 const [selectedSizeId, setSelectedSizeId] = useState(null);
@@ -65,6 +62,7 @@ console.log("Prodotto aggiunto al carrello:", {
   size_id: selectedSizeId,
   quantity: formData.quantity,
 });
+
 
   return (
     <main>
@@ -84,13 +82,14 @@ console.log("Prodotto aggiunto al carrello:", {
             <p className="product-price">{product?.price}</p>
           </div>
 
-          <div className="product-actions-box">
+          <div className="product-form-box">
             <label className="text-big" htmlFor="size">
               Taglia
             </label>
 
             {/* seleziona taglia */}
             <select
+
   name="size"
   onChange={(e) => {
     const selectedSizeNumber = e.target.value;
@@ -112,16 +111,22 @@ console.log("Prodotto aggiunto al carrello:", {
   ))}
 </select>;
 
-            {/* seleziona quantità */}
-            <label htmlFor="quantity">Quantità</label>
-            <input
-              type="number"
-              name="quantity"
-              min="1"
-              max={maxQuantity}
-              value={formData.quantity}
-              onChange={(e) => productHandleMultiInput(e, product, maxQuantity)}
-            />
+
+            <div className="product-quantity-box">
+              <label htmlFor="quantity" className="text-big">
+                Quantità
+              </label>
+              <div className="quantity-input-box">
+                {/* seleziona quantità */}
+                <input className="product-input" type="number" name="quantity" min="1" max={maxQuantity} value={formData.quantity} onChange={(e) => productHandleMultiInput(e, product, maxQuantity)} />
+                {/* alert quantità disponibile */}
+                {maxQuantity !== 0 ? (
+                  <div className="alert-quantity">
+                    <span>{maxQuantity} prodotti disponibili</span>
+                  </div>
+                ) : null}
+              </div>
+            </div>
 
             {/* <select id="size">
               <option>Seleziona una taglia</option>
@@ -131,8 +136,10 @@ console.log("Prodotto aggiunto al carrello:", {
             </select> */}
 
             {/* mancano le icone */}
+
             <div className="card-actions-box buttons-container">
               <button className="btn-accent" onClick={() => addToCart(product, selectedSizeId, formData.quantity)}>
+
                 Aggiungi al carrello
               </button>
               <button className="btn-sec">Salva nella wishlist</button>
@@ -145,11 +152,7 @@ console.log("Prodotto aggiunto al carrello:", {
 
       {related && (
         <section id="home-category" className="carousel-section">
-          {Array.isArray(related) && related.length > 0 ? (
-            <Carousel array={related} topic="related" />
-          ) : (
-            <p>Prodotti correlati non disponibili</p>
-          )}
+          {Array.isArray(related) && related.length > 0 ? <Carousel array={related} topic="related" /> : <p>Prodotti correlati non disponibili</p>}
         </section>
       )}
     </main>
