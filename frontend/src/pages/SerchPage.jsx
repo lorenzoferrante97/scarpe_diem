@@ -6,8 +6,6 @@ import { useEffect } from 'react';
 export default function SearchPage() {
   const { setSearchTerm, handleSearch, searchResults } = useGlobalContext();
 
-  useEffect(() => window.scrollTo(0, 0), []);
-
   return (
     <>
       <main>

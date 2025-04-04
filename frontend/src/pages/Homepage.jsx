@@ -9,7 +9,6 @@ export default function HomePage() {
   const { mostSelled, categoryProducts, fetchMostSelled, fetchCategoryProducts } = useGlobalContext();
 
   useEffect(() => {
-    window.scrollTo(0, 0);
     fetchMostSelled();
     fetchCategoryProducts();
   }, []);
