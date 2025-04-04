@@ -18,8 +18,7 @@ export default function Cart() {
         {/* elenco card carrello */}
         <section className="cart-products-list">
           {cart?.map((product, i) => {
-            const { name, image, price, selectedSize, selectedQuantity, totalPrice } = product;
-            console.log(totalPrice);
+            const { name, image, price, selectedSize, selectedQuantity } = product;
 
             const total = price * selectedQuantity;
 

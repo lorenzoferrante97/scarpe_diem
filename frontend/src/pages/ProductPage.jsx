@@ -4,7 +4,7 @@ import { useGlobalContext } from '../contexts/GlobalContext';
 import Carousel from './../components/Carousel/Carousel';
 
 export default function ProductPage() {
-  const { addToCart, setCartToLocal, productHandleMultiInput, formData, setWishlistToLocal, addToWishlist, selectedSizeId, setSizeId, maxQuantity, setMaxQuantityId, resetFormData } = useGlobalContext();
+  const { addToCart, setCartToLocal, productHandleMultiInput, formData, setWishlistToLocal, addToWishlist, selectedSizeId, setSizeId, maxQuantity, setMaxQuantityId, resetFormData, cart } = useGlobalContext();
 
   const [product, setProduct] = useState(null);
   const [related, setRelated] = useState(null);

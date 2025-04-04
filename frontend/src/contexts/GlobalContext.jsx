@@ -80,9 +80,18 @@ const GlobalProvider = ({ children }) => {
     }
   };
 
+  let isExistingProduct = false;
+  let existingProductId = 0;
+
+  const [foundExistingProduct, setFoundExistingProduct] = useState(null);
+
   const addToCart = (product, size_id, quantity) => {
+    let newCart = [];
+
     setCart((prevCart) => {
-      const newCart = [
+      // verificare se il prodotto esiste già nel carrello
+
+      newCart = [
         ...prevCart,
         {
           ...product,
@@ -92,7 +101,51 @@ const GlobalProvider = ({ children }) => {
           selectedSize: formData.size,
         },
       ];
+
       localStorage.setItem('cart', JSON.stringify(newCart));
+
+      // controlli per prodotto già inserito
+      const prevStorage = JSON.parse(localStorage.getItem('cart'));
+
+      // se c'è qualcosa nel local storage, controlli
+      if (prevStorage.length > 1) {
+        // console.table(prevStorage);
+        prevStorage?.forEach((product) => {
+          // console.table(product);
+          const { id } = product;
+
+          if (product.size_id == size_id) {
+            isExistingProduct = true;
+            existingProductId = id;
+          }
+        });
+      }
+
+      if (isExistingProduct) {
+        // find il prodotto esistente
+
+        setFoundExistingProduct(prevCart?.find((product) => product.id === existingProductId));
+
+        // aggiorna quantità prodotto esistente
+        setFoundExistingProduct({
+          ...foundExistingProduct,
+          selectedQuantity: selectedQuantity + quantity,
+        });
+
+        // trova ed elimina il vecchio prodotto da aggiornare in quantità
+        const productIndexToDelete = prevCart.findIndex((product) => product.id == foundExistingProduct?.id);
+
+        // ricavare index nell'array in base a queste condizioni: -> scarpe che hanno stesso id && stessa taglia di foundExistingProduct
+
+        // eliminare i product con quegli index in un ciclo
+        prevCart.splice(productIndexToDelete, 1);
+
+        // trovare il modo di aggiungere quella con quantità aggiornata (foundExistingProduct)
+        newCart = [...prevCart, foundExistingProduct];
+      } else {
+        null;
+      }
+
       return newCart;
     });
   };
