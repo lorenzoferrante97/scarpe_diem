@@ -1,6 +1,4 @@
 import { createContext, useState, useContext } from 'react';
-// import { useParams } from 'react-router-dom';
-// import axios from 'axios';
 
 const GlobalContext = createContext();
 
@@ -40,14 +38,6 @@ const GlobalProvider = ({ children }) => {
   // most selled product
   const [mostSelledProduct, setMostSelledProduct] = useState(null);
 
-  // const fetchMostSelledProduct = () => {
-  //   fetch('http://localhost:3000/products/bestseller')
-  //     .then((response) => response.json())
-  //     .then((data) => setMostSelledProduct(data[0]))
-  //     .catch((error) => {
-  //       console.error(error);
-  //     });
-  // };
   const fetchMostSelledProduct = () => {
     fetch('http://localhost:3000/products/bestseller')
       .then((response) => response.json())
@@ -74,11 +64,19 @@ const GlobalProvider = ({ children }) => {
   // CARRELLO ------------------------------------------
 
   const [cart, setCart] = useState([]);
+  const [wishlist, setWishlist] = useState([]);
 
   const setCartToLocal = () => {
     const savedCart = JSON.parse(localStorage.getItem('cart'));
     if (savedCart) {
       setCart(savedCart);
+    }
+  };
+  // wishlist to local
+  const setWishlistToLocal = () => {
+    const savedWishlist = JSON.parse(localStorage.getItem('wishlist'));
+    if (savedWishlist) {
+      setWishlist(savedWishlist);
     }
   };
 
@@ -97,8 +95,24 @@ const GlobalProvider = ({ children }) => {
       localStorage.setItem('cart', JSON.stringify(newCart));
       return newCart;
     });
+  };
 
-    localStorage.setItem('cart', JSON.stringify([...cart, product]));
+  // add to wishlist
+  const addToWishlist = (product, size_id, quantity) => {
+    setWishlist((prevWish) => {
+      const newWish = [
+        ...prevWish,
+        {
+          ...product,
+
+          size_id: size_id, // Usa sempre questa variabile per consistenza
+          selectedQuantity: quantity, // La quantità selezionata
+          selectedSize: formData.size,
+        },
+      ];
+      localStorage.setItem('wishlist', JSON.stringify(newWish));
+      return newWish;
+    });
   };
 
   const cleanCart = () => {
@@ -106,71 +120,29 @@ const GlobalProvider = ({ children }) => {
     localStorage.removeItem('cart');
   };
 
-  // WISHLIST -------------------------------------
-
-  // const [wishlist, setWishlist] = useState([]);
-
-  // const setWishlistToLocal = () => {
-  //   const savedWishlist = JSON.parse(localStorage.getItem('wishlist'));
-  //   if (savedWishlist) {
-  //     setWishlist(savedWishlist);
-  //   }
-  // };
-
-  // // const addToWishlist = (product) => {
-  // //   setWishlist((prevWish) => {
-  // //     const newWishlist = [...prevWish, product];
-  // //     localStorage.setItem('wishlist', JSON.stringify(newWishlist));
-  // //     return newWishlist;
-  // //   });
-  // //   localStorage.setItem('wishlist', JSON.stringify([...wishlist, product]));
-  // // };
-
-  // const addToWishlist = (product, size_id, quantity) => {
-  //   setWishlist((prevWish) => {
-  //     const newWish = [
-  //       ...prevWish,
-  //       {
-  //         ...product,
-
-  //         size_id: size_id, // Usa sempre questa variabile per consistenza
-  //         selectedQuantity: quantity, // La quantità selezionata
-  //         selectedSize: formData.size,
-  //       },
-  //     ];
-  //     localStorage.setItem('wishlist', JSON.stringify(newWish));
-  //     return newWish;
-  //   });
-
-  //   localStorage.setItem('wishlist', JSON.stringify([...wishlist, product]));
-  // };
-
-  // const cleanWishlist = () => {
-  //   setWishlist([]);
-  //   localStorage.removeItem('wishlist');
-  // };
+  const cleanWishlist = () => {
+    setWishlist([]);
+    localStorage.removeItem('wishlist');
+  };
 
   // SIZES & QUANTITY PRODUCT PAGE
-  // const [selectedSize, setSelectedSize] = useState(0);
-  // const [selectedQuantity, setSelectedQuantity] = useState(0);
+  const [selectedSize, setSelectedSize] = useState(0);
+  const [selectedQuantity, setSelectedQuantity] = useState(0);
 
-  const [formData, setFormData] = useState({ size: 0, quantity: 0 });
+  const [formData, setFormData] = useState({ size: 0, quantity: 1 });
+
+  const resetFormData = () => {
+    setFormData({ size: 0, quantity: 1 });
+  };
 
   const productHandleMultiInput = (e, product, maxQuantity) => {
     const { name, value } = e.target;
-    // setFormData({ ...formData, [name]: value });
     if (name === 'quantity') {
       const newData = Math.min(value, maxQuantity);
       setFormData({ ...formData, [name]: newData });
     } else {
       setFormData({ ...formData, [name]: value });
     }
-
-    // const arraySizes = product?.sizes.split(',').map(Number);
-    // const arrayQuantities = product?.quantities.split(',').map(Number);
-    // for (let y = 0; y < arraySizes.length; y++) {
-    //   arraySizes[y] == formData.size ? setMaxQuantity(arrayQuantities[y]) : null;
-    // }
   };
 
   // serchBar -------------------------------------
@@ -187,6 +159,21 @@ const GlobalProvider = ({ children }) => {
         console.error(error);
       });
   };
+
+  // global size id
+  const [selectedSizeId, setSelectedSizeId] = useState(0);
+
+  const setSizeId = (selectedSize) => {
+    setSelectedSizeId(selectedSize);
+  };
+
+  // globa max quantity
+  const [maxQuantity, setMaxQuantity] = useState(1);
+
+  const setMaxQuantityId = (maxQuantity) => {
+    setMaxQuantity(maxQuantity);
+  };
+
   const value = {
     activeDotIndex,
     mostSelled,
@@ -207,6 +194,15 @@ const GlobalProvider = ({ children }) => {
     setSearchTerm,
     searchResults,
     handleSearch,
+    setWishlistToLocal,
+    wishlist,
+    cleanWishlist,
+    addToWishlist,
+    setSizeId,
+    selectedSizeId,
+    maxQuantity,
+    setMaxQuantityId,
+    resetFormData,
   };
   return <GlobalContext.Provider value={value}>{children}</GlobalContext.Provider>;
 };

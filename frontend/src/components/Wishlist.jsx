@@ -3,10 +3,11 @@ import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 export default function Cart() {
-  const { wishlist, cleanWishlist, setWishlistToLocal } = useGlobalContext();
+  const { wishlist, cleanWishlist, setWishlistToLocal, addToCart, setCartToLocal, selectedSizeId, formData } = useGlobalContext();
 
   useEffect(() => {
-    // setWishlistToLocal();
+    setWishlistToLocal();
+    setCartToLocal();
   }, []);
 
   return (
@@ -18,7 +19,7 @@ export default function Cart() {
         {/* elenco card carrello */}
         <section className="cart-products-list">
           {wishlist?.map((product, i) => {
-            const { name, image, price, selectedSize, selectedQuantity, totalPrice } = product;
+            const { name, image, price, selectedSize, selectedQuantity } = product;
 
             const total = price * selectedQuantity;
 
@@ -49,10 +50,11 @@ export default function Cart() {
             );
           })}
         </section>
+
         <section className="cart-actions">
-          {/* <Link to={'/checkout'} className="btn btn-accent">
-            Procedi al Checkout
-          </Link> */}
+          {/* <button className="btn-accent" onClick={() => addToCart(product, selectedSizeId, formData.quantity)}>
+            Svuota Wishlist
+          </button> */}
           <button className="btn-sec" onClick={() => cleanWishlist()}>
             Svuota Wishlist
           </button>

@@ -5,8 +5,6 @@ import { Link } from 'react-router-dom';
 export default function Cart() {
   const { cart, cleanCart, setCartToLocal } = useGlobalContext();
 
-  console.log('cart: ', cart);
-
   useEffect(() => {
     setCartToLocal();
   }, []);

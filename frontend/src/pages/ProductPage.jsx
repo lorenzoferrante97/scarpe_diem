@@ -4,19 +4,23 @@ import { useGlobalContext } from '../contexts/GlobalContext';
 import Carousel from './../components/Carousel/Carousel';
 
 export default function ProductPage() {
-  const { cart, addToCart, setCartToLocal, productHandleMultiInput, formData } = useGlobalContext();
+  const { addToCart, setCartToLocal, productHandleMultiInput, formData, setWishlistToLocal, addToWishlist, selectedSizeId, setSizeId, maxQuantity, setMaxQuantityId, resetFormData } = useGlobalContext();
 
   const [product, setProduct] = useState(null);
   const [related, setRelated] = useState(null);
 
-  // console.log(formData);
-
   const { slug } = useParams();
+
+  useEffect(() => {
+    resetFormData();
+    setSizeId(0);
+    setMaxQuantityId(1);
+  }, []);
 
   useEffect(() => {
     fetchProduct(slug);
     setCartToLocal();
-    // setWishlistToLocal();
+    setWishlistToLocal();
   }, [slug]);
 
   //  controllo se il prodotto è stato caricato
@@ -40,9 +44,6 @@ export default function ProductPage() {
     fetch(`http://localhost:3000/products/${slug}`)
       .then((response) => response.json())
       .then((data) => {
-        // product?.sizes.split(',').map(Number);
-        // product?.quantities.split(',').map(Number);
-
         setProduct(data);
       })
       .catch((error) => {
@@ -51,16 +52,9 @@ export default function ProductPage() {
   };
 
   // const { size, quantity } = formData;
-  const [maxQuantity, setMaxQuantity] = useState(0);
+  // const [maxQuantity, setMaxQuantity] = useState(1);
 
-  // console.log(`quali sono`,related);
-
-  const [selectedSizeId, setSelectedSizeId] = useState(null);
-  console.log('Prodotto aggiunto al carrello:', {
-    product,
-    size_id: selectedSizeId,
-    quantity: formData.quantity,
-  });
+  // const [selectedSizeId, setSelectedSizeId] = useState(null);
 
   return (
     <main>
@@ -72,9 +66,6 @@ export default function ProductPage() {
 
         <div className="product-info">
           <div className="product-details">
-            {/* questa parte non è corretta come logica perchè la category va cercata nella tabella "category" */}
-
-            {/* <span className="badge badge-text"> {product?.category} </span> */}
             <h1 className="h1"> {product?.name} </h1>
             <p>{product?.description}</p>
             <p className="product-price">{product?.price}</p>
@@ -92,8 +83,10 @@ export default function ProductPage() {
                 const selectedSizeNumber = e.target.value;
                 const selectedSize = product?.sizes.find((sizeObj) => sizeObj.size_number == selectedSizeNumber);
                 if (selectedSize) {
-                  setMaxQuantity(selectedSize.quantity); // Imposta la quantità massima disponibile
-                  setSelectedSizeId(selectedSize.size_id); // Salva il size_id selezionato
+                  // setMaxQuantity(selectedSize.quantity); // Imposta la quantità massima disponibile
+                  setMaxQuantityId(selectedSize.quantity);
+                  setSizeId(selectedSize.size_id);
+                  // setSelectedSizeId(selectedSize.size_id); // Salva il size_id selezionato
                 }
                 productHandleMultiInput(e, product, maxQuantity);
               }}
@@ -113,33 +106,29 @@ export default function ProductPage() {
               <div className="quantity-input-box">
                 {/* seleziona quantità */}
                 <input className="product-input" type="number" name="quantity" min="1" max={maxQuantity} value={formData.quantity} onChange={(e) => productHandleMultiInput(e, product, maxQuantity)} />
+
                 {/* alert quantità disponibile */}
-                {maxQuantity !== 0 ? (
+                {formData.size === 0 ? (
+                  <span></span>
+                ) : (
                   <div className="alert-quantity">
                     <span>{maxQuantity} prodotti disponibili</span>
                   </div>
-                ) : null}
+                )}
               </div>
             </div>
-            {/* <select id="size">
-              <option>Seleziona una taglia</option>
-              {product.size.map((size) => (
-                <option key={size}> {size} </option>
-              ))}
-            </select> */}
-            {/* mancano le icone */}
+
             <div className="card-actions-box buttons-container">
               <button className="btn-accent" onClick={() => addToCart(product, selectedSizeId, formData.quantity)}>
                 Aggiungi al carrello
               </button>
-              {/* <button className="btn-sec" onClick={() => addToWishlist(product, selectedSizeId, formData.quantity)}>
+              <button className="btn-sec" onClick={() => addToWishlist(product, selectedSizeId, formData.quantity)}>
                 Aggiungi alla Wishlist
-              </button> */}
+              </button>
             </div>
           </div>
         </div>
       </section>
-      {/* addToWishlist */}
 
       {/* Sezione prodotti correlati */}
 

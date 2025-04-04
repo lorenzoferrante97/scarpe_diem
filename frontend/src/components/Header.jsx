@@ -29,9 +29,9 @@ export default function Header() {
               <NavLink to={'/cart'} className="header-btn">
                 <Basket size={24} color={location.pathname === '/cart' ? '#a92e1b' : '#212121'} weight="duotone" />
               </NavLink>
-              {/* <NavLink to={'/wishlist'} className="header-btn">
+              <NavLink to={'/wishlist'} className="header-btn">
                 <Heart size={24} color={location.pathname === '/wishlist' ? '#a92e1b' : '#212121'} weight="duotone" />
-              </NavLink> */}
+              </NavLink>
               <NavLink to={'/search'} className="header-btn">
                 <MagnifyingGlass size={24} color={location.pathname === '/search' ? '#a92e1b' : '#212121'} weight="duotone" />
               </NavLink>
