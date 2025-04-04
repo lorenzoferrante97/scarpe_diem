@@ -494,9 +494,9 @@ function getCoupon(req, res) {
 function checkout(req, res) {
   let dati = req.body;
   let totale = 0;
-  let couponId = dati.coupon_id ? dati.coupon_id : null;
+  let couponCode = dati.coupon ? dati.coupon : null; // Ora usiamo coupon anziché coupon_id
 
-  // Valida i dati in ingresso
+  // La validazione dei dati rimane invariata
   if (
     !dati.nome ||
     !dati.cognome ||
@@ -510,22 +510,23 @@ function checkout(req, res) {
     return res.status(400).json({ error: "Dati ordine incompleti" });
   }
 
-  // Calcolo il totale
+  // Calcolo del totale
   for (let i = 0; i < dati.carrello.length; i++) {
     totale += dati.carrello[i].prezzo * dati.carrello[i].quantita;
   }
 
-  // Inizio la transazione per garantire la consistenza dei dati
+  // Inizio transazione
   connection.beginTransaction((err) => {
     if (err)
       return res
         .status(500)
         .json({ error: "Errore nell'avvio della transazione" });
 
-    // Gestione coupon
-    if (couponId) {
-      let sqlCoupon = "SELECT discount FROM coupons WHERE id = ?";
-      connection.query(sqlCoupon, [couponId], (err, results) => {
+    // Gestione coupon - ora usando il codice anziché l'ID
+    if (couponCode) {
+      // Query per trovare il coupon tramite codice e verificare che sia valido (entro l'intervallo di date)
+      let sqlCoupon = "SELECT id, discount FROM coupons WHERE code = ? AND CURDATE() BETWEEN start_date AND end_date";
+      connection.query(sqlCoupon, [couponCode], (err, results) => {
         if (err) {
           return connection.rollback(() => {
             res.status(500).json({ error: "Errore nella verifica del coupon" });
@@ -534,21 +535,26 @@ function checkout(req, res) {
 
         if (results.length > 0) {
           let sconto = results[0].discount;
+          let couponId = results[0].id; // Otteniamo l'ID per il riferimento nel database
           totale = totale - (totale * sconto) / 100;
+          inserisciOrdine(couponId); // Passiamo l'ID del coupon trovato
+        } else {
+          // Se non viene trovato un coupon valido
+          inserisciOrdine(null);
         }
-        inserisciOrdine();
       });
     } else {
-      inserisciOrdine();
+      inserisciOrdine(null);
     }
   });
 
-  function inserisciOrdine() {
+  // Modificata per accettare l'ID del coupon dalla ricerca
+  function inserisciOrdine(couponId) {
     let sqlOrdine =
       "INSERT INTO orders (order_date, coupon_id, address_shipping, address_payment, phone_number, mail, total, name, surname) VALUES (CURDATE(), ?, ?, ?, ?, ?, ?, ?, ?)";
 
     let valoriOrdine = [
-      couponId,
+      couponId, // Questo ora proviene dalla ricerca del codice coupon
       dati.indirizzo_spedizione,
       dati.indirizzo_pagamento,
       dati.telefono,
@@ -557,6 +563,7 @@ function checkout(req, res) {
       dati.nome,
       dati.cognome,
     ];
+
 
     connection.query(sqlOrdine, valoriOrdine, (err, risultato) => {
       if (err) {
