@@ -108,28 +108,47 @@ const GlobalProvider = ({ children }) => {
 
   // WISHLIST -------------------------------------
 
-  const [wishlist, setWishlist] = useState([]);
+  // const [wishlist, setWishlist] = useState([]);
 
-  const setWishlistToLocal = () => {
-    const savedWishlist = JSON.parse(localStorage.getItem('wishlist'));
-    if (savedWishlist) {
-      setCart(savedWishlist);
-    }
-  };
+  // const setWishlistToLocal = () => {
+  //   const savedWishlist = JSON.parse(localStorage.getItem('wishlist'));
+  //   if (savedWishlist) {
+  //     setWishlist(savedWishlist);
+  //   }
+  // };
 
-  const addToWishlist = (product) => {
-    setWishlist((prevWish) => {
-      const newWishlist = [...prevWish, product];
-      localStorage.setItem('wishlist', JSON.stringify(newWishlist));
-      return newWishlist;
-    });
-    localStorage.setItem('wishlist', JSON.stringify([...wishlist, product]));
-  };
+  // // const addToWishlist = (product) => {
+  // //   setWishlist((prevWish) => {
+  // //     const newWishlist = [...prevWish, product];
+  // //     localStorage.setItem('wishlist', JSON.stringify(newWishlist));
+  // //     return newWishlist;
+  // //   });
+  // //   localStorage.setItem('wishlist', JSON.stringify([...wishlist, product]));
+  // // };
 
-  const cleanWishlist = () => {
-    setWishlist([]);
-    localStorage.removeItem('wishlist');
-  };
+  // const addToWishlist = (product, size_id, quantity) => {
+  //   setWishlist((prevWish) => {
+  //     const newWish = [
+  //       ...prevWish,
+  //       {
+  //         ...product,
+
+  //         size_id: size_id, // Usa sempre questa variabile per consistenza
+  //         selectedQuantity: quantity, // La quantità selezionata
+  //         selectedSize: formData.size,
+  //       },
+  //     ];
+  //     localStorage.setItem('wishlist', JSON.stringify(newWish));
+  //     return newWish;
+  //   });
+
+  //   localStorage.setItem('wishlist', JSON.stringify([...wishlist, product]));
+  // };
+
+  // const cleanWishlist = () => {
+  //   setWishlist([]);
+  //   localStorage.removeItem('wishlist');
+  // };
 
   // SIZES & QUANTITY PRODUCT PAGE
   // const [selectedSize, setSelectedSize] = useState(0);
@@ -183,9 +202,6 @@ const GlobalProvider = ({ children }) => {
     addToCart,
     setCartToLocal,
     cleanCart,
-    setWishlistToLocal,
-    addToWishlist,
-    cleanWishlist,
     productHandleMultiInput,
     formData,
     setSearchTerm,

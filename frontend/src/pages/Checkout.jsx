@@ -1,26 +1,27 @@
-import { useEffect, useState } from "react";
-import { useGlobalContext } from "../contexts/GlobalContext";
+import { useEffect, useState } from 'react';
+import { useGlobalContext } from '../contexts/GlobalContext';
 
 export default function Checkout() {
-  const { cart,setCartToLocal } = useGlobalContext();
+  const { cart, setCartToLocal } = useGlobalContext();
   const [isFattSameOfSped, setIsFattSameOfSped] = useState(false);
-  console.log(cart)
+  console.log(cart);
   const [formData, setFormData] = useState({
-    name: "",
-    surname: "",
-    email: "",
-    tel: "",
-    indirizzosped: "",
-    city: "",
-    cap: "",
-    indirizzofatt: "",
-    cityfatt: "",
-    capfatt: "",
-    coupon: "",
+    name: '',
+    surname: '',
+    email: '',
+    tel: '',
+    indirizzosped: '',
+    city: '',
+    cap: '',
+    indirizzofatt: '',
+    cityfatt: '',
+    capfatt: '',
+    coupon: '',
   });
-useEffect(() => {
-  setCartToLocal();
-}, []);
+  useEffect(() => {
+    setCartToLocal();
+  }, []);
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -48,10 +49,10 @@ const dataToSend = {
   })),
 };
     // Effettua la richiesta al backend
-    fetch("http://localhost:3000/products/checkout", {
-      method: "POST",
+    fetch('http://localhost:3000/products/checkout', {
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify(dataToSend),
     })
@@ -64,15 +65,14 @@ const dataToSend = {
         return response.json();
       })
       .then((data) => {
-        alert("Ordine completato con successo!");
-        console.log("Risultato:", data);
+        alert('Ordine completato con successo!');
+        console.log('Risultato:', data);
       })
       .catch((error) => {
-        console.error("Errore nel checkout:", error.message);
+        console.error('Errore nel checkout:', error.message);
         alert(`Errore nel checkout: ${error.message}`);
       });
-          console.log("Dati inviati al backend:", dataToSend);
-
+    console.log('Dati inviati al backend:', dataToSend);
   };
 
   const handleCheckboxChange = (event) => {
@@ -94,151 +94,72 @@ const dataToSend = {
                 {/* nome */}
                 <div className="checkout-form-box">
                   <label htmlFor="name">Nome</label>
-                  <input
-                    type="text"
-                    name="name"
-                    placeholder="Franco"
-                    className="checkout-form-input"
-                    onChange={handleInputChange}
-                  />
+                  <input type="text" name="name" placeholder="Franco" className="checkout-form-input" onChange={handleInputChange} />
                 </div>
                 {/* cognome */}
                 <div className="checkout-form-box">
                   <label htmlFor="surname">Cognome</label>
-                  <input
-                    type="text"
-                    name="surname"
-                    placeholder="Cello"
-                    className="checkout-form-input"
-                    onChange={handleInputChange}
-                  />
+                  <input type="text" name="surname" placeholder="Cello" className="checkout-form-input" onChange={handleInputChange} />
                 </div>
                 {/* mail */}
                 <div className="checkout-form-box">
                   <label htmlFor="email">Email</label>
-                  <input
-                    type="email"
-                    name="email"
-                    placeholder="francocello@gmail.com"
-                    className="checkout-form-input"
-                    onChange={handleInputChange}
-                  />
+                  <input type="email" name="email" placeholder="francocello@gmail.com" className="checkout-form-input" onChange={handleInputChange} />
                 </div>
                 {/* tel */}
                 <div className="checkout-form-box">
                   <label htmlFor="tel">Telefono</label>
-                  <input
-                    type="tel"
-                    name="tel"
-                    placeholder="3214567890"
-                    className="checkout-form-input"
-                    onChange={handleInputChange}
-                  />
+                  <input type="tel" name="tel" placeholder="3214567890" className="checkout-form-input" onChange={handleInputChange} />
                 </div>
                 {/* SPEDIZIONE */}
                 <div className="checkout-form-box address-container">
                   {/* indirizzo spedizione */}
                   <div className="checkout-form-box">
                     <label htmlFor="indirizzosped">Indirizzo Spedizione</label>
-                    <input
-                      type="text"
-                      name="indirizzosped"
-                      placeholder="Via germania, 84"
-                      className="checkout-form-input"
-                      onChange={handleInputChange}
-                    />
+                    <input type="text" name="indirizzosped" placeholder="Via germania, 84" className="checkout-form-input" onChange={handleInputChange} />
                   </div>
                   {/* città */}
                   <div className="checkout-form-box">
                     <label htmlFor="city">Città</label>
-                    <input
-                      type="text"
-                      name="city"
-                      placeholder="Roma"
-                      className="checkout-form-input"
-                      onChange={handleInputChange}
-                    />
+                    <input type="text" name="city" placeholder="Roma" className="checkout-form-input" onChange={handleInputChange} />
                   </div>
                   {/* cap */}
                   <div className="checkout-form-box">
                     <label htmlFor="cap">Cap</label>
-                    <input
-                      type="text"
-                      name="cap"
-                      placeholder="00012"
-                      className="checkout-form-input"
-                      onChange={handleInputChange}
-                    />
+                    <input type="text" name="cap" placeholder="00012" className="checkout-form-input" onChange={handleInputChange} />
                   </div>
                 </div>
 
                 {/* checkbox fatturazione */}
                 <div className="checkout-form-box checkbox-box">
                   <div className="checkbox-area">
-                    <input
-                      type="checkbox"
-                      name="checkfatt"
-                      className="checkout-form-input checkbox"
-                      checked={isFattSameOfSped}
-                      onChange={handleCheckboxChange}
-                    />
+                    <input type="checkbox" name="checkfatt" className="checkout-form-input checkbox" checked={isFattSameOfSped} onChange={handleCheckboxChange} />
                   </div>
-                  <label htmlFor="checkfatt">
-                    L'indirizzo di fatturazione è lo stesso della spedizione
-                  </label>
+                  <label htmlFor="checkfatt">L'indirizzo di fatturazione è lo stesso della spedizione</label>
                 </div>
 
                 {/* FATTURAZIONE */}
-                <div
-                  className={`checkout-form-box address-container ${
-                    isFattSameOfSped ? "hidden" : ""
-                  }`}
-                >
+                <div className={`checkout-form-box address-container ${isFattSameOfSped ? 'hidden' : ''}`}>
                   {/* indirizzo fatturazione */}
                   <div className="checkout-form-box">
-                    <label htmlFor="indirizzofatt">
-                      Indirizzo Fatturazione
-                    </label>
-                    <input
-                      type="text"
-                      name="indirizzofatt"
-                      placeholder="Via germania, 84"
-                      className="checkout-form-input"
-                      onChange={handleInputChange}
-                    />
+                    <label htmlFor="indirizzofatt">Indirizzo Fatturazione</label>
+                    <input type="text" name="indirizzofatt" placeholder="Via germania, 84" className="checkout-form-input" onChange={handleInputChange} />
                   </div>
                   {/* città */}
                   <div className="checkout-form-box">
                     <label htmlFor="cityfatt">Città</label>
-                    <input
-                      type="text"
-                      name="cityfatt"
-                      placeholder="Roma"
-                      className="checkout-form-input"
-                    />
+                    <input type="text" name="cityfatt" placeholder="Roma" className="checkout-form-input" />
                   </div>
                   {/* cap */}
                   <div className="checkout-form-box">
                     <label htmlFor="capfatt">Cap</label>
-                    <input
-                      type="text"
-                      name="capfatt"
-                      placeholder="00012"
-                      className="checkout-form-input"
-                      onChange={handleInputChange}
-                    />
+                    <input type="text" name="capfatt" placeholder="00012" className="checkout-form-input" onChange={handleInputChange} />
                   </div>
                 </div>
                 {/* coupon */}
                 <div className="checkout-form-box coupon-container">
                   <label htmlFor="coupon">Inserisci Coupon</label>
-                  <input
-                    type="text"
-                    name="coupon"
-                    placeholder="SCONTO-10"
-                    className="checkout-form-input"
-                    onChange={handleInputChange}
-                  />
+                  <input type="text" name="coupon" placeholder="SCONTO-10" className="checkout-form-input" onChange={handleInputChange} />
                 </div>
               </div>
               {/* actions */}
