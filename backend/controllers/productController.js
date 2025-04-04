@@ -403,17 +403,16 @@ function indexOrders(req, res) {
 
 function related(req, res) {
   const categoryId = req.query.categoryId;
-  const currentSlug = req.query.slug; // Ottieni lo slug del prodotto corrente
+  const currentSlug = req.query.slug;
 
   if (!categoryId || !currentSlug) {
     return res.status(400).json({ error: "categoryId o slug mancante" });
   }
 
   const sql = `
-    SELECT p2.slug, p2.id AS ID, p2.name AS Prodotto, p2.price AS Prezzo, p2.image AS Immagine
-    FROM products p1
-    JOIN products p2 ON p1.category_id = p2.category_id
-    WHERE p1.category_id = ? AND p2.slug != ? -- Escludi il prodotto corrente
+    SELECT slug, id AS ID, name AS Prodotto, price AS Prezzo, image AS Immagine
+    FROM products
+    WHERE category_id = ? AND slug != ?
     ORDER BY RAND()
     LIMIT 2;
   `;
