@@ -7,7 +7,7 @@
 .cart-products-list {
   display: grid;
   grid-template-columns: 1fr;
-  width: 80%;
+  width: 92%;
   margin: 0 auto;
   gap: 2rem;
 }
@@ -17,14 +17,20 @@
 .cart-card {
   display: flex;
   width: 100%;
-  align-items: center;
+  align-items: start;
   justify-content: start;
   gap: 1rem;
+  background-color: #ffffff;
+  border-radius: 1rem;
+  border: 1px solid rgba(33, 33, 33, 8%);
+  padding: 1rem;
 }
 
 /* cart card img */
 .cart-card-img {
   width: 80px;
+  border-radius: 0.5rem;
+  overflow: hidden;
 }
 
 /* CART ACTIONS ---------- */
@@ -36,11 +42,55 @@
   gap: 0.5rem;
 }
 
+.cart-card-info {
+  max-width: 60%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.info-box {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: start;
+  align-items: center;
+}
+
+.info-value-box {
+  background-color: var(--color-sec-bg);
+  padding-block: 0.25rem;
+  padding-inline: 0.5rem;
+  border-radius: 0.25rem;
+}
+
+.info-value {
+  color: var(--color-sec-on-bg);
+  font-weight: 600;
+}
+
+.info-price {
+  color: var(--color-accent-bg);
+}
+
+.info-total-price {
+  color: var(--color-accent-bg);
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.info-name {
+  width: 100%;
+}
+
 /* TABLET MINI -------------------------------------------------- */
 @media (min-width: 576px) {
   .cart-actions {
     width: fit-content;
     flex-direction: row;
+  }
+  .cart-card-info {
+    max-width: 100%;
   }
 }
 

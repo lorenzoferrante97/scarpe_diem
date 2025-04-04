@@ -16,6 +16,7 @@ export default function ProductPage() {
   useEffect(() => {
     fetchProduct(slug);
     setCartToLocal();
+    // setWishlistToLocal();
   }, [slug]);
 
   //  controllo se il prodotto è stato caricato
@@ -54,15 +55,12 @@ export default function ProductPage() {
 
   // console.log(`quali sono`,related);
 
-
-
-const [selectedSizeId, setSelectedSizeId] = useState(null);
-console.log("Prodotto aggiunto al carrello:", {
-  product,
-  size_id: selectedSizeId,
-  quantity: formData.quantity,
-});
-
+  const [selectedSizeId, setSelectedSizeId] = useState(null);
+  console.log('Prodotto aggiunto al carrello:', {
+    product,
+    size_id: selectedSizeId,
+    quantity: formData.quantity,
+  });
 
   return (
     <main>
@@ -86,31 +84,27 @@ console.log("Prodotto aggiunto al carrello:", {
             <label className="text-big" htmlFor="size">
               Taglia
             </label>
-
             {/* seleziona taglia */}
             <select
-
-  name="size"
-  onChange={(e) => {
-    const selectedSizeNumber = e.target.value;
-    const selectedSize = product?.sizes.find(
-      (sizeObj) => sizeObj.size_number == selectedSizeNumber
-    );
-    if (selectedSize) {
-      setMaxQuantity(selectedSize.quantity); // Imposta la quantità massima disponibile
-      setSelectedSizeId(selectedSize.size_id); // Salva il size_id selezionato
-    }
-    productHandleMultiInput(e, product, maxQuantity);
-  }}
->
-  <option value="">Seleziona taglia</option>
-  {product?.sizes.map((size) => (
-    <option key={size.size_id} value={size.size_number}>
-      {size.size_number}
-    </option>
-  ))}
-</select>;
-
+              name="size"
+              className="product-input"
+              onChange={(e) => {
+                const selectedSizeNumber = e.target.value;
+                const selectedSize = product?.sizes.find((sizeObj) => sizeObj.size_number == selectedSizeNumber);
+                if (selectedSize) {
+                  setMaxQuantity(selectedSize.quantity); // Imposta la quantità massima disponibile
+                  setSelectedSizeId(selectedSize.size_id); // Salva il size_id selezionato
+                }
+                productHandleMultiInput(e, product, maxQuantity);
+              }}
+            >
+              <option value="">Seleziona taglia</option>
+              {product?.sizes.map((size) => (
+                <option key={size.size_id} value={size.size_number}>
+                  {size.size_number}
+                </option>
+              ))}
+            </select>
 
             <div className="product-quantity-box">
               <label htmlFor="quantity" className="text-big">
@@ -127,26 +121,25 @@ console.log("Prodotto aggiunto al carrello:", {
                 ) : null}
               </div>
             </div>
-
             {/* <select id="size">
               <option>Seleziona una taglia</option>
               {product.size.map((size) => (
                 <option key={size}> {size} </option>
               ))}
             </select> */}
-
             {/* mancano le icone */}
-
             <div className="card-actions-box buttons-container">
               <button className="btn-accent" onClick={() => addToCart(product, selectedSizeId, formData.quantity)}>
-
                 Aggiungi al carrello
               </button>
-              <button className="btn-sec">Salva nella wishlist</button>
+              {/* <button className="btn-sec" onClick={() => addToWishlist(product, selectedSizeId, formData.quantity)}>
+                Aggiungi alla Wishlist
+              </button> */}
             </div>
           </div>
         </div>
       </section>
+      {/* addToWishlist */}
 
       {/* Sezione prodotti correlati */}
 

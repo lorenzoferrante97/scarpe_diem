@@ -1,4 +1,8 @@
+import { useEffect } from 'react';
+
 export default function NotFound404() {
+  useEffect(() => window.scrollTo(0, 0), []);
+
   return (
     <>
       <main>

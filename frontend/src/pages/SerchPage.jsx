@@ -1,9 +1,13 @@
 import { Link } from 'react-router-dom';
 import { useGlobalContext } from '../contexts/GlobalContext';
 import Card from '../components/Card';
+import { useEffect } from 'react';
 
 export default function SearchPage() {
   const { setSearchTerm, handleSearch, searchResults } = useGlobalContext();
+
+  useEffect(() => window.scrollTo(0, 0), []);
+
   return (
     <>
       <main>
