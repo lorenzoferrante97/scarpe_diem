@@ -31,22 +31,23 @@ export default function Checkout() {
     e.preventDefault();
 
     // Preparo i dati da inviare
-    const dataToSend = {
-      nome: formData.name,
-      cognome: formData.surname,
-      email: formData.email,
-      telefono: formData.tel,
-      indirizzo_spedizione: `${formData.indirizzosped}, ${formData.city}, ${formData.cap}`,
-      indirizzo_pagamento: isFattSameOfSped ? `${formData.indirizzosped}, ${formData.city}, ${formData.cap}` : `${formData.indirizzofatt}, ${formData.cityfatt}, ${formData.capfatt}`,
-      coupon_id: formData.coupon ? formData.coupon : null, // Verifica se hai il coupon ID
-      carrello: cart.map((item) => ({
-        id: item.id,
-        size_id: item.size_id, // Usa il size_id memorizzato durante l'aggiunta al carrello
-        prezzo: item.price,
-        quantita: item.selectedQuantity,
-      })),
-    };
-
+const dataToSend = {
+  nome: formData.name,
+  cognome: formData.surname,
+  email: formData.email,
+  telefono: formData.tel,
+  indirizzo_spedizione: `${formData.indirizzosped}, ${formData.city}, ${formData.cap}`,
+  indirizzo_pagamento: isFattSameOfSped
+    ? `${formData.indirizzosped}, ${formData.city}, ${formData.cap}`
+    : `${formData.indirizzofatt}, ${formData.cityfatt}, ${formData.capfatt}`,
+  coupon: formData.coupon ? formData.coupon : null, // Cambiato da coupon_id a coupon
+  carrello: cart.map((item) => ({
+    id: item.id,
+    size_id: item.size_id,
+    prezzo: item.price,
+    quantita: item.selectedQuantity,
+  })),
+};
     // Effettua la richiesta al backend
     fetch('http://localhost:3000/products/checkout', {
       method: 'POST',
