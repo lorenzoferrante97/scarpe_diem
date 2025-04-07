@@ -85,3 +85,7 @@
 .form-error-text {
   color: var(--color-sec-on-bg);
 }
+
+form .hidden {
+  display: none;
+}
