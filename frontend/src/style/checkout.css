@@ -72,3 +72,16 @@
 .hidden {
   display: none;
 }
+
+.form-error-box {
+  display: flex;
+  align-items: center;
+  background-color: var(--color-sec-bg);
+  border-radius: 0.4rem;
+  padding-inline: 0.5rem;
+  padding-block: 0.25rem;
+}
+
+.form-error-text {
+  color: var(--color-sec-on-bg);
+}

@@ -80,73 +80,49 @@ const GlobalProvider = ({ children }) => {
     }
   };
 
-  let isExistingProduct = false;
   let existingProductId = 0;
 
   const [foundExistingProduct, setFoundExistingProduct] = useState(null);
 
   const addToCart = (product, size_id, quantity) => {
     let newCart = [];
+    let updatedNewCart = [];
 
     setCart((prevCart) => {
       // verificare se il prodotto esiste già nel carrello
 
-      newCart = [
-        ...prevCart,
-        {
-          ...product,
+      // check prima di tutto se esiste già in prevcart prodotto con stessa taglia
+      const existingProduct = prevCart?.find((prevProduct) => prevProduct.id == product.id && prevProduct.size_id == size_id);
 
-          size_id: size_id, // Usa sempre questa variabile per consistenza
-          selectedQuantity: quantity, // La quantità selezionata
-          selectedSize: formData.size,
-        },
-      ];
+      if (existingProduct) {
+        const updatedProduct = {
+          ...existingProduct,
+          selectedQuantity: existingProduct.selectedQuantity + quantity,
+        };
 
-      localStorage.setItem('cart', JSON.stringify(newCart));
+        updatedNewCart = prevCart.filter((prevProduct) => prevProduct.id != existingProduct.id || prevProduct.size_id != existingProduct.size_id);
 
-      // controlli per prodotto già inserito
-      const prevStorage = JSON.parse(localStorage.getItem('cart'));
-
-      // se c'è qualcosa nel local storage, controlli
-      if (prevStorage.length > 1) {
-        // console.table(prevStorage);
-        prevStorage?.forEach((product) => {
-          // console.table(product);
-          const { id } = product;
-
-          if (product.size_id == size_id) {
-            isExistingProduct = true;
-            existingProductId = id;
-          }
-        });
-      }
-
-      if (isExistingProduct) {
-        // find il prodotto esistente
-
-        setFoundExistingProduct(prevCart?.find((product) => product.id === existingProductId));
-
-        // aggiorna quantità prodotto esistente
-        setFoundExistingProduct({
-          ...foundExistingProduct,
-          selectedQuantity: selectedQuantity + quantity,
-        });
-
-        // trova ed elimina il vecchio prodotto da aggiornare in quantità
-        const productIndexToDelete = prevCart.findIndex((product) => product.id == foundExistingProduct?.id);
-
-        // ricavare index nell'array in base a queste condizioni: -> scarpe che hanno stesso id && stessa taglia di foundExistingProduct
-
-        // eliminare i product con quegli index in un ciclo
-        prevCart.splice(productIndexToDelete, 1);
-
-        // trovare il modo di aggiungere quella con quantità aggiornata (foundExistingProduct)
-        newCart = [...prevCart, foundExistingProduct];
+        updatedNewCart.push(updatedProduct);
       } else {
-        null;
+        newCart = [
+          ...prevCart,
+          {
+            ...product,
+
+            size_id: size_id, // Usa sempre questa variabile per consistenza
+            selectedQuantity: quantity, // La quantità selezionata
+            selectedSize: formData.size,
+          },
+        ];
       }
 
-      return newCart;
+      if (updatedNewCart.length > 0) {
+        localStorage.setItem('cart', JSON.stringify(updatedNewCart));
+        return updatedNewCart;
+      } else {
+        localStorage.setItem('cart', JSON.stringify(newCart));
+        return newCart;
+      }
     });
   };
 

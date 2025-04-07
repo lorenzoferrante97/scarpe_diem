@@ -9,6 +9,8 @@ export default function Cart() {
     setCartToLocal();
   }, []);
 
+  console.table(cart);
+
   return (
     <>
       <main>

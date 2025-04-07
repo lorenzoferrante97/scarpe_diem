@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useGlobalContext } from '../contexts/GlobalContext';
+import FormError from '../components/FormError';
 
 export default function Checkout() {
   const { cart, setCartToLocal } = useGlobalContext();
   const [isFattSameOfSped, setIsFattSameOfSped] = useState(false);
-  console.log(cart);
   const [formData, setFormData] = useState({
     name: '',
     surname: '',
@@ -18,6 +18,149 @@ export default function Checkout() {
     capfatt: '',
     coupon: '',
   });
+
+  // ----------------------------------------------------
+  // ----------------------------------------------------
+  // ----------------------------------------------------
+  // VALIDAZIONE FORM
+
+  const [errorName, setErrorName] = useState('');
+  const [errorSurname, setErrorSurname] = useState('');
+  const [errorEmail, setErrorEmail] = useState('');
+  const [errorTel, setErrorTel] = useState('');
+  const [errorIndirizzosped, setErrorIndirizzosped] = useState('');
+  const [errorCity, setErrorCity] = useState('');
+  const [errorCap, setErrorCap] = useState('');
+  const [errorIndirizzofatt, setErrorIndirizzofatt] = useState('');
+  const [errorCityfatt, setErrorCityfatt] = useState('');
+  const [errorCapfatt, setErrorCapfatt] = useState('');
+  const [errorCoupon, setErrorCoupon] = useState('');
+
+  // reset errori
+
+  switch (name) {
+    case 'name':
+      setErrorName('');
+      break;
+    case 'surname':
+      setErrorSurname('');
+      break;
+    case 'email':
+      setErrorEmail('');
+      break;
+    case 'tel':
+      setErrorTel('');
+      break;
+    case 'indirizzosped':
+      setErrorIndirizzosped('');
+      break;
+    case 'city':
+      setErrorCity('');
+      break;
+    case 'cap':
+      setErrorCap('');
+      break;
+    case 'indirizzofatt':
+      setErrorIndirizzofatt('');
+      break;
+    case 'cityfatt':
+      setErrorCityfatt('');
+      break;
+    case 'capfatt':
+      setErrorCapfatt('');
+      break;
+    case 'coupon':
+      setErrorCoupon('');
+      break;
+    default:
+      break;
+  }
+
+  // funzione di validazione campi
+  const validateForm = () => {
+    let isValid = true;
+
+    // validazione nome
+    if (!formData.name.trim()) {
+      setErrorName('Il nome è obbligatorio');
+      isValid = false;
+    } else if (!/^[A-Za-z\s]+$/.test(formData.name)) {
+      setErrorName('Il nome deve contenere solo lettere e spazi');
+      isValid = false;
+    }
+
+    // validazione cognome
+    if (!formData.surname.trim()) {
+      setErrorSurname('Il cognome è obbligatorio');
+      isValid = false;
+    } else if (!/^[A-Za-z\s]+$/.test(formData.surname)) {
+      setErrorSurname('Il cognome deve contenere solo lettere e spazi');
+      isValid = false;
+    }
+
+    // validazione email
+    if (!formData.email.trim()) {
+      setErrorEmail("L'email è obbligatoria");
+      isValid = false;
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      setErrorEmail("L'email non è valida");
+      isValid = false;
+    }
+
+    // validazione tel
+    if (!formData.tel.trim()) {
+      setErrorTel('Il telefono è obbligatorio');
+      isValid = false;
+    } else if (!/^\d{10}$/.test(formData.tel)) {
+      setErrorTel('Il telefono deve contenere 10 cifre');
+      isValid = false;
+    }
+
+    // validazione indirizzo
+    if (!formData.indirizzosped.trim()) {
+      setErrorIndirizzosped("L'indirizzo di spedizione è obbligatorio");
+      isValid = false;
+    }
+
+    // validazione città
+    if (!formData.city.trim()) {
+      setErrorCity('La città è obbligatoria');
+      isValid = false;
+    }
+
+    // validazione cap
+    if (!formData.cap.trim()) {
+      setErrorCap('Il CAP è obbligatorio');
+      isValid = false;
+    } else if (!/^\d{5}$/.test(formData.cap)) {
+      setErrorCap('Il CAP deve contenere 5 cifre');
+      isValid = false;
+    }
+
+    // validazione fatturazione
+    if (!isFattSameOfSped) {
+      if (!formData.indirizzofatt.trim()) {
+        setErrorIndirizzofatt("L'indirizzo di fatturazione è obbligatorio");
+        isValid = false;
+      }
+      if (!formData.cityfatt.trim()) {
+        setErrorCityfatt('La città di fatturazione è obbligatoria');
+        isValid = false;
+      }
+      if (!formData.capfatt.trim()) {
+        setErrorCapfatt('Il CAP di fatturazione è obbligatorio');
+        isValid = false;
+      } else if (!/^\d{5}$/.test(formData.capfatt)) {
+        setErrorCapfatt('Il CAP di fatturazione deve contenere 5 cifre');
+        isValid = false;
+      }
+    }
+  };
+
+  // ----------------------------------------------------
+  // ----------------------------------------------------
+  // ----------------------------------------------------
+
   useEffect(() => {
     setCartToLocal();
   }, []);
@@ -30,49 +173,51 @@ export default function Checkout() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Preparo i dati da inviare
-const dataToSend = {
-  nome: formData.name,
-  cognome: formData.surname,
-  email: formData.email,
-  telefono: formData.tel,
-  indirizzo_spedizione: `${formData.indirizzosped}, ${formData.city}, ${formData.cap}`,
-  indirizzo_pagamento: isFattSameOfSped
-    ? `${formData.indirizzosped}, ${formData.city}, ${formData.cap}`
-    : `${formData.indirizzofatt}, ${formData.cityfatt}, ${formData.capfatt}`,
-  coupon: formData.coupon ? formData.coupon : null, // Cambiato da coupon_id a coupon
-  carrello: cart.map((item) => ({
-    id: item.id,
-    size_id: item.size_id,
-    prezzo: item.price,
-    quantita: item.selectedQuantity,
-  })),
-};
-    // Effettua la richiesta al backend
-    fetch('http://localhost:3000/products/checkout', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(dataToSend),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          return response.json().then((errorData) => {
-            throw new Error(errorData.error);
-          });
-        }
-        return response.json();
+    if (!validateForm()) {
+      return; // Blocca l'invio del form se la validazione fallisce
+    } else {
+      // Preparo i dati da inviare
+      const dataToSend = {
+        nome: formData.name,
+        cognome: formData.surname,
+        email: formData.email,
+        telefono: formData.tel,
+        indirizzo_spedizione: `${formData.indirizzosped}, ${formData.city}, ${formData.cap}`,
+        indirizzo_pagamento: isFattSameOfSped ? `${formData.indirizzosped}, ${formData.city}, ${formData.cap}` : `${formData.indirizzofatt}, ${formData.cityfatt}, ${formData.capfatt}`,
+        coupon: formData.coupon ? formData.coupon : null, // Cambiato da coupon_id a coupon
+        carrello: cart.map((item) => ({
+          id: item.id,
+          size_id: item.size_id,
+          prezzo: item.price,
+          quantita: item.selectedQuantity,
+        })),
+      };
+      // Effettua la richiesta al backend
+      fetch('http://localhost:3000/products/checkout', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(dataToSend),
       })
-      .then((data) => {
-        alert('Ordine completato con successo!');
-        console.log('Risultato:', data);
-      })
-      .catch((error) => {
-        console.error('Errore nel checkout:', error.message);
-        alert(`Errore nel checkout: ${error.message}`);
-      });
-    console.log('Dati inviati al backend:', dataToSend);
+        .then((response) => {
+          if (!response.ok) {
+            return response.json().then((errorData) => {
+              throw new Error(errorData.error);
+            });
+          }
+          return response.json();
+        })
+        .then((data) => {
+          alert('Ordine completato con successo!');
+          console.log('Risultato:', data);
+        })
+        .catch((error) => {
+          console.error('Errore nel checkout:', error.message);
+          alert(`Errore nel checkout: ${error.message}`);
+        });
+      console.log('Dati inviati al backend:', dataToSend);
+    }
   };
 
   const handleCheckboxChange = (event) => {
@@ -93,8 +238,12 @@ const dataToSend = {
                 <h2 className="h2">Dettagli spedizione</h2>
                 {/* nome */}
                 <div className="checkout-form-box">
-                  <label htmlFor="name">Nome</label>
+                  <div>
+                    <label htmlFor="name">Nome</label>
+                    <span>*obbligatorio</span>
+                  </div>
                   <input type="text" name="name" placeholder="Franco" className="checkout-form-input" onChange={handleInputChange} />
+                  {errorName && <FormError errorText={errorName} />}
                 </div>
                 {/* cognome */}
                 <div className="checkout-form-box">
