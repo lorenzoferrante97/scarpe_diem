@@ -34,6 +34,9 @@ export default function Checkout() {
   const [errorIndirizzofatt, setErrorIndirizzofatt] = useState('');
   const [errorCityfatt, setErrorCityfatt] = useState('');
   const [errorCapfatt, setErrorCapfatt] = useState('');
+  const [errorForm, setErrorForm] = useState('');
+
+  //fare
   const [errorCoupon, setErrorCoupon] = useState('');
 
   // reset errori
@@ -155,6 +158,10 @@ export default function Checkout() {
         isValid = false;
       }
     }
+
+    if (!isValid) {
+      setErrorForm('Errore di compilazione, controlla i campi inseriti');
+    }
   };
 
   // ----------------------------------------------------
@@ -243,22 +250,25 @@ export default function Checkout() {
                     <span>*obbligatorio</span>
                   </div>
                   <input type="text" name="name" placeholder="Franco" className="checkout-form-input" onChange={handleInputChange} />
-                  {errorName && <FormError errorText={errorName} />}
+                  {errorName ? <FormError errorText={errorName} /> : null}
                 </div>
                 {/* cognome */}
                 <div className="checkout-form-box">
                   <label htmlFor="surname">Cognome</label>
                   <input type="text" name="surname" placeholder="Cello" className="checkout-form-input" onChange={handleInputChange} />
+                  {errorSurname ? <FormError errorText={errorSurname} /> : null}
                 </div>
                 {/* mail */}
                 <div className="checkout-form-box">
                   <label htmlFor="email">Email</label>
                   <input type="email" name="email" placeholder="francocello@gmail.com" className="checkout-form-input" onChange={handleInputChange} />
+                  {errorEmail ? <FormError errorText={errorEmail} /> : null}
                 </div>
                 {/* tel */}
                 <div className="checkout-form-box">
                   <label htmlFor="tel">Telefono</label>
                   <input type="tel" name="tel" placeholder="3214567890" className="checkout-form-input" onChange={handleInputChange} />
+                  {errorTel ? <FormError errorText={errorTel} /> : null}
                 </div>
                 {/* SPEDIZIONE */}
                 <div className="checkout-form-box address-container">
@@ -266,16 +276,19 @@ export default function Checkout() {
                   <div className="checkout-form-box">
                     <label htmlFor="indirizzosped">Indirizzo Spedizione</label>
                     <input type="text" name="indirizzosped" placeholder="Via germania, 84" className="checkout-form-input" onChange={handleInputChange} />
+                    {errorIndirizzosped ? <FormError errorText={errorIndirizzosped} /> : null}
                   </div>
                   {/* città */}
                   <div className="checkout-form-box">
                     <label htmlFor="city">Città</label>
                     <input type="text" name="city" placeholder="Roma" className="checkout-form-input" onChange={handleInputChange} />
+                    {errorCity ? <FormError errorText={errorCity} /> : null}
                   </div>
                   {/* cap */}
                   <div className="checkout-form-box">
                     <label htmlFor="cap">Cap</label>
                     <input type="text" name="cap" placeholder="00012" className="checkout-form-input" onChange={handleInputChange} />
+                    {errorCap ? <FormError errorText={errorCap} /> : null}
                   </div>
                 </div>
 
@@ -293,16 +306,19 @@ export default function Checkout() {
                   <div className="checkout-form-box">
                     <label htmlFor="indirizzofatt">Indirizzo Fatturazione</label>
                     <input type="text" name="indirizzofatt" placeholder="Via germania, 84" className="checkout-form-input" onChange={handleInputChange} />
+                    {errorIndirizzofatt ? <FormError errorText={errorIndirizzofatt} /> : null}
                   </div>
                   {/* città */}
                   <div className="checkout-form-box">
                     <label htmlFor="cityfatt">Città</label>
                     <input type="text" name="cityfatt" placeholder="Roma" className="checkout-form-input" />
+                    {errorCityfatt ? <FormError errorText={errorCityfatt} /> : null}
                   </div>
                   {/* cap */}
                   <div className="checkout-form-box">
                     <label htmlFor="capfatt">Cap</label>
                     <input type="text" name="capfatt" placeholder="00012" className="checkout-form-input" onChange={handleInputChange} />
+                    {errorCapfatt ? <FormError errorText={errorCapfatt} /> : null}
                   </div>
                 </div>
                 {/* coupon */}
@@ -314,6 +330,7 @@ export default function Checkout() {
               {/* actions */}
               <div className="checkout-form-box">
                 <button className="btn btn-accent">Completa pagamento</button>
+                {errorForm ? <FormError errorText={errorForm} /> : null}
               </div>
             </form>
           </div>
