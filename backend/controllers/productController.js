@@ -115,27 +115,30 @@ function category(req, res) {
 
 // Nuova funzione -> bestsellers (prodotti più venduti)
 function bestsellers(req, res) {
-  const sql =
-    "SELECT p.name AS Prodotto, p.image AS Immagine, p.price AS Prezzo, p.slug AS slug, SUM(po.product_quantity) AS Totale_Vendite FROM product_order po JOIN products p ON po.product_id = p.id GROUP BY p.id, p.name, p.image, p.price ORDER BY Totale_Vendite DESC;";
+  const searchMethod = `%${req.query.name || req.query.name_category || req.query.name_brand || ""}%`;
+  const sql = `
+    SELECT p.name AS Prodotto, p.image AS Immagine, p.price AS Prezzo, p.slug AS slug, c.name_category, b.name_brand, SUM(po.product_quantity) AS Totale_Vendite 
+    FROM product_order po 
+    JOIN products p ON po.product_id = p.id 
+    JOIN categories c ON p.category_id = c.id 
+    JOIN brands b ON p.brand_id = b.id 
+    WHERE p.name LIKE ? OR c.name_category LIKE ? OR b.name_brand LIKE ? 
+    GROUP BY p.id, p.name, p.image, p.price, c.name_category, b.name_brand 
+    ORDER BY Totale_Vendite DESC;
+  `;
 
-  connection.query(sql, (err, response) => {
+  connection.query(sql, [searchMethod, searchMethod, searchMethod], (err, response) => {
     if (err) {
       console.error("Database error:", err);
       return res.status(500).json({ error: "Database error" });
     }
-
     if (response.length === 0) {
       return res.status(404).json({ error: "Bestsellers not found" });
     }
-
-    const totalRes = response.map((i) => {
-      //   console.log("req img path: ", req.imagePath);
-      return {
-        ...i,
-        Immagine: req.imagePath + i.Immagine,
-      };
-    });
-
+    const totalRes = response.map((i) => ({
+      ...i,
+      Immagine: req.imagePath + i.Immagine,
+    }));
     res.json(totalRes);
   });
 }
@@ -172,41 +175,34 @@ function bestseller(req, res) {
 
 // Nuova funzione -> newarrivals (ultimi arrivi)
 function newarrivals(req, res) {
-  /*const now = new Date();
-    const formattedDateNow = now.toISOString().split("T")[0];
-    const twoMounthAgo = new Date(now); 
-    twoMounthAgo.setMonth(now.getMonth() - 2);
-    const formattedDate = twoMounthAgo.toISOString().split("T")[0];
-    console.log(formattedDate);
-    console.log(formattedDateNow);
+  const now = new Date();
+  const twoMonthsAgo = new Date(now);
+  twoMonthsAgo.setMonth(now.getMonth() - 2);
+  const formattedDateNow = now.toISOString().split("T")[0];
+  const formattedDateTwoMonthsAgo = twoMonthsAgo.toISOString().split("T")[0];
 
-    Costanti per dinamicizzare la data
+  const searchMethod = `%${req.query.name || req.query.name_category || req.query.name_brand || ""}%`;
+  const sql = `
+    SELECT p.slug, p.name AS Prodotto, p.image AS Immagine, p.price AS Prezzo, c.name_category, b.name_brand, p.insert_date 
+    FROM products p 
+    JOIN categories c ON p.category_id = c.id 
+    JOIN brands b ON p.brand_id = b.id 
+    WHERE p.insert_date BETWEEN ? AND ? AND (p.name LIKE ? OR c.name_category LIKE ? OR b.name_brand LIKE ?) 
+    ORDER BY p.insert_date DESC;
+  `;
 
-    */
-
-  const sql = `SELECT * FROM products WHERE insert_date BETWEEN '2024-01-01' AND '2024-04-01' ORDER BY insert_date DESC;`;
-
-  connection.query(sql, (err, response) => {
+  connection.query(sql, [formattedDateTwoMonthsAgo, formattedDateNow, searchMethod, searchMethod, searchMethod], (err, response) => {
     if (err) {
       console.error("Database error:", err);
       return res.status(500).json({ error: "Database error" });
     }
-
     if (response.length === 0) {
       return res.status(404).json({ error: "Newarrivals not found" });
     }
-
-    // res.json(response);
-
-    //! integrazione immagine
-    const totalRes = response.map((i) => {
-      //   console.log("req img path: ", req.imagePath);
-      return {
-        ...i,
-        image: req.imagePath + i.image,
-      };
-    });
-
+    const totalRes = response.map((i) => ({
+      ...i,
+      Immagine: req.imagePath + i.Immagine,
+    }));
     res.json(totalRes);
   });
 }
@@ -348,58 +344,6 @@ function indexOrders(req, res) {
   });
 }
 
-//funzione correlati
-// function related(req, res) {
-//   const sql =
-//     "SELECT p2.id, p2.name, p2.price, p2.image FROM products p1 JOIN products p2 ON p1.category_id = p2.category_id  WHERE p1.category_id = p2.category_id ORDER BY RAND() LIMIT 2";
-
-//   connection.query(sql, (err, response) => {
-//     if (err)
-//       return res.status(500).json({
-//         error: "errore Server Related",
-//       });
-//     if (response.length === 0) {
-//       return res.status(404).json({ error: "Related not found" });
-//     }
-//       // res.json(response);
-
-// function related(req, res) {
-//   // ! paramrto dinamico
-//   const categoryId = req.query.categoryId;
-
-//   if (!categoryId) {
-//     return res.status(400).json({ error: "categoryId mancante" });
-//   }
-
-// const sql = `
-//   SELECT p2.slug , p2.id AS ID, p2.name AS Prodotto, p2.price AS Prezzo, p2.image AS Immagine
-//   FROM products p1
-//   JOIN products p2 ON p1.category_id = p2.category_id
-//   WHERE p1.category_id = ?
-//   ORDER BY RAND()
-//   LIMIT 2;
-// `;
-
-//   connection.query(sql, [categoryId], (err, response) => {
-//     if (err) {
-//       console.error("Errore query related:", err);
-//       return res.status(500).json({ error: "Errore Server Related" });
-//     }
-
-//     if (response.length === 0) {
-//       return res.status(404).json({ error: "Related not found" });
-//     }
-
-//     const totalRes = response.map((i) => {
-//       return {
-//         ...i,
-//         Immagine: req.imagePath + i.Immagine,
-//       };
-//     });
-
-//     res.json(totalRes);
-//   });
-// }
 
 function related(req, res) {
   const categoryId = req.query.categoryId;
