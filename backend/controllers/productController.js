@@ -454,6 +454,40 @@ function checkout(req, res) {
     return res.status(400).json({ error: "Dati ordine incompleti" });
   }
 
+   // Validazione nome
+  if (typeof dati.nome !== "string" || !/^[a-zA-Z\s-]{2,50}$/.test(dati.nome)) {
+    return res.status(400).json({ error: "Nome non valido: deve contenere solo lettere, spazi o trattini (2-50 caratteri)" });
+  }
+
+  // Validazione cognome
+  if (typeof dati.cognome !== "string" || !/^[a-zA-Z\s-]{2,50}$/.test(dati.cognome)) {
+    return res.status(400).json({ error: "Cognome non valido: deve contenere solo lettere, spazi o trattini (2-50 caratteri)" });
+  }
+
+  // Validazione email
+  if (typeof dati.email !== "string" || !/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(dati.email)) {
+    return res.status(400).json({ error: "Email non valida" });
+  }
+  if (dati.email.length > 255) {
+    return res.status(400).json({ error: "Email troppo lunga (massimo 255 caratteri)" });
+  }
+
+  // Validazione telefono
+  if (typeof dati.telefono !== "string" || !/^\+?[0-9]{8,15}$/.test(dati.telefono)) {
+    return res.status(400).json({ error: "Numero di telefono non valido: deve contenere solo numeri, opzionale prefisso (8-15 cifre)" });
+  }
+
+  // Validazione indirizzo spedizione
+  if (typeof dati.indirizzo_spedizione !== "string" || !/^[a-zA-Z0-9\s,.-]{5,255}$/.test(dati.indirizzo_spedizione)) {
+    return res.status(400).json({ error: "Indirizzo di spedizione non valido: deve essere tra 5 e 255 caratteri" });
+  }
+
+  // Validazione indirizzo pagamento
+  if (typeof dati.indirizzo_pagamento !== "string" || !/^[a-zA-Z0-9\s,.-]{5,255}$/.test(dati.indirizzo_pagamento)) {
+    return res.status(400).json({ error: "Indirizzo di pagamento non valido: deve essere tra 5 e 255 caratteri" });
+  }
+
+
   // Calcolo del totale
   for (let i = 0; i < dati.carrello.length; i++) {
     totale += dati.carrello[i].prezzo * dati.carrello[i].quantita;
