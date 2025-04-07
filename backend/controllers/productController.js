@@ -603,6 +603,7 @@ function checkout(req, res) {
   
     function completaQuery() {
       queryCompletate++;
+      console.log("completaQuery chiamata:", queryCompletate, "/", dati.carrello.length);
       if (queryCompletate === dati.carrello.length) {
         if (errori) {
           return connection.rollback(() => {
@@ -611,6 +612,7 @@ function checkout(req, res) {
             });
           });
         }
+        console.log("Tutte le quantità aggiornate correttamente, procedo con commit");
         connection.commit(async (err) => {
           if (err) {
             return connection.rollback(() => {
@@ -717,7 +719,7 @@ function checkout(req, res) {
               <tr>
                 <td>${item.nome || `Prodotto ${item.id}`}</td>
                 <td style="text-align: center;">${item.quantita}</td>
-                <td style="text-align: right;">€${item.prezzo.toFixed(2)}</td>
+                <td style="text-align: right;">€${item.prezzo}</td>
                 <td style="text-align: right;">€${(item.prezzo * item.quantita).toFixed(2)}</td>
               </tr>
             `).join("")}
