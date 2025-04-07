@@ -79,10 +79,10 @@ export default function Checkout() {
       break;
   }
 
+  let isValid = true;
+
   // funzione di validazione campi
   const validateForm = () => {
-    let isValid = true;
-
     // validazione nome
     if (!formData.name.trim()) {
       setErrorName('Il nome è obbligatorio');
@@ -159,6 +159,8 @@ export default function Checkout() {
       }
     }
 
+    validateForm();
+
     if (!isValid) {
       setErrorForm('Errore di compilazione, controlla i campi inseriti');
     }
@@ -180,7 +182,7 @@ export default function Checkout() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!validateForm()) {
+    if (!isValid) {
       return; // Blocca l'invio del form se la validazione fallisce
     } else {
       // Preparo i dati da inviare
