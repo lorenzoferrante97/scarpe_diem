@@ -32,11 +32,11 @@ router.get("/related", productController.related);
 // Nuova rotta per filtrare per categoria
 router.get("/category", productController.category);
 
+// rotta -> coupon
+router.get("/coupons", productController.getCoupon);
 // route -> show
 router.get("/:slug", productController.show);
 
-// rotta -> coupon
-router.get("/coupons/sconto10", productController.getCoupon);
 //Rotta per creazione nuovo ordine
 router.post("/orders", productController.store);
 

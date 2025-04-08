@@ -419,20 +419,22 @@ function search(req, res) {
 }
 
 function getCoupon(req, res) {
-  const sql =
-    "SELECT * FROM coupons WHERE code = 'SCONTO10' AND '2024-03-15' BETWEEN start_date AND end_date;";
-
+  // console.log("getCoupon chiamato");
+  const sql = `
+    SELECT * 
+    FROM coupons 
+    WHERE CURDATE() BETWEEN start_date AND end_date
+    LIMIT 1
+  `;
   connection.query(sql, (err, response) => {
     if (err) {
       console.error("Database error:", err);
       return res.status(500).json({ error: "Database error" });
     }
-
+    // console.log("Risultato query:", response);
     if (response.length === 0) {
-      return res.status(404).json({ error: "Coupon not found" });
+      return res.status(404).json({ error: "Nessun coupon valido trovato" });
     }
-
-    // Restituisco il primo (e unico) risultato
     res.json(response[0]);
   });
 }
