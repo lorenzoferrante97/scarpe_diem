@@ -2,13 +2,14 @@ import { useGlobalContext } from '../contexts/GlobalContext';
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
-export default function Cart() {
-  const { wishlist, cleanWishlist, setWishlistToLocal, addToCart, setCartToLocal, selectedSizeId, formData } = useGlobalContext();
+export default function WishList() {
+  const { wishlist, cleanWishlist, setWishlistToLocal, addToCart, setCartToLocal, selectedSizeId, formData,removeProductFromWishList } = useGlobalContext();
 
   useEffect(() => {
     setWishlistToLocal();
-    setCartToLocal();
+    // setCartToLocal();
   }, []);
+
 
   return (
     <>
@@ -19,12 +20,13 @@ export default function Cart() {
         {/* elenco card carrello */}
         <section className="cart-products-list">
           {wishlist?.map((product, i) => {
-            const { name, image, price, selectedSize, selectedQuantity } = product;
+            const { slug, id, name, image, price, selectedSize, selectedQuantity, size_id } = product;
 
             const total = price * selectedQuantity;
 
             return (
               <div key={i} className="cart-card">
+                {/* <Link to={`/product/${slug}`} className="cart-card"> */}
                 <figure className="cart-card-img">
                   <img src={image} alt="" />
                 </figure>
@@ -46,6 +48,14 @@ export default function Cart() {
                     <span className="info-total-price">&euro;{Number(total.toFixed(2))}</span>
                   </div>
                 </div>
+                   <button
+                  className="btn-remove-cart-top "
+                  onClick={() => removeProductFromWishList(id, size_id)}
+                >
+                  X
+                </button>
+                
+                {/* </Link> */}
               </div>
             );
           })}
