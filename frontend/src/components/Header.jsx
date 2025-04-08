@@ -17,6 +17,9 @@ export default function Header() {
             <NavLink to={'/'} className="nav-item">
               Home
             </NavLink>
+            <NavLink to={'/catalog'} className="nav-item">
+              Catalogo
+            </NavLink>
           </nav>
         </div>
         <div className="logo-box">

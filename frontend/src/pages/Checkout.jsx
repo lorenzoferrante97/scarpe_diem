@@ -242,7 +242,7 @@ export default function Checkout() {
 
   return (
     <>
-      <main>
+      <main className="main-checkout">
         <section className="checkout-header">
           <h1 className="h1">Completa Ordine</h1>
         </section>
@@ -262,11 +262,11 @@ export default function Checkout() {
                     <span className="text-big">{name}</span>
                     <div className="riepilogo-product-info">
                       <span>Taglia</span>
-                      <span className="text-big">{selectedSize}</span>
+                      <span className="">{selectedSize}</span>
                     </div>
                     <div className="riepilogo-product-info">
                       <span>Qt.</span>
-                      <span className="text-big">x{selectedQuantity}</span>
+                      <span className="">x{selectedQuantity}</span>
                     </div>
                     <div className="riepilogo-product-info">
                       <span>Tot. Parziale</span>
