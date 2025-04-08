@@ -285,8 +285,8 @@ const [couponActive, setCouponActive] = useState('');
   //   }
   // };
 const validateProduct = (selectedSizeId) => {
-  // Return true if valid (size selected), false otherwise
-  if (selectedSizeId == 0) {
+  // Controlla anche formData.size per sicurezza
+  if (selectedSizeId === 0 || formData.size === "" || formData.size === 0) {
     setIsProductValid(false);
     return false;
   }

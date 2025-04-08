@@ -115,24 +115,30 @@ export default function ProductPage() {
               Taglia
             </label>
             {/* seleziona taglia */}
-             <select
-          name="size"
-          className="product-input"
-          onChange={(e) => {
-            const selectedSizeNumber = e.target.value;
-            const selectedSize = product?.sizes.find(
-              sizeObj => sizeObj.size_number == selectedSizeNumber
-            );
-            if (selectedSize) {
-              setMaxQuantityId(selectedSize.quantity);
-              setSizeId(selectedSize.size_id);
-              setIsProductValid(true);
-            }
-            productHandleMultiInput(e, product, maxQuantity);
-              }}
-              // Aggiunto un valore per evitare errori
-          value={formData.size}
-        >
+      <select
+  name="size"
+  className="product-input"
+  onChange={(e) => {
+    const selectedSizeNumber = e.target.value;
+    const selectedSize = product?.sizes.find(
+      sizeObj => sizeObj.size_number == selectedSizeNumber
+    );
+    
+    // Aggiungi questo blocco else
+    if (!selectedSizeNumber) {
+      setSizeId(0);
+      setMaxQuantityId(1);
+      setIsProductValid(false);
+    } else if (selectedSize) {
+      setMaxQuantityId(selectedSize.quantity);
+      setSizeId(selectedSize.size_id);
+      setIsProductValid(true);
+    }
+    
+    productHandleMultiInput(e, product, maxQuantity);
+  }}
+  value={formData.size}
+>
           <option value="">Seleziona taglia</option>
           {product?.sizes.map((size) => (
             <option key={size.size_id} value={size.size_number}>
