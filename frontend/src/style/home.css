@@ -6,6 +6,7 @@
   align-items: center;
   justify-content: center;
   padding: 1rem;
+  gap: 1rem;
 }
 
 .hero-bg {
@@ -69,10 +70,13 @@
 .hero-slider {
   width: 100%;
   border-radius: 2rem;
-  background-color: var(--color-section-high);
   overflow: hidden;
   height: 60vh;
   position: relative;
+  background-image: url('graphics/hero-bg.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
 }
 
 .slider-container {
@@ -173,19 +177,22 @@
 /* discount code */
 .hero-discount-box .info .discount-code {
   display: inline-flex;
-  padding: 0.75rem;
   justify-content: center;
   align-items: center;
   gap: 0.5rem;
-  background-color: #212121;
   align-self: flex-start;
   border-radius: 1rem;
 }
 .hero-discount-box .info .discount-code .code {
-  color: #ffffff;
-  font-size: 1.75rem;
-  font-style: normal;
+  background-color: var(--color-accent-bg);
+  color: var(--color-accent-on-bg);
   font-weight: 600;
+  border-radius: 900px;
+}
+.hero-discount-box .info .discount-code .code:hover {
+  background-color: #212121;
+  color: #ffffff;
+  cursor: pointer;
 }
 
 .hero-coupon-img {
@@ -440,10 +447,6 @@ header .cart-icon-total {
 
   .hero-slider {
     height: 40vh;
-    background-image: url('graphics/hero-bg.png');
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
   }
 
   .hero-slider .content {
@@ -623,6 +626,12 @@ header .cart-icon-total {
   .carousel-slide-container {
     max-width: 80%;
     margin: 0 auto;
+  }
+
+  .display-title {
+    font-size: 5rem;
+    font-weight: 900;
+    color: #d97161;
   }
 }
 

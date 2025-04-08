@@ -64,6 +64,13 @@ export default function ProductPage() {
     setButtonClasses('btn-success');
   };
 
+  const resetButton = () => {
+    setTimeout(() => {
+      setButtonText('Aggiungi al carrello');
+      setButtonClasses('btn-accent');
+    }, 3000);
+  };
+
   // // validazione product
   // const [isProductValid, setIsProductValid] = useState(true);
 
@@ -146,6 +153,7 @@ export default function ProductPage() {
                   console.log('isProductValid', isProductValid);
                   if (isProductValid) {
                     handleClick();
+                    resetButton();
                     addToCart(product, selectedSizeId, formData.quantity);
                   }
                 }}

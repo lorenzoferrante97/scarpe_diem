@@ -106,7 +106,7 @@ export default function Carousel({ array, topic }) {
   return (
     <div className="carousel">
       {/* title */}
-      <h2 className="h2">{carouselTitle}</h2>
+      <h2 className="h2 display-title">{carouselTitle}</h2>
 
       {/* slides */}
       <div className="carousel-slider-container" onTouchStart={handleTouchStart} onTouchMove={handleTouchMove} onTouchEnd={handleTouchEnd}>
