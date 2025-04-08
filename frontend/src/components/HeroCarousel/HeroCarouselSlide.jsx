@@ -1,5 +1,5 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React from 'react';
+import { Link } from 'react-router-dom';
 
 export default function HeroCarouselSlide({ oggetto, type }) {
   return (
@@ -11,23 +11,16 @@ export default function HeroCarouselSlide({ oggetto, type }) {
             <div className="content">
               {/* slide info */}
               <div className="info">
-                <p>
-                  {type === "mostSelled" ? "La più venduta" : "La più recente"}
-                </p>
-                <p className="text-big">
-                  {oggetto?.Prodotto || "Nome del prodotto"}
-                </p>
+                <p>{type === 'mostSelled' ? 'La più venduta' : 'La più recente'}</p>
+                <p className="text-big hero-text">{oggetto?.Prodotto || 'Nome del prodotto'}</p>
               </div>
               {/* slide button */}
-              <button className="btn btn-accent w-fit">
+              {/* <button className="btn btn-accent w-fit">
                 Aggiungi al carrello
-              </button>
+              </button> */}
               {/* slide img */}
               <figure className="carousel-img">
-                <img
-                  src={oggetto?.Immagine || "graphics/sneaker-mostselled.png"}
-                  alt={oggetto?.Prodotto || "Immagine del prodotto"}
-                />
+                <img src={oggetto?.Immagine || 'graphics/sneaker-mostselled.png'} alt={oggetto?.Prodotto || 'Immagine del prodotto'} />
               </figure>
             </div>
           </div>

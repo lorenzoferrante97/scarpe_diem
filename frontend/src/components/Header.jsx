@@ -3,11 +3,14 @@ import { Basket } from '@phosphor-icons/react';
 import { Heart } from '@phosphor-icons/react';
 import { MagnifyingGlass } from '@phosphor-icons/react';
 import CouponBanner from './CouponBanner';
+import { useGlobalContext } from '../contexts/GlobalContext';
 
 export default function Header() {
+  const { cart } = useGlobalContext();
+
   return (
     <section className="header-container">
-     <CouponBanner/>
+      <CouponBanner />
       <header>
         <div className="menu-box">
           <nav>
@@ -27,6 +30,7 @@ export default function Header() {
             <div className="header-btn-container">
               <NavLink to={'/cart'} className="header-btn">
                 <Basket size={24} color={location.pathname === '/cart' ? '#a92e1b' : '#212121'} weight="duotone" />
+                <span className={`cart-icon-total ${cart?.length == 0 && 'hidden'}`}>{cart?.length}</span>
               </NavLink>
               <NavLink to={'/wishlist'} className="header-btn">
                 <Heart size={24} color={location.pathname === '/wishlist' ? '#a92e1b' : '#212121'} weight="duotone" />

@@ -82,6 +82,13 @@ export default function ProductPage() {
     setButtonClasses("btn-success");
   };
 
+  const resetButton = () => {
+    setTimeout(() => {
+      setButtonText('Aggiungi al carrello');
+      setButtonClasses('btn-accent');
+    }, 3000);
+  };
+
   // // validazione product
   // const [isProductValid, setIsProductValid] = useState(true);
 
@@ -180,6 +187,7 @@ useEffect(() => {
                 onClick={() => {
                   if (validateProduct(selectedSizeId)) {
                     handleClick();
+                    resetButton();
                     addToCart(product, selectedSizeId, formData.quantity);
                   }
                 }}
