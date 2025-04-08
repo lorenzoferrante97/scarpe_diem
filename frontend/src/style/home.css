@@ -367,6 +367,10 @@ header .icons-box {
   font-weight: 900;
   font-size: 1.5rem;
 }
+.coupon {
+  color: var(--color-accent-bg);
+ 
+}
 
 .nav-item {
   padding-inline: 1rem;

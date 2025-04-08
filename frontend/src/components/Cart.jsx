@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 export default function Cart() {
-  const { cart, cleanCart, setCartToLocal } = useGlobalContext();
+  const { cart, cleanCart, setCartToLocal, removeProductFromCart } = useGlobalContext();
 
   useEffect(() => {
     setCartToLocal();
@@ -20,14 +20,14 @@ export default function Cart() {
         {/* elenco card carrello */}
         <section className="cart-products-list">
           {cart?.map((product, i) => {
-            const { name, image, price, selectedSize, selectedQuantity } = product;
+            const { id, name, image, price, selectedSize, selectedQuantity, size_id } = product;
 
             const total = price * selectedQuantity;
 
             return (
               <div key={i} className="cart-card">
                 <figure className="cart-card-img">
-                  <img src={image} alt="" />
+                  <img src={image} alt={name} />
                 </figure>
                 {/* card info */}
                 <div className="cart-card-info">
@@ -47,6 +47,13 @@ export default function Cart() {
                     <span className="info-total-price">&euro;{Number(total.toFixed(2))}</span>
                   </div>
                 </div>
+                {/* Bottone di eliminazione */}
+                <button
+                  className="btn-remove-cart-top "
+                  onClick={() => removeProductFromCart(id, size_id)}
+                >
+                  X
+                </button>
               </div>
             );
           })}
