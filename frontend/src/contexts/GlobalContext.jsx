@@ -127,20 +127,59 @@ const GlobalProvider = ({ children }) => {
   };
 
   // add to wishlist
-  const addToWishlist = (product, size_id, quantity) => {
-    setWishlist((prevWish) => {
-      const newWish = [
-        ...prevWish,
-        {
-          ...product,
+  // const addToWishlist = (product, size_id, quantity) => {
+  //   setWishlist((prevWish) => {
+  //     const newWish = [
+  //       ...prevWish,
+  //       {
+  //         ...product,
 
-          size_id: size_id, // Usa sempre questa variabile per consistenza
-          selectedQuantity: quantity, // La quantità selezionata
-          selectedSize: formData.size,
-        },
-      ];
-      localStorage.setItem('wishlist', JSON.stringify(newWish));
-      return newWish;
+  //         size_id: size_id, // Usa sempre questa variabile per consistenza
+  //         selectedQuantity: quantity, // La quantità selezionata
+  //         selectedSize: formData.size,
+  //       },
+  //     ];
+  //     localStorage.setItem('wishlist', JSON.stringify(newWish));
+  //     return newWish;
+  //   });
+  // };
+
+  const addToWishlist = (product, size_id, quantity) => {
+    let newWish = [];
+    let updateNewWishlist = [];
+
+    setWishlist((prevWish) => {
+      const existingProduct = prevWish?.find((prevProduct) => prevProduct.id == product.id && prevProduct.size_id == size_id);
+
+      if (existingProduct) {
+        const updatedProduct = {
+          ...existingProduct,
+          selectedQuantity: existingProduct.selectedQuantity + quantity,
+        };
+
+        updateNewWishlist = prevWish.filter((prevProduct) => prevProduct.id != existingProduct.id || prevProduct.size_id != existingProduct.size_id);
+
+        updateNewWishlist.push(updatedProduct);
+      } else {
+        newWish = [
+          ...prevWish,
+          {
+            ...product,
+
+            size_id: size_id, // Usa sempre questa variabile per consistenza
+            selectedQuantity: quantity, // La quantità selezionata
+            selectedSize: formData.size,
+          },
+        ];
+      }
+
+      if (updateNewWishlist.length > 0) {
+        localStorage.setItem('wishlist', JSON.stringify(updateNewWishlist));
+        return updateNewWishlist;
+      } else {
+        localStorage.setItem('wishlist', JSON.stringify(newWish));
+        return newWish;
+      }
     });
   };
 
