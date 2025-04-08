@@ -12,3 +12,13 @@
   font-size: 5rem;
   color: var(--color-accent-bg);
 }
+
+.animation-404 {
+  width: 100%;
+}
+
+@media screen and (min-width: 576px) {
+  .animation-404 {
+    max-width: 60%;
+  }
+}
