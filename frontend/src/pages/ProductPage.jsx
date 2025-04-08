@@ -1,10 +1,26 @@
-import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import { useGlobalContext } from '../contexts/GlobalContext';
-import Carousel from './../components/Carousel/Carousel';
+import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import { useGlobalContext } from "../contexts/GlobalContext";
+import Carousel from "./../components/Carousel/Carousel";
 
 export default function ProductPage() {
-  const { addToCart, setCartToLocal, productHandleMultiInput, formData, setWishlistToLocal, addToWishlist, selectedSizeId, setSizeId, maxQuantity, setMaxQuantityId, resetFormData, cart, isProductValid, validateProduct } = useGlobalContext();
+  const {
+    addToCart,
+    setCartToLocal,
+    productHandleMultiInput,
+    formData,
+    setWishlistToLocal,
+    addToWishlist,
+    selectedSizeId,
+    setSizeId,
+    maxQuantity,
+    setMaxQuantityId,
+    resetFormData,
+    cart,
+    isProductValid,
+    validateProduct,
+    setIsProductValid
+  } = useGlobalContext();
 
   const [product, setProduct] = useState(null);
   const [related, setRelated] = useState(null);
@@ -32,7 +48,9 @@ export default function ProductPage() {
   }, [product]);
 
   const handleRelated = () => {
-    fetch(`http://localhost:3000/products/related?categoryId=${product?.category_id}&slug=${slug}`)
+    fetch(
+      `http://localhost:3000/products/related?categoryId=${product?.category_id}&slug=${slug}`
+    )
       .then((response) => response.json())
       .then((data) => setRelated(data))
       .catch((error) => {
@@ -57,11 +75,11 @@ export default function ProductPage() {
   // const [selectedSizeId, setSelectedSizeId] = useState(null);
 
   // feedback al click add to cart
-  const [buttonText, setButtonText] = useState('Aggiungi al carrello');
-  const [buttonClasses, setButtonClasses] = useState('btn-accent');
+  const [buttonText, setButtonText] = useState("Aggiungi al carrello");
+  const [buttonClasses, setButtonClasses] = useState("btn-accent");
   const handleClick = () => {
-    setButtonText('Aggiunto al carrello!');
-    setButtonClasses('btn-success');
+    setButtonText("Aggiunto al carrello!");
+    setButtonClasses("btn-success");
   };
 
   // // validazione product
@@ -72,7 +90,9 @@ export default function ProductPage() {
   //     setIsProductValid(false);
   //   }
   // };
-
+useEffect(() => {
+  console.log("isProductValid aggiornato:", isProductValid);
+}, [isProductValid]);
   return (
     <main>
       {/* Sezione prodotto */}
@@ -98,12 +118,14 @@ export default function ProductPage() {
               className="product-input"
               onChange={(e) => {
                 const selectedSizeNumber = e.target.value;
-                const selectedSize = product?.sizes.find((sizeObj) => sizeObj.size_number == selectedSizeNumber);
+                const selectedSize = product?.sizes.find(
+                  (sizeObj) => sizeObj.size_number == selectedSizeNumber
+                );
                 if (selectedSize) {
-                  // setMaxQuantity(selectedSize.quantity); // Imposta la quantità massima disponibile
                   setMaxQuantityId(selectedSize.quantity);
                   setSizeId(selectedSize.size_id);
-                  // setSelectedSizeId(selectedSize.size_id); // Salva il size_id selezionato
+                  setIsProductValid(true);
+                  // Resetta l'errore quando viene selezionata una taglia
                 }
                 productHandleMultiInput(e, product, maxQuantity);
               }}
@@ -115,7 +137,11 @@ export default function ProductPage() {
                 </option>
               ))}
             </select>
-            <div className={`size-error-box ${isProductValid && 'hidden'}`}>
+            <div
+              className={`size-error-box ${
+                isProductValid === true ? "hidden" : ""
+              }`}
+            >
               <p className="size-error-text">Seleziona una taglia</p>
             </div>
 
@@ -125,7 +151,17 @@ export default function ProductPage() {
               </label>
               <div className="quantity-input-box">
                 {/* seleziona quantità */}
-                <input className="product-input" type="number" name="quantity" min="1" max={maxQuantity} value={formData.quantity} onChange={(e) => productHandleMultiInput(e, product, maxQuantity)} />
+                <input
+                  className="product-input"
+                  type="number"
+                  name="quantity"
+                  min="1"
+                  max={maxQuantity}
+                  value={formData.quantity}
+                  onChange={(e) =>
+                    productHandleMultiInput(e, product, maxQuantity)
+                  }
+                />
 
                 {/* alert quantità disponibile */}
                 {formData.size === 0 ? (
@@ -142,9 +178,7 @@ export default function ProductPage() {
               <button
                 className={buttonClasses}
                 onClick={() => {
-                  validateProduct(selectedSizeId);
-                  console.log('isProductValid', isProductValid);
-                  if (isProductValid) {
+                  if (validateProduct(selectedSizeId)) {
                     handleClick();
                     addToCart(product, selectedSizeId, formData.quantity);
                   }
@@ -152,7 +186,12 @@ export default function ProductPage() {
               >
                 {buttonText}
               </button>
-              <button className="btn-sec" onClick={() => addToWishlist(product, selectedSizeId, formData.quantity)}>
+              <button
+                className="btn-sec"
+                onClick={() =>
+                  addToWishlist(product, selectedSizeId, formData.quantity)
+                }
+              >
                 Aggiungi alla Wishlist
               </button>
             </div>
@@ -164,7 +203,11 @@ export default function ProductPage() {
 
       {related && (
         <section id="home-category" className="carousel-section">
-          {Array.isArray(related) && related.length > 0 ? <Carousel array={related} topic="related" /> : <p>Prodotti correlati non disponibili</p>}
+          {Array.isArray(related) && related.length > 0 ? (
+            <Carousel array={related} topic="related" />
+          ) : (
+            <p>Prodotti correlati non disponibili</p>
+          )}
         </section>
       )}
     </main>
