@@ -1,8 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useGlobalContext } from '../contexts/GlobalContext';
 import FormError from '../components/FormError';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 export default function Checkout() {
+  const navigate = useNavigate();
+
   const { cart, setCartToLocal } = useGlobalContext();
   const [isFattSameOfSped, setIsFattSameOfSped] = useState(false);
   const [formData, setFormData] = useState({
@@ -218,7 +221,8 @@ export default function Checkout() {
           return response.json();
         })
         .then((data) => {
-          alert('Ordine completato con successo!');
+          navigate('/checkout/order-completed');
+          // alert('Ordine completato con successo!');
           console.log('Risultato:', data);
         })
         .catch((error) => {
@@ -376,7 +380,7 @@ export default function Checkout() {
               </div>
               {/* actions */}
               <div className="checkout-form-box">
-                <button className="btn btn-accent">Completa pagamento</button>
+                <button className="btn btn-accent">Completa ordine</button>
                 {errorForm ? <FormError errorText={errorForm} /> : null}
               </div>
             </form>
