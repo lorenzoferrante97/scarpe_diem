@@ -386,7 +386,12 @@ header .cart-icon-total {
   font-size: 1.5rem;
 }
 .coupon {
-  color: var(--color-accent-bg);
+  background-color: var(--color-sec-bg);
+  color: var(--color-sec-on-bg);
+  border-radius: 0.25rem;
+  padding-inline: 0.75rem;
+  padding-inline: 0.25rem;
+  font-weight: 700;
 }
 
 .nav-item {
