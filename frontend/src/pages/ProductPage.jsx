@@ -64,6 +64,15 @@ export default function ProductPage() {
     setButtonClasses('btn-success');
   };
 
+  // validazione product
+  const [isProductValid, setIsProductValid] = useState(true);
+
+  const validateProduct = (selectedSizeId) => {
+    if (selectedSizeId == 0) {
+      setIsProductValid(false);
+    }
+  };
+
   return (
     <main>
       {/* Sezione prodotto */}
@@ -106,6 +115,9 @@ export default function ProductPage() {
                 </option>
               ))}
             </select>
+            <div className={`size-error-box ${isProductValid && 'hidden'}`}>
+              <p className="size-error-text">Seleziona una taglia</p>
+            </div>
 
             <div className="product-quantity-box">
               <label htmlFor="quantity" className="text-big">
@@ -130,8 +142,12 @@ export default function ProductPage() {
               <button
                 className={buttonClasses}
                 onClick={() => {
-                  handleClick();
-                  addToCart(product, selectedSizeId, formData.quantity);
+                  console.log('isProductValid', isProductValid);
+                  validateProduct(selectedSizeId);
+                  if (isProductValid) {
+                    handleClick();
+                    addToCart(product, selectedSizeId, formData.quantity);
+                  }
                 }}
               >
                 {buttonText}
