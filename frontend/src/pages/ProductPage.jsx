@@ -4,7 +4,7 @@ import { useGlobalContext } from '../contexts/GlobalContext';
 import Carousel from './../components/Carousel/Carousel';
 
 export default function ProductPage() {
-  const { addToCart, setCartToLocal, productHandleMultiInput, formData, setWishlistToLocal, addToWishlist, selectedSizeId, setSizeId, maxQuantity, setMaxQuantityId, resetFormData, cart } = useGlobalContext();
+  const { addToCart, setCartToLocal, productHandleMultiInput, formData, setWishlistToLocal, addToWishlist, selectedSizeId, setSizeId, maxQuantity, setMaxQuantityId, resetFormData, cart, isProductValid, validateProduct } = useGlobalContext();
 
   const [product, setProduct] = useState(null);
   const [related, setRelated] = useState(null);
@@ -56,6 +56,23 @@ export default function ProductPage() {
 
   // const [selectedSizeId, setSelectedSizeId] = useState(null);
 
+  // feedback al click add to cart
+  const [buttonText, setButtonText] = useState('Aggiungi al carrello');
+  const [buttonClasses, setButtonClasses] = useState('btn-accent');
+  const handleClick = () => {
+    setButtonText('Aggiunto al carrello!');
+    setButtonClasses('btn-success');
+  };
+
+  // // validazione product
+  // const [isProductValid, setIsProductValid] = useState(true);
+
+  // const validateProduct = (selectedSizeId) => {
+  //   if (selectedSizeId == 0) {
+  //     setIsProductValid(false);
+  //   }
+  // };
+
   return (
     <main>
       {/* Sezione prodotto */}
@@ -98,6 +115,9 @@ export default function ProductPage() {
                 </option>
               ))}
             </select>
+            <div className={`size-error-box ${isProductValid && 'hidden'}`}>
+              <p className="size-error-text">Seleziona una taglia</p>
+            </div>
 
             <div className="product-quantity-box">
               <label htmlFor="quantity" className="text-big">
@@ -119,8 +139,18 @@ export default function ProductPage() {
             </div>
 
             <div className="card-actions-box buttons-container">
-              <button className="btn-accent" onClick={() => addToCart(product, selectedSizeId, formData.quantity)}>
-                Aggiungi al carrello
+              <button
+                className={buttonClasses}
+                onClick={() => {
+                  validateProduct(selectedSizeId);
+                  console.log('isProductValid', isProductValid);
+                  if (isProductValid) {
+                    handleClick();
+                    addToCart(product, selectedSizeId, formData.quantity);
+                  }
+                }}
+              >
+                {buttonText}
               </button>
               <button className="btn-sec" onClick={() => addToWishlist(product, selectedSizeId, formData.quantity)}>
                 Aggiungi alla Wishlist

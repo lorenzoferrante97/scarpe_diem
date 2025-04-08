@@ -107,6 +107,23 @@
   color: var(--color-sec-on-bg);
 }
 
+/* size error */
+.size-error-box {
+  display: flex;
+  align-items: center;
+  background-color: var(--color-sec-bg);
+  border-radius: 0.4rem;
+  padding-inline: 0.5rem;
+  padding-block: 0.25rem;
+}
+.size-error-box.hidden {
+  display: none;
+}
+
+.size-error-text {
+  color: var(--color-sec-on-bg);
+}
+
 /* QUERY BREAKPOINTS ------------------------------------------------ */
 
 /* smartphone landscape / mini tablet */

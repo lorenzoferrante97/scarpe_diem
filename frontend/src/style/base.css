@@ -172,6 +172,17 @@ button {
   font-weight: 600;
 }
 
+.btn-success {
+  border-radius: 900px;
+  background: var(--color-success-bg);
+  color: var(--color-success-on-bg);
+  text-align: center;
+  font-family: var(--font);
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 600;
+}
+
 /* button secondario */
 .btn-sec {
   border-radius: 900px;

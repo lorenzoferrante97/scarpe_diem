@@ -274,6 +274,17 @@ const [couponActive, setCouponActive] = useState('');
   }
 
 
+  // validazione product
+  const [isProductValid, setIsProductValid] = useState(true);
+
+  const validateProduct = (selectedSizeId) => {
+    if (selectedSizeId == 0) {
+      setIsProductValid(false);
+      console.log('selectedSizeId da global', selectedSizeId);
+      console.log('isProductValid da global', isProductValid);
+    }
+  };
+
   const value = {
     activeDotIndex,
     mostSelled,
@@ -305,6 +316,8 @@ const [couponActive, setCouponActive] = useState('');
     maxQuantity,
     setMaxQuantityId,
     resetFormData,
+    isProductValid,
+    validateProduct,
     handleCouponActive,
     couponActive,
     
