@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import Card from "../components/Card";
+import { useEffect, useState } from 'react';
+import Card from '../components/Card';
 
 export default function CatalogPage() {
   const [prodotti, setProdotti] = useState([]);
@@ -7,9 +7,9 @@ export default function CatalogPage() {
   const [errore, setErrore] = useState(null);
 
   useEffect(() => {
-    fetch("http://localhost:3000/products/")
+    fetch('http://localhost:3000/products/')
       .then((res) => {
-        if (!res.ok) throw new Error("Errore nel caricamento dei prodotti");
+        if (!res.ok) throw new Error('Errore nel caricamento dei prodotti');
         return res.json();
       })
       .then((data) => {
@@ -27,27 +27,17 @@ export default function CatalogPage() {
   if (errore) return <p>Errore: {errore}</p>;
 
   return (
-    <div
-      className="catalog-container"
-      style={{
-        display: "flex",
-        flexWrap: "wrap",
-        justifyContent: "center",
-        gap: "1.5rem",
-        padding: "2rem",
-      }}
-    >
-      {prodotti.map((prodotto, index) => (
-        <div
-          key={index}
-          style={{
-            flex: "0 1 calc(33.333% - 1rem)",
-            boxSizing: "border-box",
-          }}
-        >
-          <Card content={prodotto} />
-        </div>
-      ))}
-    </div>
+    <main>
+      <section className="catalog-header">
+        <h1 className="h1">Catalogo</h1>
+      </section>
+      <div className="catalog-container">
+        {prodotti.map((prodotto, index) => (
+          <div key={index} className="catalog-item">
+            <Card content={prodotto} />
+          </div>
+        ))}
+      </div>
+    </main>
   );
 }
