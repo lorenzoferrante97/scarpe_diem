@@ -2,13 +2,12 @@ import { NavLink, Link } from 'react-router-dom';
 import { Basket } from '@phosphor-icons/react';
 import { Heart } from '@phosphor-icons/react';
 import { MagnifyingGlass } from '@phosphor-icons/react';
+import CouponBanner from './CouponBanner';
 
 export default function Header() {
   return (
     <section className="header-container">
-      <div className="coupon-box">
-        <p>Coupon SCONTO-10</p>
-      </div>
+     <CouponBanner/>
       <header>
         <div className="menu-box">
           <nav>
