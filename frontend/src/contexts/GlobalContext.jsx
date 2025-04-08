@@ -65,18 +65,18 @@ const GlobalProvider = ({ children }) => {
 
   const [cart, setCart] = useState([]);
   const [wishlist, setWishlist] = useState([]);
-
-  const setCartToLocal = () => {
-    const savedCart = JSON.parse(localStorage.getItem('cart'));
-    if (savedCart) {
-      setCart(savedCart);
-    }
-  };
   // wishlist to local
   const setWishlistToLocal = () => {
     const savedWishlist = JSON.parse(localStorage.getItem('wishlist'));
     if (savedWishlist) {
       setWishlist(savedWishlist);
+    }
+  };
+
+  const setCartToLocal = () => {
+    const savedCart = JSON.parse(localStorage.getItem('cart'));
+    if (savedCart) {
+      setCart(savedCart);
     }
   };
 
@@ -126,6 +126,25 @@ const GlobalProvider = ({ children }) => {
     });
   };
 
+  const removeProductFromCart = (productId, sizeId) => {
+    setCart((prevCart) => {
+      const updatedCart = prevCart.filter(
+        (item) => item.id !== productId || item.size_id !== sizeId
+      );
+      localStorage.setItem('cart', JSON.stringify(updatedCart));
+      return updatedCart;
+    });
+  };
+  
+  const removeProductFromWishList = (productId, sizeId) => {
+    setWishlist((prevWish) => {
+      const updatedWish = prevWish.filter(
+        (item) => item.id !== productId || item.size_id !== sizeId
+      );
+      localStorage.setItem('wishlist', JSON.stringify(updatedWish));
+      return updatedWish;
+    });
+  };
   // add to wishlist
   // const addToWishlist = (product, size_id, quantity) => {
   //   setWishlist((prevWish) => {
@@ -270,6 +289,8 @@ const [couponActive, setCouponActive] = useState('');
     addToCart,
     setCartToLocal,
     cleanCart,
+    removeProductFromCart,
+    removeProductFromWishList,
     productHandleMultiInput,
     formData,
     setSearchTerm,
@@ -286,6 +307,7 @@ const [couponActive, setCouponActive] = useState('');
     resetFormData,
     handleCouponActive,
     couponActive,
+    
   };
   return <GlobalContext.Provider value={value}>{children}</GlobalContext.Provider>;
 };
