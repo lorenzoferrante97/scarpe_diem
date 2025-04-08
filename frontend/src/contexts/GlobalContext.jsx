@@ -274,17 +274,25 @@ const [couponActive, setCouponActive] = useState('');
   }
 
 
-  // validazione product
+  //! validazione product
   const [isProductValid, setIsProductValid] = useState(true);
 
-  const validateProduct = (selectedSizeId) => {
-    if (selectedSizeId == 0) {
-      setIsProductValid(false);
-      console.log('selectedSizeId da global', selectedSizeId);
-      console.log('isProductValid da global', isProductValid);
-    }
-  };
-
+  // const validateProduct = (selectedSizeId) => {
+  //   if (selectedSizeId == 0) {
+  //     setIsProductValid(false);
+  //     console.log('selectedSizeId da global', selectedSizeId);
+  //     console.log('isProductValid da global', isProductValid);
+  //   }
+  // };
+const validateProduct = (selectedSizeId) => {
+  // Return true if valid (size selected), false otherwise
+  if (selectedSizeId == 0) {
+    setIsProductValid(false);
+    return false;
+  }
+  setIsProductValid(true);
+  // return true;
+};
   const value = {
     activeDotIndex,
     mostSelled,
@@ -320,6 +328,7 @@ const [couponActive, setCouponActive] = useState('');
     validateProduct,
     handleCouponActive,
     couponActive,
+    setIsProductValid
     
   };
   return <GlobalContext.Provider value={value}>{children}</GlobalContext.Provider>;
