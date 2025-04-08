@@ -291,6 +291,7 @@
   padding: 0px;
   border-radius: 900px;
   background-color: transparent;
+  position: relative;
 }
 
 .header-btn.active {
@@ -344,6 +345,23 @@ header .icons-box {
   padding-inline: 0.5rem;
 }
 
+header .cart-icon-total {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--color-accent-bg);
+  color: var(--color-accent-on-bg);
+  font-weight: 500;
+  border-radius: 900px;
+  /* padding: 0.25rem; */
+  height: 1.5rem;
+  aspect-ratio: 1/1;
+  line-height: 100%;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
 .coupon-box {
   width: 92%;
   margin: 0 auto;
@@ -369,7 +387,6 @@ header .icons-box {
 }
 .coupon {
   color: var(--color-accent-bg);
- 
 }
 
 .nav-item {
