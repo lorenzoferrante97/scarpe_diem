@@ -362,6 +362,10 @@ header .cart-icon-total {
   right: 0;
 }
 
+.cart-icon-total.hidden {
+  display: none;
+}
+
 .coupon-box {
   width: 92%;
   margin: 0 auto;
