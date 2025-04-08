@@ -291,7 +291,7 @@ const validateProduct = (selectedSizeId) => {
     return false;
   }
   setIsProductValid(true);
-  // return true;
+  return true;
 };
   const value = {
     activeDotIndex,
