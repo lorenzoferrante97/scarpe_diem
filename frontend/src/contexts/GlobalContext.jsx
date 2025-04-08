@@ -242,6 +242,17 @@ const GlobalProvider = ({ children }) => {
     setMaxQuantity(maxQuantity);
   };
 
+  // validazione product
+  const [isProductValid, setIsProductValid] = useState(true);
+
+  const validateProduct = (selectedSizeId) => {
+    if (selectedSizeId == 0) {
+      setIsProductValid(false);
+      console.log('selectedSizeId da global', selectedSizeId);
+      console.log('isProductValid da global', isProductValid);
+    }
+  };
+
   const value = {
     activeDotIndex,
     mostSelled,
@@ -271,6 +282,8 @@ const GlobalProvider = ({ children }) => {
     maxQuantity,
     setMaxQuantityId,
     resetFormData,
+    isProductValid,
+    validateProduct,
   };
   return <GlobalContext.Provider value={value}>{children}</GlobalContext.Provider>;
 };

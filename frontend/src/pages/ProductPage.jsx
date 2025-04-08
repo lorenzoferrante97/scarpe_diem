@@ -4,7 +4,7 @@ import { useGlobalContext } from '../contexts/GlobalContext';
 import Carousel from './../components/Carousel/Carousel';
 
 export default function ProductPage() {
-  const { addToCart, setCartToLocal, productHandleMultiInput, formData, setWishlistToLocal, addToWishlist, selectedSizeId, setSizeId, maxQuantity, setMaxQuantityId, resetFormData, cart } = useGlobalContext();
+  const { addToCart, setCartToLocal, productHandleMultiInput, formData, setWishlistToLocal, addToWishlist, selectedSizeId, setSizeId, maxQuantity, setMaxQuantityId, resetFormData, cart, isProductValid, validateProduct } = useGlobalContext();
 
   const [product, setProduct] = useState(null);
   const [related, setRelated] = useState(null);
@@ -64,14 +64,14 @@ export default function ProductPage() {
     setButtonClasses('btn-success');
   };
 
-  // validazione product
-  const [isProductValid, setIsProductValid] = useState(true);
+  // // validazione product
+  // const [isProductValid, setIsProductValid] = useState(true);
 
-  const validateProduct = (selectedSizeId) => {
-    if (selectedSizeId == 0) {
-      setIsProductValid(false);
-    }
-  };
+  // const validateProduct = (selectedSizeId) => {
+  //   if (selectedSizeId == 0) {
+  //     setIsProductValid(false);
+  //   }
+  // };
 
   return (
     <main>
@@ -142,8 +142,8 @@ export default function ProductPage() {
               <button
                 className={buttonClasses}
                 onClick={() => {
-                  console.log('isProductValid', isProductValid);
                   validateProduct(selectedSizeId);
+                  console.log('isProductValid', isProductValid);
                   if (isProductValid) {
                     handleClick();
                     addToCart(product, selectedSizeId, formData.quantity);
