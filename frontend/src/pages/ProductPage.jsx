@@ -27,20 +27,25 @@ export default function ProductPage() {
 
   const { slug } = useParams();
 
+  // Reset completo al cambio prodotto
   useEffect(() => {
     resetFormData();
     setSizeId(0);
     setMaxQuantityId(1);
-  }, []);
-
-  useEffect(() => {
+    setIsProductValid(true);
+    // setButtonText("Aggiungi al carrello");
+    // setButtonClasses("btn-accent");
     fetchProduct(slug);
     setCartToLocal();
     setWishlistToLocal();
-  }, [slug]);
+  }, [slug]); 
 
-  //  controllo se il prodotto è stato caricato
-  // se è stato caricato allora faccio la ricerca
+  // useEffect(() => {
+  //   fetchProduct(slug);
+  //   setCartToLocal();
+  //   setWishlistToLocal();
+  // }, [slug]);
+
   useEffect(() => {
     if (product) {
       handleRelated();
@@ -89,17 +94,7 @@ export default function ProductPage() {
     }, 3000);
   };
 
-  // // validazione product
-  // const [isProductValid, setIsProductValid] = useState(true);
-
-  // const validateProduct = (selectedSizeId) => {
-  //   if (selectedSizeId == 0) {
-  //     setIsProductValid(false);
-  //   }
-  // };
-useEffect(() => {
-  console.log("isProductValid aggiornato:", isProductValid);
-}, [isProductValid]);
+ 
   return (
     <main>
       {/* Sezione prodotto */}
@@ -120,30 +115,31 @@ useEffect(() => {
               Taglia
             </label>
             {/* seleziona taglia */}
-            <select
-              name="size"
-              className="product-input"
-              onChange={(e) => {
-                const selectedSizeNumber = e.target.value;
-                const selectedSize = product?.sizes.find(
-                  (sizeObj) => sizeObj.size_number == selectedSizeNumber
-                );
-                if (selectedSize) {
-                  setMaxQuantityId(selectedSize.quantity);
-                  setSizeId(selectedSize.size_id);
-                  setIsProductValid(true);
-                  // Resetta l'errore quando viene selezionata una taglia
-                }
-                productHandleMultiInput(e, product, maxQuantity);
+             <select
+          name="size"
+          className="product-input"
+          onChange={(e) => {
+            const selectedSizeNumber = e.target.value;
+            const selectedSize = product?.sizes.find(
+              sizeObj => sizeObj.size_number == selectedSizeNumber
+            );
+            if (selectedSize) {
+              setMaxQuantityId(selectedSize.quantity);
+              setSizeId(selectedSize.size_id);
+              setIsProductValid(true);
+            }
+            productHandleMultiInput(e, product, maxQuantity);
               }}
-            >
-              <option value="">Seleziona taglia</option>
-              {product?.sizes.map((size) => (
-                <option key={size.size_id} value={size.size_number}>
-                  {size.size_number}
-                </option>
-              ))}
-            </select>
+              // Aggiunto un valore per evitare errori
+          value={formData.size}
+        >
+          <option value="">Seleziona taglia</option>
+          {product?.sizes.map((size) => (
+            <option key={size.size_id} value={size.size_number}>
+              {size.size_number}
+            </option>
+          ))}
+        </select>
             <div
               className={`size-error-box ${
                 isProductValid === true ? "hidden" : ""
