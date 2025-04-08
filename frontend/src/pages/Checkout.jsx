@@ -232,11 +232,56 @@ export default function Checkout() {
   const handleCheckboxChange = (event) => {
     setIsFattSameOfSped(event.target.checked);
   };
+
+  // totale ordine per riepilogo
+  let orderTotal = 0;
+
   return (
     <>
       <main>
         <section className="checkout-header">
-          <h1 className="h1">Checkout</h1>
+          <h1 className="h1">Completa Ordine</h1>
+        </section>
+        {/* riepilogo ordine */}
+        <section className="checkout-form-section riepilogo-section">
+          <h2 className="h2">Riepilogo Ordine</h2>
+          {/* elenco prodotti carrello minimal */}
+          <div className="riepilogo-products-box">
+            {cart?.map((product) => {
+              const { name, selectedQuantity, selectedSize, price } = product;
+              const productTotal = price * selectedQuantity;
+              orderTotal = orderTotal + productTotal;
+
+              return (
+                <>
+                  <div className="riepilogo-product-info-box">
+                    <span className="text-big">{name}</span>
+                    <div className="riepilogo-product-info">
+                      <span>Taglia</span>
+                      <span className="text-big">{selectedSize}</span>
+                    </div>
+                    <div className="riepilogo-product-info">
+                      <span>Qt.</span>
+                      <span className="text-big">x{selectedQuantity}</span>
+                    </div>
+                    <div className="riepilogo-product-info">
+                      <span>Tot. Parziale</span>
+                      <span className="text-big">&euro;{productTotal}</span>
+                    </div>
+                    <hr />
+                  </div>
+                </>
+              );
+            })}
+          </div>
+          <div className="riepilogo-products-box total-box">
+            <span className="text-big">Totale ordine</span>
+            <span className="text-big total-price">&euro;{orderTotal}</span>
+          </div>
+          {/* spedizione gratuita */}
+          <div className={orderTotal < 250.0 ? 'riepilogo-products-box free hidden' : 'riepilogo-products-box free'}>
+            <p className="free-text">Il tuo ordine è idoneo per la spedizione gratuita!</p>
+          </div>
         </section>
         <section className="checkout-form-section">
           {/* form */}
@@ -336,8 +381,6 @@ export default function Checkout() {
               </div>
             </form>
           </div>
-          {/* riepilogo ordine */}
-          <div></div>
         </section>
       </main>
     </>
