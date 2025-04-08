@@ -56,6 +56,14 @@ export default function ProductPage() {
 
   // const [selectedSizeId, setSelectedSizeId] = useState(null);
 
+  // feedback al click add to cart
+  const [buttonText, setButtonText] = useState('Aggiungi al carrello');
+  const [buttonClasses, setButtonClasses] = useState('btn-accent');
+  const handleClick = () => {
+    setButtonText('Aggiunto al carrello!');
+    setButtonClasses('btn-success');
+  };
+
   return (
     <main>
       {/* Sezione prodotto */}
@@ -119,8 +127,14 @@ export default function ProductPage() {
             </div>
 
             <div className="card-actions-box buttons-container">
-              <button className="btn-accent" onClick={() => addToCart(product, selectedSizeId, formData.quantity)}>
-                Aggiungi al carrello
+              <button
+                className={buttonClasses}
+                onClick={() => {
+                  handleClick();
+                  addToCart(product, selectedSizeId, formData.quantity);
+                }}
+              >
+                {buttonText}
               </button>
               <button className="btn-sec" onClick={() => addToWishlist(product, selectedSizeId, formData.quantity)}>
                 Aggiungi alla Wishlist
