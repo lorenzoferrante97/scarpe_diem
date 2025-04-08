@@ -241,6 +241,19 @@ const GlobalProvider = ({ children }) => {
   const setMaxQuantityId = (maxQuantity) => {
     setMaxQuantity(maxQuantity);
   };
+  // Coupon active -------------------------------------
+const [couponActive, setCouponActive] = useState('');
+  function handleCouponActive(){
+    fetch('http://localhost:3000/products/coupons')
+      .then((response) => response.json())
+      .then((data) => {
+        setCouponActive(data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
 
   const value = {
     activeDotIndex,
@@ -271,6 +284,8 @@ const GlobalProvider = ({ children }) => {
     maxQuantity,
     setMaxQuantityId,
     resetFormData,
+    handleCouponActive,
+    couponActive,
   };
   return <GlobalContext.Provider value={value}>{children}</GlobalContext.Provider>;
 };
