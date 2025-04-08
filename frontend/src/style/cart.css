@@ -104,6 +104,22 @@
   border-radius: 50%;
   background-color: rgba(0, 0, 0, 0.1);
 }
+
+
+
+/* Vai al prodotto WISHLIST */
+.vai-al-prodotto {
+  display: block;
+  text-align: center;
+  margin: 2rem auto; 
+  padding: 0.5rem 1rem; 
+  background-color: var(--color-accent-bg);
+  color: white; 
+  text-decoration: none; 
+  border-radius: 0.5rem; 
+  width: fit-content; 
+}
+
 /* TABLET MINI -------------------------------------------------- */
 @media (min-width: 576px) {
   .cart-actions {
