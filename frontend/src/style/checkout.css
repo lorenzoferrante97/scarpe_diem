@@ -89,3 +89,64 @@
 form .hidden {
   display: none;
 }
+
+/* riepilogo */
+
+.riepilogo-products-box {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.75rem;
+  background-color: var(--color-section-high);
+  padding: 0.75rem;
+  border-radius: 1.25rem;
+}
+
+.riepilogo-products-box.total-box {
+  flex-direction: row;
+  justify-content: space-between;
+  padding-block: 2rem;
+}
+
+.riepilogo-products-box.free {
+  background-color: var(--color-success-bg);
+  padding-inline: 2rem;
+}
+.riepilogo-products-box.free .free-text {
+  color: var(--color-success-on-bg);
+  font-weight: 500;
+}
+
+.riepilogo-products-box.free.hidden {
+  display: none;
+}
+
+.riepilogo-product-info-box {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.25rem;
+}
+
+.riepilogo-product-info-box hr {
+  width: 100%;
+  border: 0.5px solid rgba(33, 33, 33, 8%);
+}
+
+.riepilogo-product-info {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.total-price {
+  color: var(--color-accent-bg);
+}
+
+.checkout-form-section.riepilogo-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
