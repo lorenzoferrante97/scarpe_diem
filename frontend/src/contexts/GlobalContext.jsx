@@ -222,15 +222,15 @@ const GlobalProvider = ({ children }) => {
     setFormData({ size: 0, quantity: 1 });
   };
 
-  const productHandleMultiInput = (e, product, maxQuantity) => {
-    const { name, value } = e.target;
-    if (name === 'quantity') {
-      const newData = Math.min(value, maxQuantity);
-      setFormData({ ...formData, [name]: newData });
-    } else {
-      setFormData({ ...formData, [name]: value });
-    }
-  };
+ const productHandleMultiInput = (e, product, maxQuantity) => {
+  const { name, value } = e.target;
+  if (name === 'quantity') {
+    const newData = Math.min(value, maxQuantity);
+    setFormData(prev => ({ ...prev, [name]: newData }));
+  } else {
+    setFormData(prev => ({ ...prev, [name]: value, quantity: 1 }));
+  }
+};
 
   // serchBar -------------------------------------
 
