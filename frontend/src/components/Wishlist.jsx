@@ -1,15 +1,23 @@
-import { useGlobalContext } from '../contexts/GlobalContext';
-import { useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { useGlobalContext } from "../contexts/GlobalContext";
+import { useEffect } from "react";
+import { Link } from "react-router-dom";
 
 export default function WishList() {
-  const { wishlist, cleanWishlist, setWishlistToLocal, addToCart, setCartToLocal, selectedSizeId, formData,removeProductFromWishList } = useGlobalContext();
+  const {
+    wishlist,
+    cleanWishlist,
+    setWishlistToLocal,
+    addToCart,
+    setCartToLocal,
+    selectedSizeId,
+    formData,
+    removeProductFromWishList,
+  } = useGlobalContext();
 
   useEffect(() => {
     setWishlistToLocal();
     // setCartToLocal();
   }, []);
-
 
   return (
     <>
@@ -20,13 +28,21 @@ export default function WishList() {
         {/* elenco card carrello */}
         <section className="cart-products-list">
           {wishlist?.map((product, i) => {
-            const { slug, id, name, image, price, selectedSize, selectedQuantity, size_id } = product;
+            const {
+              slug,
+              id,
+              name,
+              image,
+              price,
+              selectedSize,
+              selectedQuantity,
+              size_id,
+            } = product;
 
             const total = price * selectedQuantity;
 
             return (
               <div key={i} className="cart-card">
-                {/* <Link to={`/product/${slug}`} className="cart-card"> */}
                 <figure className="cart-card-img">
                   <img src={image} alt="" />
                 </figure>
@@ -45,17 +61,20 @@ export default function WishList() {
                   </div>
                   <div className="info-box">
                     <span>Totale:</span>
-                    <span className="info-total-price">&euro;{Number(total.toFixed(2))}</span>
+                    <span className="info-total-price">
+                      &euro;{Number(total.toFixed(2))}
+                    </span>
                   </div>
                 </div>
-                   <button
+                <button
                   className="btn-remove-cart-top "
                   onClick={() => removeProductFromWishList(id, size_id)}
                 >
                   X
                 </button>
-                
-                {/* </Link> */}
+                <Link to={`/product/${slug}`} className="vai-al-prodotto">
+                  VAI AL PRODOTTO
+                </Link>
               </div>
             );
           })}
