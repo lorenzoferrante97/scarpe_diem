@@ -162,11 +162,11 @@ export default function Checkout() {
       }
     }
 
-    validateForm();
+    // validateForm();
 
-    if (!isValid) {
-      setErrorForm('Errore di compilazione, controlla i campi inseriti');
-    }
+    // if (!isValid) {
+    //   setErrorForm('Errore di compilazione, controlla i campi inseriti');
+    // }
   };
 
   // ----------------------------------------------------
@@ -184,6 +184,12 @@ export default function Checkout() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    validateForm();
+
+    if (!isValid) {
+      setErrorForm('Errore di compilazione, controlla i campi inseriti');
+    }
 
     if (!isValid) {
       return; // Blocca l'invio del form se la validazione fallisce
@@ -227,7 +233,7 @@ export default function Checkout() {
         })
         .catch((error) => {
           console.error('Errore nel checkout:', error.message);
-          alert(`Errore nel checkout: ${error.message}`);
+          // alert(`Errore nel checkout: ${error.message}`);
         });
       console.log('Dati inviati al backend:', dataToSend);
     }
@@ -251,15 +257,15 @@ export default function Checkout() {
           <h2 className="h2">Riepilogo Ordine</h2>
           {/* elenco prodotti carrello minimal */}
           <div className="riepilogo-products-box">
-            {cart?.map((product) => {
-              const { name, selectedQuantity, selectedSize, price } = product;
+            {cart?.map((product, i) => {
+              const { id, name, selectedQuantity, selectedSize, price } = product;
               const productTotal = price * selectedQuantity;
               orderTotal = orderTotal + productTotal;
               Number(orderTotal.toFixed(2));
 
               return (
                 <>
-                  <div className="riepilogo-product-info-box">
+                  <div key={i} className="riepilogo-product-info-box">
                     <span className="text-big">{name}</span>
                     <div className="riepilogo-product-info">
                       <span>Taglia</span>

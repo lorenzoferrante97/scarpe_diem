@@ -145,6 +145,19 @@ const GlobalProvider = ({ children }) => {
       return updatedWish;
     });
   };
+
+
+  const removeFromWishlist = (productId) => {
+  setWishlist((prevWishlist) => {
+    const updatedWishlist = prevWishlist.filter((item) => item.id !== productId);
+    localStorage.setItem("wishlist", JSON.stringify(updatedWishlist));
+    return updatedWishlist;
+  });
+};
+
+const isInWishlist = (productId) => {
+  return wishlist.some((item) => item.id === productId);
+};
   // add to wishlist
   // const addToWishlist = (product, size_id, quantity) => {
   //   setWishlist((prevWish) => {
@@ -328,7 +341,8 @@ const validateProduct = (selectedSizeId) => {
     validateProduct,
     handleCouponActive,
     couponActive,
-    setIsProductValid
+    setIsProductValid,removeFromWishlist,
+        isInWishlist,
     
   };
   return <GlobalContext.Provider value={value}>{children}</GlobalContext.Provider>;

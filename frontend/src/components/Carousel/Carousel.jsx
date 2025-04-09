@@ -4,7 +4,7 @@ import { useGlobalContext } from '../../contexts/GlobalContext';
 
 export default function Carousel({ array, topic }) {
   let carouselTitle = '';
-  topic === 'bestsellers' ? (carouselTitle = 'I più venduti') : topic === 'related' ? (carouselTitle = 'Correlati') : (carouselTitle = topic);
+  topic === 'bestsellers' ? (carouselTitle = 'I più venduti') : topic === 'related' ? (carouselTitle = 'Potrebbe interessarti...') : (carouselTitle = topic);
 
   const { activeDotIndex, updateActiveDotIndex } = useGlobalContext();
 

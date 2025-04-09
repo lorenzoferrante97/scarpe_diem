@@ -19,7 +19,9 @@ export default function ProductPage() {
     cart,
     isProductValid,
     validateProduct,
-    setIsProductValid
+    setIsProductValid,
+    removeFromWishlist,
+    isInWishlist,
   } = useGlobalContext();
 
   const [product, setProduct] = useState(null);
@@ -80,6 +82,14 @@ export default function ProductPage() {
     }, 3000);
   };
 
+
+  const handleWishlistClick = () => {
+    if (isInWishlist(product.id)) {
+      removeFromWishlist(product.id);
+    } else {
+      addToWishlist(product, selectedSizeId, formData.quantity);
+    }
+  };
   return (
     <main>
       <section className="product-section">
@@ -95,6 +105,7 @@ export default function ProductPage() {
           </div>
 
           <div className="product-form-box">
+
             <label className="text-big">Taglia</label>
             <div className="size-selector">
               {product?.sizes.map((size) => {
@@ -137,6 +148,7 @@ export default function ProductPage() {
                     />
                     {size.size_number}
                   </label>
+
                 );
               })}
             </div>
@@ -188,13 +200,10 @@ export default function ProductPage() {
               >
                 {buttonText}
               </button>
-              <button
-                className="btn-sec"
-                onClick={() =>
-                  addToWishlist(product, selectedSizeId, formData.quantity)
-                }
-              >
-                Aggiungi alla Wishlist
+              <button className="btn-sec" onClick={handleWishlistClick}>
+                {isInWishlist(product?.id)
+                  ? "Rimuovi dalla Wishlist"
+                  : "Aggiungi alla Wishlist"}
               </button>
             </div>
           </div>
