@@ -1,0 +1,86 @@
+/* Contenitore dei bottoni taglia */
+.size-selector {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+  }
+  
+  /* Ogni label diventa un bottone */
+  .size-option {
+    display: inline-block;
+    padding: 0.6rem 1.2rem;
+    border: 2px solid #ccc;
+    border-radius: 1.5rem;
+    font-size: 1rem;
+    cursor: pointer;
+    background-color: #fff;
+    color: #000;
+    transition: all 0.25s ease-in-out;
+    text-align: center;
+    min-width: 3rem;
+    position: relative;
+  }
+  
+  /* Hover e focus */
+  .size-option:hover,
+  .size-option:focus-within {
+    border-color: #000;
+    transform: scale(1.05);
+  }
+  
+  /* Stato selezionato */
+ .selected {
+    background-color:  #cc4631;
+    color: #fff;
+    border-color:  #cc4631;
+    transform: scale(1.05);
+  }
+  
+  /* Nasconde i radio button */
+  .size-option input[type="radio"] {
+    display: none;
+  }
+  
+  /* Messaggio di errore */
+  .size-error-box {
+    margin-top: 0.5rem;
+    color: red;
+    font-size: 0.9rem;
+  }
+  
+  .size-error-box.hidden {
+    display: none;
+  }
+  
+  /* Taglia disabilitata (esaurita) */
+  .size-option.disabled {
+    background-color: #f2f2f2;
+    border-color: #ddd;
+    color: #999;
+    cursor: not-allowed;
+    pointer-events: none;
+    text-decoration: line-through;
+  }
+  
+  /* Responsive */
+  @media (max-width: 600px) {
+    .size-selector {
+      gap: 0.4rem;
+      justify-content: center;
+    }
+  
+    .size-option {
+      flex: 1 1 calc(33.33% - 1rem);
+      font-size: 0.95rem;
+      padding: 0.5rem 0.8rem;
+    }
+  }
+  
+  @media (max-width: 400px) {
+    .size-option {
+      flex: 1 1 calc(50% - 1rem);
+      font-size: 0.9rem;
+    }
+  }
+  

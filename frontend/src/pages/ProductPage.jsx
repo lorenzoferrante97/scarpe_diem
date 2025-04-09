@@ -27,24 +27,15 @@ export default function ProductPage() {
 
   const { slug } = useParams();
 
-  // Reset completo al cambio prodotto
   useEffect(() => {
     resetFormData();
     setSizeId(0);
     setMaxQuantityId(1);
     setIsProductValid(true);
-    // setButtonText("Aggiungi al carrello");
-    // setButtonClasses("btn-accent");
     fetchProduct(slug);
     setCartToLocal();
     setWishlistToLocal();
   }, [slug]);
-
-  // useEffect(() => {
-  //   fetchProduct(slug);
-  //   setCartToLocal();
-  //   setWishlistToLocal();
-  // }, [slug]);
 
   useEffect(() => {
     if (product) {
@@ -74,14 +65,9 @@ export default function ProductPage() {
       });
   };
 
-  // const { size, quantity } = formData;
-  // const [maxQuantity, setMaxQuantity] = useState(1);
-
-  // const [selectedSizeId, setSelectedSizeId] = useState(null);
-
-  // feedback al click add to cart
   const [buttonText, setButtonText] = useState("Aggiungi al carrello");
   const [buttonClasses, setButtonClasses] = useState("btn-accent");
+
   const handleClick = () => {
     setButtonText("Aggiunto al carrello!");
     setButtonClasses("btn-success");
@@ -89,15 +75,13 @@ export default function ProductPage() {
 
   const resetButton = () => {
     setTimeout(() => {
-      setButtonText('Aggiungi al carrello');
-      setButtonClasses('btn-accent');
+      setButtonText("Aggiungi al carrello");
+      setButtonClasses("btn-accent");
     }, 3000);
   };
 
-
   return (
     <main>
-      {/* Sezione prodotto */}
       <section className="product-section">
         <figure className="product-image">
           <img src={product?.image} alt={product?.name} />
@@ -111,44 +95,56 @@ export default function ProductPage() {
           </div>
 
           <div className="product-form-box">
-            <label className="text-big" htmlFor="size">
-              Taglia
-            </label>
-            {/* seleziona taglia */}
-            <select
-              name="size"
-              className="product-input"
-              onChange={(e) => {
-                const selectedSizeNumber = e.target.value;
-                const selectedSize = product?.sizes.find(
-                  sizeObj => sizeObj.size_number == selectedSizeNumber
+            <label className="text-big">Taglia</label>
+            <div className="size-selector">
+              {product?.sizes.map((size) => {
+                const isSelected = selectedSizeId === size.size_id;
+                const isOutOfStock = size.quantity === 0;
+
+                return (
+                  <label
+                    key={size.size_id}
+                    className={`size-option ${isSelected ? "selected" : ""} ${
+                      isOutOfStock ? "disabled" : ""
+                    }`}
+                  >
+                    <input
+                      type="radio"
+                      name="size"
+                      value={size.size_number}
+                      checked={isSelected}
+                      disabled={isOutOfStock}
+                      onChange={(e) => {
+                        if (isOutOfStock) return;
+                        const selectedSizeNumber = e.target.value;
+                        const selectedSize = product?.sizes.find(
+                          (sizeObj) =>
+                            sizeObj.size_number == selectedSizeNumber
+                        );
+
+                        if (!selectedSizeNumber) {
+                          setSizeId(0);
+                          setMaxQuantityId(1);
+                          setIsProductValid(false);
+                        } else if (selectedSize) {
+                          setMaxQuantityId(selectedSize.quantity);
+                          setSizeId(selectedSize.size_id);
+                          setIsProductValid(true);
+                        }
+
+                        productHandleMultiInput(e, product, maxQuantity);
+                      }}
+                    />
+                    {size.size_number}
+                  </label>
                 );
+              })}
+            </div>
 
-                // Aggiungi questo blocco else
-                if (!selectedSizeNumber) {
-                  setSizeId(0);
-                  setMaxQuantityId(1);
-                  setIsProductValid(false);
-                } else if (selectedSize) {
-                  setMaxQuantityId(selectedSize.quantity);
-                  setSizeId(selectedSize.size_id);
-                  setIsProductValid(true);
-                }
-
-                productHandleMultiInput(e, product, maxQuantity);
-              }}
-              value={formData.size}
-            >
-              <option value="">Seleziona taglia</option>
-              {product?.sizes.map((size) => (
-                <option key={size.size_id} value={size.size_number}>
-                  {size.size_number}
-                </option>
-              ))}
-            </select>
             <div
-              className={`size-error-box ${isProductValid === true ? "hidden" : ""
-                }`}
+              className={`size-error-box ${
+                isProductValid === true ? "hidden" : ""
+              }`}
             >
               <p className="size-error-text">Seleziona una taglia</p>
             </div>
@@ -158,7 +154,6 @@ export default function ProductPage() {
                 Quantità
               </label>
               <div className="quantity-input-box">
-                {/* seleziona quantità */}
                 <input
                   className="product-input"
                   type="number"
@@ -170,8 +165,6 @@ export default function ProductPage() {
                     productHandleMultiInput(e, product, maxQuantity)
                   }
                 />
-
-                {/* alert quantità disponibile */}
                 {formData.size === 0 ? (
                   <span></span>
                 ) : (
@@ -208,8 +201,6 @@ export default function ProductPage() {
         </div>
       </section>
 
-      {/* Sezione prodotti correlati */}
-
       {related && (
         <section id="home-category" className="carousel-section">
           {Array.isArray(related) && related.length > 0 ? (
@@ -222,3 +213,4 @@ export default function ProductPage() {
     </main>
   );
 }
+
