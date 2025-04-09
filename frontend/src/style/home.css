@@ -160,7 +160,7 @@
   flex-direction: column;
   align-items: stretch;
   justify-content: start;
-  z-index: 1;
+  z-index: 4;
 }
 
 .hero-discount-box {
