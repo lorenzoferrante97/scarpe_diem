@@ -451,37 +451,37 @@ function checkout(req, res) {
   if (!dati.nome || dati.nome.trim() === "") {
     return res.status(400).json({ error: "Il nome è obbligatorio" });
   }
-  
+
   if (!dati.cognome || dati.cognome.trim() === "") {
     return res.status(400).json({ error: "Il cognome è obbligatorio" });
   }
-  
+
   // Validazione email con una regex semplice
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!dati.email || !emailRegex.test(dati.email)) {
     return res.status(400).json({ error: "Indirizzo email non valido" });
   }
-  
+
   // Validazione telefono (accetta solo numeri, spazi, + e -)
   const telefonoRegex = /^[0-9\s\+\-]{6,20}$/;
   if (!dati.telefono || !telefonoRegex.test(dati.telefono)) {
     return res.status(400).json({ error: "Numero di telefono non valido" });
   }
-  
+
   // Validazione indirizzi
   if (!dati.indirizzo_spedizione || dati.indirizzo_spedizione.trim().length < 10) {
     return res.status(400).json({ error: "Indirizzo di spedizione non valido o troppo breve" });
   }
-  
+
   if (!dati.indirizzo_pagamento || dati.indirizzo_pagamento.trim().length < 10) {
     return res.status(400).json({ error: "Indirizzo di fatturazione non valido o troppo breve" });
   }
-  
+
   // Validazione carrello
   if (!dati.carrello || !Array.isArray(dati.carrello) || dati.carrello.length === 0) {
     return res.status(400).json({ error: "Il carrello è vuoto o non valido" });
   }
-  
+
   // Validazione di ogni prodotto nel carrello
   for (let i = 0; i < dati.carrello.length; i++) {
     const prodotto = dati.carrello[i];
@@ -492,7 +492,7 @@ function checkout(req, res) {
         prodotto: prodotto
       });
     }
-    
+
     if (prodotto.quantita <= 0 || prodotto.prezzo <= 0) {
       return res.status(400).json({
         error: "Quantità o prezzo non validi",
@@ -509,19 +509,19 @@ function checkout(req, res) {
   // Inizia raccolta dei nomi prodotti
   const prodottiConNomi = [...dati.carrello];
   let prodottiProcessati = 0;
-  
+
   // Recupera i nomi dei prodotti dal database
   for (let i = 0; i < dati.carrello.length; i++) {
     let prodotto = dati.carrello[i];
     let sqlNomeProdotto = "SELECT name FROM products WHERE id = ?";
-    
+
     connection.query(sqlNomeProdotto, [prodotto.id], (err, results) => {
       if (!err && results.length > 0) {
         prodottiConNomi[i].nome = results[0].name;
       } else {
         prodottiConNomi[i].nome = `Prodotto ${prodotto.id}`; // fallback
       }
-      
+
       prodottiProcessati++;
       if (prodottiProcessati === dati.carrello.length) {
         // Una volta ottenuti tutti i nomi, avvia la transazione
@@ -590,10 +590,10 @@ function checkout(req, res) {
     const prodottiValori = [];
     let queryCompletate = 0;
     let errori = false;
-  
+
     for (let i = 0; i < prodottiConNomi.length; i++) {
       let prodotto = prodottiConNomi[i];
-      
+
       prodottiValori.push([
         prodotto.id,
         prodotto.nome, // Utilizza il nome già recuperato
@@ -601,9 +601,9 @@ function checkout(req, res) {
         prodotto.quantita,
         orderId,
       ]);
-      
+
       queryCompletate++;
-      
+
       if (queryCompletate === prodottiConNomi.length) {
         const sqlProdotti =
           "INSERT INTO product_order (product_id, name_product, price, product_quantity, order_id) VALUES ?";
@@ -644,7 +644,7 @@ function checkout(req, res) {
         });
       });
     }
-  
+
     function completaQuery() {
       queryCompletate++;
       console.log("completaQuery chiamata:", queryCompletate, "/", dati.carrello.length);
@@ -745,6 +745,7 @@ function checkout(req, res) {
       <p><strong>Indirizzo di consegna:</strong><br>${indirizzoSpedizioneFormattato}</p>
       <p><strong>Indirizzo di fatturazione:</strong><br>${indirizzoFatturazioneFormattato}</p>
       <p><strong>Telefono:</strong> ${telefono}</p>
+      <p>Grazie per aver acquistato su <strong>scarpe_diem</strong></p>
     </div>
     
     <table width="100%" border="1" cellspacing="0" cellpadding="8" style="border-collapse: collapse;">
