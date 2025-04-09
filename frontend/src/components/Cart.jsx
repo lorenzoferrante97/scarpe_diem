@@ -31,18 +31,21 @@ export default function Cart() {
                 </figure>
                 {/* card info */}
                 <div className="cart-card-info">
-                  <span className="text-big info-name">{name}</span>
-                  {/*Size*/}
-                  <div className="info-box">
-                    <div className="info-value-box">
-                      <span className="info-value">{selectedSize}</span>
-                    </div>
-                    {/* quantity */}
-                    <div className="">
-                      <span className="">x{selectedQuantity}</span>
+                  <div>
+                    <span className="text-big info-name">{name}</span>
+                    {/*Size*/}
+                    <div className="info-box">
+                      <div className="info-value-box">
+                        <span className="info-value">{selectedSize}</span>
+                      </div>
+                      {/* quantity */}
+                      <div className="">
+                        <span className="">x{selectedQuantity}</span>
+                      </div>
                     </div>
                   </div>
-                  <div className="info-box">
+
+                  <div className="info-box tot">
                     <span>Totale:</span>
                     <span className="info-total-price">&euro;{Number(total.toFixed(2))}</span>
                   </div>

@@ -29,7 +29,8 @@
 
 /* cart card img */
 .cart-card-img {
-  width: 80px;
+  width: 100%;
+  max-width: 208px;
   border-radius: 0.5rem;
   overflow: hidden;
 }
@@ -44,18 +45,24 @@
 }
 
 .cart-card-info {
-  max-width: 60%;
+  max-width: 100%;
+  height: 100%;
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+  flex-direction: column;
+  justify-content: space-between;
   gap: 0.5rem;
 }
 
 .info-box {
   display: flex;
+  flex-wrap: wrap;
   gap: 0.5rem;
   justify-content: start;
   align-items: center;
+}
+
+.info-box.tot {
+  width: 100%;
 }
 
 .info-value-box {
@@ -84,7 +91,6 @@
   width: 100%;
 }
 
-
 /* btn X */
 .btn-remove-cart-top {
   position: absolute;
@@ -92,7 +98,7 @@
   right: 0.5rem;
   background: none;
   border: none;
-  color: var(--color-accent-bg); 
+  color: var(--color-accent-bg);
   font-size: 0.8rem;
   cursor: pointer;
   padding: 0.2rem 0.5rem;
@@ -105,19 +111,17 @@
   background-color: rgba(0, 0, 0, 0.1);
 }
 
-
-
 /* Vai al prodotto WISHLIST */
 .vai-al-prodotto {
   display: block;
   text-align: center;
-  margin: 2rem auto; 
-  padding: 0.5rem 1rem; 
+  margin: 2rem auto;
+  padding: 0.5rem 1rem;
   background-color: var(--color-accent-bg);
-  color: white; 
-  text-decoration: none; 
-  border-radius: 0.5rem; 
-  width: fit-content; 
+  color: white;
+  text-decoration: none;
+  border-radius: 0.5rem;
+  width: fit-content;
 }
 
 /* TABLET MINI -------------------------------------------------- */
@@ -126,15 +130,15 @@
     width: fit-content;
     flex-direction: row;
   }
-  .cart-card-info {
+  /* .cart-card-info {
     max-width: 100%;
-  }
+  } */
 }
 
 /* TABLET -------------------------------------------------- */
 @media (min-width: 768px) {
   .cart-products-list {
-    grid-template-columns: 1fr 1fr;
+    width: 80%;
   }
 }
 
@@ -145,6 +149,6 @@
 /* DESKTOP -------------------------------------------------- */
 @media (min-width: 1280px) {
   .cart-products-list {
-    grid-template-columns: 1fr 1fr 1fr;
+    width: 68%;
   }
 }
