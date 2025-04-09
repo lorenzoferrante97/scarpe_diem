@@ -6,7 +6,7 @@ import CouponBanner from './CouponBanner';
 import { useGlobalContext } from '../contexts/GlobalContext';
 
 export default function Header() {
-  const { cart } = useGlobalContext();
+  const { cart, wishlist } = useGlobalContext();
 
   return (
     <section className="header-container">
@@ -37,6 +37,7 @@ export default function Header() {
               </NavLink>
               <NavLink to={'/wishlist'} className="header-btn">
                 <Heart size={24} color={location.pathname === '/wishlist' ? '#a92e1b' : '#212121'} weight="duotone" />
+                <span className={`cart-icon-total ${wishlist?.length == 0 && 'hidden'}`}>{wishlist?.length}</span>
               </NavLink>
               <NavLink to={'/search'} className="header-btn">
                 <MagnifyingGlass size={24} color={location.pathname === '/search' ? '#a92e1b' : '#212121'} weight="duotone" />

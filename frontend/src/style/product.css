@@ -99,12 +99,12 @@
   display: flex;
   justify-content: start;
   align-items: center;
-  background-color: var(--color-sec-bg);
+  background-color: var(--color-success-bg);
   padding-inline: 1rem;
   border-radius: 0.5rem;
 }
 .alert-quantity span {
-  color: var(--color-sec-on-bg);
+  color: var(--color-success-on-bg);
 }
 
 /* size error */
