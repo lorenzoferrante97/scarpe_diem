@@ -10,7 +10,7 @@ export default function NotFound404() {
             <DotLottieReact src="https://lottie.host/f38ea552-20bd-4331-afc0-065c97b46fe1/Ex55FYN84h.lottie" loop autoplay />
           </div>
           {/* <span className="notfound-number">404</span> */}
-          <p className="text-big">Ops abbiamo perso una scarpa, scarpediem e cercarne un'altra</p>
+          <p className="text-big">Ops abbiamo perso una scarpa, scarpediem e cercane un'altra</p>
           <Link to={'/catalog'} className="btn btn-accent">
             Vai al catalogo
           </Link>
