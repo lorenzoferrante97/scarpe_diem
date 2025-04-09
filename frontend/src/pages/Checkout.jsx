@@ -255,6 +255,7 @@ export default function Checkout() {
               const { name, selectedQuantity, selectedSize, price } = product;
               const productTotal = price * selectedQuantity;
               orderTotal = orderTotal + productTotal;
+              Number(orderTotal.toFixed(2));
 
               return (
                 <>
