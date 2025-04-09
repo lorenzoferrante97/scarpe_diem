@@ -299,7 +299,6 @@ export default function Checkout() {
                 <div className="checkout-form-box">
                   <div>
                     <label htmlFor="name">Nome</label>
-                    <span>*obbligatorio</span>
                   </div>
                   <input type="text" name="name" placeholder="Franco" className="checkout-form-input" onChange={handleInputChange} />
                   {errorName ? <FormError errorText={errorName} /> : null}
