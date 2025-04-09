@@ -160,6 +160,7 @@
   flex-direction: column;
   align-items: stretch;
   justify-content: start;
+  z-index: 1;
 }
 
 .hero-discount-box {
@@ -200,6 +201,7 @@
   position: relative;
   top: -40px;
   left: -20px;
+  z-index: 2;
 }
 
 /* CAROUSEL --------------------------------------- */
