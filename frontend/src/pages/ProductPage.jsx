@@ -38,7 +38,7 @@ export default function ProductPage() {
     fetchProduct(slug);
     setCartToLocal();
     setWishlistToLocal();
-  }, [slug]); 
+  }, [slug]);
 
   // useEffect(() => {
   //   fetchProduct(slug);
@@ -94,7 +94,7 @@ export default function ProductPage() {
     }, 3000);
   };
 
- 
+
   return (
     <main>
       {/* Sezione prodotto */}
@@ -107,7 +107,7 @@ export default function ProductPage() {
           <div className="product-details">
             <h1 className="h1"> {product?.name} </h1>
             <p>{product?.description}</p>
-            <p className="product-price">{product?.price}</p>
+            <p className="product-price">€{product?.price}</p>
           </div>
 
           <div className="product-form-box">
@@ -115,41 +115,40 @@ export default function ProductPage() {
               Taglia
             </label>
             {/* seleziona taglia */}
-      <select
-  name="size"
-  className="product-input"
-  onChange={(e) => {
-    const selectedSizeNumber = e.target.value;
-    const selectedSize = product?.sizes.find(
-      sizeObj => sizeObj.size_number == selectedSizeNumber
-    );
-    
-    // Aggiungi questo blocco else
-    if (!selectedSizeNumber) {
-      setSizeId(0);
-      setMaxQuantityId(1);
-      setIsProductValid(false);
-    } else if (selectedSize) {
-      setMaxQuantityId(selectedSize.quantity);
-      setSizeId(selectedSize.size_id);
-      setIsProductValid(true);
-    }
-    
-    productHandleMultiInput(e, product, maxQuantity);
-  }}
-  value={formData.size}
->
-          <option value="">Seleziona taglia</option>
-          {product?.sizes.map((size) => (
-            <option key={size.size_id} value={size.size_number}>
-              {size.size_number}
-            </option>
-          ))}
-        </select>
+            <select
+              name="size"
+              className="product-input"
+              onChange={(e) => {
+                const selectedSizeNumber = e.target.value;
+                const selectedSize = product?.sizes.find(
+                  sizeObj => sizeObj.size_number == selectedSizeNumber
+                );
+
+                // Aggiungi questo blocco else
+                if (!selectedSizeNumber) {
+                  setSizeId(0);
+                  setMaxQuantityId(1);
+                  setIsProductValid(false);
+                } else if (selectedSize) {
+                  setMaxQuantityId(selectedSize.quantity);
+                  setSizeId(selectedSize.size_id);
+                  setIsProductValid(true);
+                }
+
+                productHandleMultiInput(e, product, maxQuantity);
+              }}
+              value={formData.size}
+            >
+              <option value="">Seleziona taglia</option>
+              {product?.sizes.map((size) => (
+                <option key={size.size_id} value={size.size_number}>
+                  {size.size_number}
+                </option>
+              ))}
+            </select>
             <div
-              className={`size-error-box ${
-                isProductValid === true ? "hidden" : ""
-              }`}
+              className={`size-error-box ${isProductValid === true ? "hidden" : ""
+                }`}
             >
               <p className="size-error-text">Seleziona una taglia</p>
             </div>
