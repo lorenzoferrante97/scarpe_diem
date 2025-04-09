@@ -19,7 +19,9 @@ export default function ProductPage() {
     cart,
     isProductValid,
     validateProduct,
-    setIsProductValid
+    setIsProductValid,
+    removeFromWishlist,
+    isInWishlist,
   } = useGlobalContext();
 
   const [product, setProduct] = useState(null);
@@ -89,12 +91,18 @@ export default function ProductPage() {
 
   const resetButton = () => {
     setTimeout(() => {
-      setButtonText('Aggiungi al carrello');
-      setButtonClasses('btn-accent');
+      setButtonText("Aggiungi al carrello");
+      setButtonClasses("btn-accent");
     }, 3000);
   };
 
-
+  const handleWishlistClick = () => {
+    if (isInWishlist(product.id)) {
+      removeFromWishlist(product.id);
+    } else {
+      addToWishlist(product, selectedSizeId, formData.quantity);
+    }
+  };
   return (
     <main>
       {/* Sezione prodotto */}
@@ -121,7 +129,7 @@ export default function ProductPage() {
               onChange={(e) => {
                 const selectedSizeNumber = e.target.value;
                 const selectedSize = product?.sizes.find(
-                  sizeObj => sizeObj.size_number == selectedSizeNumber
+                  (sizeObj) => sizeObj.size_number == selectedSizeNumber
                 );
 
                 // Aggiungi questo blocco else
@@ -147,8 +155,9 @@ export default function ProductPage() {
               ))}
             </select>
             <div
-              className={`size-error-box ${isProductValid === true ? "hidden" : ""
-                }`}
+              className={`size-error-box ${
+                isProductValid === true ? "hidden" : ""
+              }`}
             >
               <p className="size-error-text">Seleziona una taglia</p>
             </div>
@@ -195,13 +204,10 @@ export default function ProductPage() {
               >
                 {buttonText}
               </button>
-              <button
-                className="btn-sec"
-                onClick={() =>
-                  addToWishlist(product, selectedSizeId, formData.quantity)
-                }
-              >
-                Aggiungi alla Wishlist
+              <button className="btn-sec" onClick={handleWishlistClick}>
+                {isInWishlist(product?.id)
+                  ? "Rimuovi dalla Wishlist"
+                  : "Aggiungi alla Wishlist"}
               </button>
             </div>
           </div>
